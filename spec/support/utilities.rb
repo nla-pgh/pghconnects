@@ -1,10 +1,6 @@
 require 'active_support/inflector'
 require 'faker'
 
-def factory (model, attrs)
-	eval("#{model.to_s.camelize}.new(attrs)") if ActiveRecord::Base.connection.table_exists? model.to_s.pluralize
-end
-
 def factory_user(attr, value)
 	attrs = { 
 		:first => Faker::Name.first_name,
@@ -25,4 +21,19 @@ def factory_user(attr, value)
 	end
 
 	User.new(attrs)
+end
+
+def factory_address(attr, value)
+	attrs = {
+		:number => 5429,
+		:street => "#{Faker::Address.street_name} #{Faker::Address.street_suffix}",
+		:apt_fl => 1,
+		:city => Faker::Address.city,
+		:state => Faker::Address.us_state_abbr,
+		:zip => Faker::Address.zip_code
+	}
+
+	attrs[attr] = value if attr
+
+	Address.new(attrs)
 end
