@@ -27,8 +27,8 @@ class User < ActiveRecord::Base
 	validates :last, :presence => true
 	validates :birth_date, :presence => true
 	validates :registered_at, :presence => true
-	validates :household_number, :presence => true
-	validates :household_income, :presence => true
+	validates :household_number, :presence => true, :numericality => { :greater_than => 0 }
+	validates :household_income, :presence => true, :numericality => { :greater_than_or_equal_to => 0.0 }
 	validates :education_level, :presence => true
 	validates :clearance_level, :presence => true
 	validates :user_name, :presence => true

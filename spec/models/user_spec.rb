@@ -24,9 +24,8 @@ require 'spec_helper'
 describe "Users" do
 
 		describe "have valid attributes" do
-			@user = factory_user(nil, nil)
-
-			subject { @user }
+			let (:user) { factory_user(nil, nil) }
+			subject { user }
 
 			it { should be_valid }
 
@@ -48,70 +47,60 @@ describe "Users" do
 		end
 
 		describe "have invalid attributes" do
+			subject { user }
 
 			describe "when first name is empty" do
-				@user = factory_user(:first, ' ')
-				subject { @user }
+				let(:user) { factory_user(:first, ' ') }
 				it { should_not be_valid }
 			end	
 
 			describe "when last name is empty" do
-				@user = factory_user(:last, ' ')
-				subject { @user }
+				let (:user) { factory_user(:last, ' ') }
 				it { should_not be_valid }
 			end	
 
 			describe "when birth date is empty" do
-				@user = factory_user(:birth_date, nil)
-				subject { @user }
+				let(:user) { factory_user(:birth_date, nil) }
 				it { should_not be_valid }
 			end
 
 			describe "when registered at is empty" do
-				@user = factory_user(:registered_at, ' ')
-				subject { @user }
+				let(:user) { factory_user(:registered_at, ' ') }
 				it { should_not be_valid }
 			end
 
 			describe "when household number is empty" do
-				@user = factory_user(:household_number, nil)
-				subject { @user }
+				let(:user) { factory_user(:household_number, nil) }
 				it { should_not be_valid }
 			end
 
 			describe "when household number is less than 1" do
-				@user = factory_user(:household_number, 0)
-				subject { @user }
+				let(:user) { factory_user(:household_number, 0) }
 				it { should_not be_valid }
 			end
 
 			describe "when household income is empty" do
-				@user = factory_user(:household_income, nil)
-				subject { @user }
+				let(:user) { factory_user(:household_income, nil) }
 				it { should_not be_valid }
 			end
 
 			describe "when household income is less than 0" do
-				@user = factory_user(:household_income, -1.0)
-				subject { @user }
+				let(:user) { factory_user(:household_income, -1.0) }
 				it { should_not be_valid }
 			end
 
 			describe "when education level is empty" do
-				@user = factory_user(:education_level, ' ')
-				subject { @user }
+				let(:user) { factory_user(:education_level, ' ') }
 				it { should_not be_valid }
 			end
 
 			describe "when clearance level is empty" do
-				@user = factory_user(:clearance_level, ' ')
-				subject { @user }
+				let(:user) { factory_user(:clearance_level, ' ') }
 				it { should_not be_valid }
 			end
 
 			describe "when user name is empty" do
-				@user = factory_user(:user_name, ' ')
-				subject { @user }
+				let(:user) { factory_user(:user_name, ' ') }
 				it { should_not be_valid }
 			end
 		end
