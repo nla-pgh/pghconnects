@@ -24,10 +24,7 @@ require 'spec_helper'
 describe "Users" do
 
 		describe "have valid attributes" do
-
-			before (:each) do
-				@user = factory_user(nil, nil)
-			end
+			@user = factory_user(nil, nil)
 
 			subject { @user }
 
@@ -53,57 +50,68 @@ describe "Users" do
 		describe "have invalid attributes" do
 
 			describe "when first name is empty" do
-				@user = factory_user(:first, ' ') 
-				it { @user.should_not be_valid }
+				@user = factory_user(:first, ' ')
+				subject { @user }
+				it { should_not be_valid }
 			end	
 
 			describe "when last name is empty" do
 				@user = factory_user(:last, ' ')
+				subject { @user }
 				it { should_not be_valid }
 			end	
 
 			describe "when birth date is empty" do
 				@user = factory_user(:birth_date, nil)
+				subject { @user }
 				it { should_not be_valid }
 			end
 
 			describe "when registered at is empty" do
 				@user = factory_user(:registered_at, ' ')
+				subject { @user }
 				it { should_not be_valid }
 			end
 
 			describe "when household number is empty" do
 				@user = factory_user(:household_number, nil)
+				subject { @user }
 				it { should_not be_valid }
 			end
 
 			describe "when household number is less than 1" do
 				@user = factory_user(:household_number, 0)
+				subject { @user }
 				it { should_not be_valid }
 			end
 
 			describe "when household income is empty" do
 				@user = factory_user(:household_income, nil)
+				subject { @user }
 				it { should_not be_valid }
 			end
 
 			describe "when household income is less than 0" do
 				@user = factory_user(:household_income, -1.0)
+				subject { @user }
 				it { should_not be_valid }
 			end
 
 			describe "when education level is empty" do
 				@user = factory_user(:education_level, ' ')
+				subject { @user }
 				it { should_not be_valid }
 			end
 
 			describe "when clearance level is empty" do
 				@user = factory_user(:clearance_level, ' ')
+				subject { @user }
 				it { should_not be_valid }
 			end
 
 			describe "when user name is empty" do
 				@user = factory_user(:user_name, ' ')
+				subject { @user }
 				it { should_not be_valid }
 			end
 		end
