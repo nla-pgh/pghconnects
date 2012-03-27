@@ -15,7 +15,6 @@ group :development do
 	gem 'annotate', '~>2.4.1.beta'
 end
 
-
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
