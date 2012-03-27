@@ -10,6 +10,25 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 0) do
+ActiveRecord::Schema.define(:version => 20120327150802) do
+
+  create_table "users", :force => true do |t|
+    t.string   "first",            :null => false
+    t.string   "middle"
+    t.string   "last",             :null => false
+    t.date     "birth_date",       :null => false
+    t.string   "registered_at",    :null => false
+    t.string   "gender"
+    t.string   "ethnicity"
+    t.integer  "household_number", :null => false
+    t.float    "household_income", :null => false
+    t.string   "education_level",  :null => false
+    t.string   "clearance_level",  :null => false
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+    t.string   "user_name"
+  end
+
+  add_index "users", ["user_name"], :name => "index_users_on_user_name", :unique => true
 
 end

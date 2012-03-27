@@ -10,8 +10,6 @@ gem 'jquery-rails'
 
 group :development do
 	gem 'sqlite3'
-	gem 'rspec-rails'
-	gem 'guard-rspec'
 	gem 'annotate', '~>2.4.1.beta'
 end
 
@@ -28,7 +26,9 @@ group :test do
 	gem 'rspec-rails'
 	gem 'capybara'
 	gem 'guard-spork'
+	gem 'guard-rspec'
 	gem 'spork'
+	gem 'faker'
 end
 
 # To use ActiveModel has_secure_password
