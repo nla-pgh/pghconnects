@@ -3,9 +3,9 @@
 # Table name: sites
 #
 #  id         :integer         not null, primary key
-#  name       :string(255)
-#  address    :string(255)
-#  phone      :string(255)
+#  name       :string(255)     not null
+#  address    :string(255)     not null
+#  phone      :string(255)     not null
 #  created_at :datetime        not null
 #  updated_at :datetime        not null
 #

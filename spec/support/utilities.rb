@@ -70,3 +70,10 @@ def factory_site(attr, value)
 	attrs[attr] = value if attr
 	Site.new(attrs)
 end
+
+def factory_event(attr, value)
+	attrs = { :name => "Event", :start => DateTime.yesterday, :end => DateTime.now, :description => "A Test Event" }
+
+	attrs[attr] = value if attr
+	Event.new(attrs)
+end
