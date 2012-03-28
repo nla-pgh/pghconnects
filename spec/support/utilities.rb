@@ -50,3 +50,16 @@ def factory_email(attr, value)
     attrs[attr] = value if attr
     Email.new(attrs)
 end
+
+def factory_edu(attr, value) 
+    attrs = {   :institution => "Carneige Mellon University",
+                :focus => "Computer Science",
+                :credential => "Bachelor of Science",
+                :school_id => '',
+                :finish_on => Date.today
+            }
+
+    attrs[attr] = value if attr
+
+    Education.new(attrs)
+end

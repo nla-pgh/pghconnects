@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120328022918) do
+ActiveRecord::Schema.define(:version => 20120328025052) do
 
   create_table "addresses", :force => true do |t|
     t.integer  "number",     :null => false
@@ -23,10 +23,20 @@ ActiveRecord::Schema.define(:version => 20120328022918) do
     t.datetime "updated_at", :null => false
   end
 
+  create_table "educations", :force => true do |t|
+    t.text     "institution"
+    t.text     "focus"
+    t.string   "credential"
+    t.string   "school_id"
+    t.date     "finish_on"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
   create_table "emails", :force => true do |t|
-      t.string  "address",  :null => false
-      t.string  "domain",   :null => false
-      t.string  "root",     :null => false
+    t.string   "address",    :null => false
+    t.string   "domain",     :null => false
+    t.string   "root",       :null => false
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
