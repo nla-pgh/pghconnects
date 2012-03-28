@@ -43,3 +43,10 @@ def factory_phone(attr, value)
     attrs[attr] = value if attr
     Phone.new(attrs)
 end
+
+def factory_email(attr, value)
+    attrs = { :address => "dkm", :domain => "fake", :root => "com" }
+
+    attrs[attr] = value if attr
+    Email.new(attrs)
+end

@@ -16,7 +16,7 @@
 #  clearance_level  :string(255)     not null
 #  created_at       :datetime        not null
 #  updated_at       :datetime        not null
-#  user_name        :string(255)     indexed
+#  user_name        :string(255)
 #
 
 class User < ActiveRecord::Base
