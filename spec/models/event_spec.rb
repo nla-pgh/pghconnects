@@ -24,6 +24,13 @@ describe "Events" do
 
 	it { should be_valid }
 
+	describe "relationships" do
+		it { should respond_to(:sites) }
+		it { should respond_to(:sign_ups) }
+		it { should respond_to(:attendents) }
+		it { should respond_to(:users) }
+	end
+
 	describe "invalid attributes:" do
 		context "blank" do
 			context "name" do

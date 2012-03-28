@@ -21,6 +21,10 @@ describe "Emails" do
     it { should respond_to(:domain) }
     it { should respond_to(:root) }
 
+		describe "relationships" do
+			it { should respond_to(:user) }
+		end
+
     describe "with invalid attributes: " do
         context "blank" do
             context "address" do

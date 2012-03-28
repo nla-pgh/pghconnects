@@ -10,4 +10,6 @@
 
 class SignUp < ActiveRecord::Base
 	validates :attended, :inclusion => { :in => [false, true] }
+	belongs_to :event
+	belongs_to :user
 end

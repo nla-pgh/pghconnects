@@ -18,6 +18,10 @@ describe "SignUps" do
 	
 	it { should be_valid }
 
+	describe "relationships" do
+		it { should respond_to(:event) }
+	end
+
 	describe "invalid attributes:" do
 		context "blank" do
 			context "attended" do

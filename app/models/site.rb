@@ -14,4 +14,9 @@ class Site < ActiveRecord::Base
 	validates :name, :presence => true
 	validates :address, :presence => true
 	validates :phone, :presence => true, :format => { :with => %r_\A\d{3}-\d{3}-\d{4}\Z_ }
+
+	has_many :users, :dependent => :destroy, :order =>  :last
+	has_many :events, :dependent => :destroy
+	has_one :manager, :class_name => "User", :conditions => { :clearance_level => "M" }, :dependent => :destroy
+	has_many :coordinators, :class_name => "User", :conditions => { :clearance_level => "C" }, :dependent => :destroy
 end

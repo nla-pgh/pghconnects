@@ -22,6 +22,13 @@ describe "Sites" do
 
 	it { should be_valid }
 
+	describe "relationships" do
+		it { should respond_to(:users) }
+		it { should respond_to(:events) }
+		it { should respond_to(:manager) }
+		it { should respond_to(:coordinators) }
+	end
+
 	describe "invalid attributes:" do
 		context "blank" do
 			context "name" do

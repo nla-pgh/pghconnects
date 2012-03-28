@@ -24,4 +24,8 @@ describe "WorkHistories" do
 	it { should respond_to(:end) }
 	it { should respond_to(:description) }
 	it { should respond_to(:title) }
+
+	describe "relationships" do
+		it { should respond_to(:user) }
+	end
 end

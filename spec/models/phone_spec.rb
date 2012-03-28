@@ -23,6 +23,10 @@ describe "Phones" do
 
     it { should be_valid }
 
+		describe "relationships" do
+			it { should respond_to(:user) }
+		end
+
     describe "has invalid attributes:" do
         context "non-numerical" do
             context "area code" do

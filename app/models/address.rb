@@ -22,4 +22,6 @@ class Address < ActiveRecord::Base
     validates :zip,     :presence => true,
                         :length => { :is => 5 },
                         :numericality => true
+
+		belongs_to :user
 end

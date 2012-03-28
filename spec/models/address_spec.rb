@@ -26,6 +26,10 @@ describe "Addresses" do
 	it { should respond_to(:state) }
 	it { should respond_to(:zip) }
 
+	describe "relationships" do 
+		it { should respond_to(:user) }
+	end
+
 	describe "with valid attributes" do
 		let(:address) { factory_address(nil, nil) }
 		it { should be_valid }

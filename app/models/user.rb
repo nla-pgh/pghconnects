@@ -32,4 +32,13 @@ class User < ActiveRecord::Base
 	validates :education_level, :presence => true
 	validates :clearance_level, :presence => true
 	validates :user_name, :presence => true
+	
+	belongs_to :site
+	has_many :addresses, :dependent => :destroy
+	has_many :phones, :dependent => :destroy
+	has_many :emails, :dependent => :destroy
+	has_many :educations, :dependent => :destroy
+	has_many :work_histories, :dependent => :destroy
+	has_many :sign_ups, :group => :event_id, :order => :site_id
+	has_many :events, :through => :sign_ups, :group => :site_id
 end

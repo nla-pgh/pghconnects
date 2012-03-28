@@ -14,4 +14,5 @@ class Phone < ActiveRecord::Base
     validates :area, :presence => true, :length => { :is => 3 }, :numericality => true
     validates :carrier, :presence => true, :length => { :is => 3 }, :numericality => true
     validates :line, :presence => true, :length => { :is => 4 }, :numericality => true
+	belongs_to :user
 end

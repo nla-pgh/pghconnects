@@ -23,9 +23,21 @@ require 'spec_helper'
 
 describe "Users" do
 
+		subject { user }
+
+		describe "relationships" do
+			let(:user) { User.new }
+			it { should respond_to(:addresses) }
+			it { should respond_to(:phones) }
+			it { should respond_to(:emails) }
+			it { should respond_to(:educations) }
+			it { should respond_to(:work_histories) }
+
+			it { should respond_to(:site) }
+		end
+
 		describe "have valid attributes" do
 			let (:user) { factory_user(nil, nil) }
-			subject { user }
 
 			it { should be_valid }
 
