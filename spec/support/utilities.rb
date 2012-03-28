@@ -63,3 +63,10 @@ def factory_edu(attr, value)
 
     Education.new(attrs)
 end
+
+def factory_site(attr, value)
+	attrs = { :name => "NLA", :address => "5429 Penn Ave", :phone => "412-123-4556" }
+
+	attrs[attr] = value if attr
+	Site.new(attrs)
+end
