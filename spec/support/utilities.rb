@@ -34,8 +34,12 @@ def factory_address(attr, value)
 	}
 
 	attrs[attr] = value if attr
-
-    p attrs
-
     Address.new(attrs)
+end
+
+def factory_phone(attr, value)
+    attrs = { :area => '412', :carrier => '456', :line => '7890' }
+
+    attrs[attr] = value if attr
+    Phone.new(attrs)
 end
