@@ -10,6 +10,7 @@
 #  finish_on   :date
 #  created_at  :datetime        not null
 #  updated_at  :datetime        not null
+#  user_id     :integer         not null
 #
 
 require 'spec_helper'
@@ -24,4 +25,26 @@ describe "Educations" do
     it { should respond_to(:credential) }
     it { should respond_to(:school_id) }
     it { should respond_to(:finish_on) }
+
+		describe "relationships" do
+			it { should respond_to(:user) }
+
+			context "with correct structure" do
+				let(:edu) { factory_edu(:user_id, 0) }
+				it { should respond_to(:user_id) }
+				it { should be_valid }
+
+				context "with invalid attributes:" do
+					context "blank user id" do
+						let(:edu) { factory_edu(:user_id, nil) }
+						it { should_not be_valid }
+					end
+
+					context "negative user id" do
+						let(:edu) { factory_edu(:user_id, -1) }
+						it { should_not be_valid }
+					end
+				end
+			end
+		end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120328135243) do
+ActiveRecord::Schema.define(:version => 20120328193141) do
 
   create_table "addresses", :force => true do |t|
     t.integer  "number",     :null => false
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(:version => 20120328135243) do
     t.string   "zip",        :null => false
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "user_id",    :null => false
   end
 
   create_table "educations", :force => true do |t|
@@ -31,6 +32,7 @@ ActiveRecord::Schema.define(:version => 20120328135243) do
     t.date     "finish_on"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+    t.integer  "user_id",     :null => false
   end
 
   create_table "emails", :force => true do |t|
@@ -39,6 +41,7 @@ ActiveRecord::Schema.define(:version => 20120328135243) do
     t.string   "root",       :null => false
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "user_id",    :null => false
   end
 
   create_table "events", :force => true do |t|
@@ -50,18 +53,52 @@ ActiveRecord::Schema.define(:version => 20120328135243) do
     t.datetime "updated_at",  :null => false
   end
 
+  create_table "events_sites", :id => false, :force => true do |t|
+    t.integer "event_id"
+    t.integer "site_id"
+  end
+
+  create_table "logins", :force => true do |t|
+    t.datetime "time_stamp",          :null => false
+    t.text     "login_name",          :null => false
+    t.text     "domain"
+    t.text     "ad_login_type"
+    t.string   "client_addr",         :null => false
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
+    t.string   "untangle_login_type", :null => false
+    t.string   "login_index",         :null => false
+    t.string   "resolution",          :null => false
+  end
+
+  add_index "logins", ["login_index"], :name => "index_logins_on_login_index", :unique => true
+
+  create_table "logins_audits", :force => true do |t|
+    t.datetime "time_stamp"
+    t.string   "site"
+    t.integer  "records_transfered"
+    t.integer  "total_transfers"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+  end
+
+  add_index "logins_audits", ["site"], :name => "index_logins_audits_on_site", :unique => true, :order => {"site"=>:desc}
+
   create_table "phones", :force => true do |t|
     t.string   "area",       :null => false
     t.string   "carrier",    :null => false
     t.string   "line",       :null => false
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "user_id",    :null => false
   end
 
   create_table "sign_ups", :force => true do |t|
-    t.boolean  "attended",   :default => false,	:null => false
+    t.boolean  "attended",   :default => false, :null => false
     t.datetime "created_at",                    :null => false
     t.datetime "updated_at",                    :null => false
+    t.integer  "event_id",                      :null => false
+    t.integer  "user_id",                       :null => false
   end
 
   create_table "sites", :force => true do |t|
@@ -86,7 +123,8 @@ ActiveRecord::Schema.define(:version => 20120328135243) do
     t.string   "clearance_level",  :null => false
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
-    t.string   "user_name"
+    t.string   "user_name",        :null => false
+    t.integer  "site_id",          :null => false
   end
 
   add_index "users", ["user_name"], :name => "index_users_on_user_name", :unique => true
@@ -99,6 +137,7 @@ ActiveRecord::Schema.define(:version => 20120328135243) do
     t.string   "title"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+    t.integer  "user_id"
   end
 
 end

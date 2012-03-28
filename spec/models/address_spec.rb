@@ -11,12 +11,13 @@
 #  zip        :string(255)     not null
 #  created_at :datetime        not null
 #  updated_at :datetime        not null
+#  user_id    :integer         not null
 #
 
 require 'spec_helper'
 
 describe "Addresses" do
-	let (:address) { Address.new }
+	let (:address) { factory_address(nil, nil) }
 	subject { address }
 
 	it { should respond_to(:number) }
@@ -28,11 +29,24 @@ describe "Addresses" do
 
 	describe "relationships" do 
 		it { should respond_to(:user) }
-	end
+		
+		context "with correct structure" do
+			it { should respond_to(:user_id) }
 
-	describe "with valid attributes" do
-		let(:address) { factory_address(nil, nil) }
-		it { should be_valid }
+			let(:address) { factory_address(:user_id, 0) }
+			it { should be_valid }
+			context "with invalid attributes:" do
+				context "blank user id" do
+					let(:address) { factory_address(:user_id, nil) }
+					it { should_not be_valid }
+				end
+
+				context "negative user id" do
+					let(:address) { factory_address(:user_id, -1) }
+					it { should_not be_valid }
+				end
+			end
+		end
 	end
 
 	describe "with invalid attributes" do

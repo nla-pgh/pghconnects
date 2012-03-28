@@ -11,10 +11,11 @@
 #  zip        :string(255)     not null
 #  created_at :datetime        not null
 #  updated_at :datetime        not null
+#  user_id    :integer         not null
 #
 
 class Address < ActiveRecord::Base
-    validates :number,  :presence => true,  :numericality => true
+    validates :number,  :presence => true,  :numericality => { :greater_than_or_equal_to => 0 }
     validates :street,  :presence => true, :format => { :with => %r_([a-zA-Z]+)\s+([a-zA-Z]{3,6})_ }# street must be in the format of XXXXX XXXXX
     validates :apt_fl,  :numericality => true, :allow_blank => true
     validates :city,    :presence => true
@@ -23,5 +24,6 @@ class Address < ActiveRecord::Base
                         :length => { :is => 5 },
                         :numericality => true
 
+		validates :user_id, :presence => true, :numericality => { :greater_than_or_equal_to => 0 }
 		belongs_to :user
 end

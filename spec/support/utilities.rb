@@ -79,7 +79,7 @@ def factory_event(attr, value)
 end
 
 def factory_signup(attr, value)
-	attrs = { :attended => false }
+	attrs = { :attended => false, :event_id => 0, :user_id => 0 }
 	attrs[attr] = value if attr
 	SignUp.new(attrs)
 end

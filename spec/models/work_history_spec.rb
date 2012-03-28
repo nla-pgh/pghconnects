@@ -27,5 +27,9 @@ describe "WorkHistories" do
 
 	describe "relationships" do
 		it { should respond_to(:user) }
+		
+		context "with correct structure" do
+			it { should respond_to(:user_id) }
+		end
 	end
 end

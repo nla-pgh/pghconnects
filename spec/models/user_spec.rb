@@ -16,7 +16,8 @@
 #  clearance_level  :string(255)     not null
 #  created_at       :datetime        not null
 #  updated_at       :datetime        not null
-#  user_name        :string(255)
+#  user_name        :string(255)     not null
+#  site_id          :integer         not null
 #
 
 require 'spec_helper'
@@ -25,8 +26,23 @@ describe "Users" do
 
 		subject { user }
 
+		let (:user) { factory_user(nil, nil) }
+
+		it { should respond_to(:first) }
+		it { should respond_to(:middle) }
+		it { should respond_to(:last) }
+		it { should respond_to(:birth_date) }
+		it { should respond_to(:registered_at) }
+		it { should respond_to(:gender) }
+		it { should respond_to(:ethnicity) }
+		it { should respond_to(:household_number) }
+		it { should respond_to(:household_income) }
+		it { should respond_to(:id) }
+		it { should respond_to(:education_level) }
+		it { should respond_to(:clearance_level) }
+		it { should respond_to(:user_name) }
+
 		describe "relationships" do
-			let(:user) { User.new }
 			it { should respond_to(:addresses) }
 			it { should respond_to(:phones) }
 			it { should respond_to(:emails) }
@@ -34,27 +50,23 @@ describe "Users" do
 			it { should respond_to(:work_histories) }
 
 			it { should respond_to(:site) }
-		end
 
-		describe "have valid attributes" do
-			let (:user) { factory_user(nil, nil) }
+			context "with correct structure" do
+				let(:user) { factory_user(:site_id, 0) }
+				it { should respond_to(:site_id) }
+				it { should be_valid }
 
-			it { should be_valid }
+				context "with invalid attributes" do
+					context "blank site id" do
+						let(:user) { factory_user(:site_id, nil) }
+						it { should_not be_valid }
+					end
 
-			describe "have necessary attributes" do
-				it { should respond_to(:first) }
-				it { should respond_to(:middle) }
-				it { should respond_to(:last) }
-				it { should respond_to(:birth_date) }
-				it { should respond_to(:registered_at) }
-				it { should respond_to(:gender) }
-				it { should respond_to(:ethnicity) }
-				it { should respond_to(:household_number) }
-				it { should respond_to(:household_income) }
-				it { should respond_to(:id) }
-				it { should respond_to(:education_level) }
-				it { should respond_to(:clearance_level) }
-				it { should respond_to(:user_name) }
+					context "negative site id" do
+						let(:user) { factory_user(:site_id, -1) }
+						it { should_not be_valid }
+					end
+				end
 			end
 		end
 

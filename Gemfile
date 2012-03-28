@@ -7,9 +7,9 @@ gem 'bootstrap-sass'
 gem 'thin'
 gem 'json'
 gem 'jquery-rails'
+gem 'pg'
 
 group :development do
-	gem 'sqlite3'
 	gem 'annotate', '~>2.4.1.beta'
 end
 
@@ -33,7 +33,3 @@ end
 
 # To use ActiveModel has_secure_password
 gem 'bcrypt-ruby'
-
-group :production do
-	gem 'pg'
-end

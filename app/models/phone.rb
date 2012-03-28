@@ -8,11 +8,13 @@
 #  line       :string(255)     not null
 #  created_at :datetime        not null
 #  updated_at :datetime        not null
+#  user_id    :integer         not null
 #
 
 class Phone < ActiveRecord::Base
     validates :area, :presence => true, :length => { :is => 3 }, :numericality => true
     validates :carrier, :presence => true, :length => { :is => 3 }, :numericality => true
     validates :line, :presence => true, :length => { :is => 4 }, :numericality => true
-	belongs_to :user
+		validates :user_id, :presence => true, :numericality => { :greater_than_or_equal_to => 0 }
+		belongs_to :user
 end
