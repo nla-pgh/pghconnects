@@ -49,7 +49,7 @@ describe "Addresses" do
 			end
 
 			describe "with missing street suffix" do
-				let(:address) { factory_address(:street, Faker::Address.street_name) }
+				let(:address) { factory_address(:street, Faker::Address.street_name.sub(' ', '') ) }
 				it { should_not be_valid }
 			end
 
@@ -71,7 +71,7 @@ describe "Addresses" do
 			end
 
 			describe "with too short state" do
-				let (:address) { factory_address(:state, Faker::Address.us_state_abbr[0]) }
+				let (:address) { factory_address(:state, Faker::Address.us_state_abbr[0,1]) }
 				it { should_not be_valid }
 			end
 
@@ -88,12 +88,12 @@ describe "Addresses" do
 			end
 
 			describe "with too long zip" do
-				let (:address) { factory_address(:zip, "#{Faker::Address.zip_code}0") }
+				let (:address) { factory_address(:zip, "#{Faker::Address.zip_code}000000000") }
 				it { should_not be_valid }
 			end
 
 			describe "with non-numerical zip" do
-				let (:address) { factory_address(:zip, "#{Faker::Address.zip_code}X") }
+				let (:address) { factory_address(:zip, "#{Faker::Address.zip_code}XXXXXX") }
 				it { should_not be_valid }
 			end
 

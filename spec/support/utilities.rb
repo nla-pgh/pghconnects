@@ -30,10 +30,12 @@ def factory_address(attr, value)
 		:apt_fl => 1,
 		:city => Faker::Address.city,
 		:state => Faker::Address.us_state_abbr,
-		:zip => Faker::Address.zip_code
+		:zip => Faker::Address.zip_code[0,5]
 	}
 
 	attrs[attr] = value if attr
 
-	Address.new(attrs)
+    p attrs
+
+    Address.new(attrs)
 end

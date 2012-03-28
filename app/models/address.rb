@@ -14,4 +14,12 @@
 #
 
 class Address < ActiveRecord::Base
+    validates :number,  :presence => true,  :numericality => true
+    validates :street,  :presence => true, :format => { :with => %r_([a-zA-Z]+)\s+([a-zA-Z]{3,6})_ }# street must be in the format of XXXXX XXXXX
+    validates :apt_fl,  :numericality => true, :allow_blank => true
+    validates :city,    :presence => true
+    validates :state,   :presence => true, :length => { :is => 2 }
+    validates :zip,     :presence => true,
+                        :length => { :is => 5 },
+                        :numericality => true
 end
