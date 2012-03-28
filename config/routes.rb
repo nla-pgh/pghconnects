@@ -1,4 +1,18 @@
 Pghconnects::Application.routes.draw do
+  root :to => 'welcome#index'
+
+	resources :sites do
+		resources :events
+		resources :sign_ups
+	end
+
+	resources :users do
+		resources :work_histories
+		resources :addresses
+		resources :phones
+		resources :emails
+		resources :educations
+	end
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -48,7 +62,6 @@ Pghconnects::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  # root :to => 'welcome#index'
 
   # See how all your routes lay out with "rake routes"
 
