@@ -24,6 +24,14 @@ class User < ActiveRecord::Base
 	attr_protected :clearance
 	attr_protected :user_name, :as => :admin
 
+  attr_accessible :first
+  attr_accessible :middle
+  attr_accessible :last
+  attr_accessible :birth_date
+  attr_accessible :registered_at
+  attr_accessible :gender
+  attr_accessible :ethnicity
+
 	validates :first, :presence => true
 	validates :last, :presence => true
 	validates :birth_date, :presence => true

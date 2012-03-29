@@ -13,6 +13,18 @@ class UsersController < ApplicationController
   end
 
   def create
+    @user = User.new
+    params[:user].each do |attr, value|
+      @user[attr.to_sym] = value
+    end
+
+    if @user.save
+      flash[:notice] = "User successfully created, please fill in additional information to receive login information"
+      redirect_to "#{user_url}/addresses/new"
+    else
+      render new_user_path
+    end
+
   end
 
   def update
