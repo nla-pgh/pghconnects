@@ -1,0 +1,2 @@
+module WorkHistoriesHelper
+end
