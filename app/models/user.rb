@@ -33,7 +33,6 @@ class User < ActiveRecord::Base
 	validates :education_level, :presence => true
 	validates :clearance_level, :presence => true
 	validates :user_name, :presence => true
-	validates :site_id, :presence => true, :numericality => { :greater_than_or_equal_to => 0 }
 	
 	belongs_to :site
 	has_many :addresses, :dependent => :destroy

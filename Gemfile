@@ -3,13 +3,14 @@ source 'https://rubygems.org'
 gem 'rails', '3.2.2'
 gem 'haml'
 gem 'haml-rails'
-gem 'bootstrap-sass'
 gem 'thin'
 gem 'json'
 gem 'jquery-rails'
 gem 'pg'
+gem 'simple_form'
 
 group :development do
+  gem 'bootstrap-sass'
 	gem 'annotate', '~>2.4.1.beta'
 end
 

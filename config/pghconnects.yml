@@ -1,0 +1,11 @@
+resolutions:
+  10.96: BGC
+  10.32: HY
+  10.64: HT
+  10.128: HH
+
+abbrs:
+  BGC: Bloomfield-Garfield Corporation
+  HY: Homewood YMCA
+  HT: Hill Top YMCA
+  HH: Hill House Association
