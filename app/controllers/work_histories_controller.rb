@@ -1,2 +1,0 @@
-class WorkHistoriesController < ApplicationController
-end
