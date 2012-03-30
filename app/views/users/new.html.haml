@@ -1,25 +1,18 @@
 - provide :title, "Register"
+- provide :page_header, "Registration Form"
+
 .container
-  .page-header
-    %h1 
-      Registration Form
-      %small
-        Please fill in the fields below. Those marked with
-        %strong *
-        are mandatory.
-  .container
-    = flash.to_hash
   = simple_form_for @user, :html => { :class => "form-horizontal" } do |f|
     %h6 Personal Information
     = f.input :first, :label => 'First Name'
     = f.input :middle, :label => 'Middle Initial'
     = f.input :last, :label => 'Last Name'
-    = f.input :birth_date
-    = f.input :gender
-    = f.input :ethnicity
+    = f.input :birth_date, :start_year => Date.today.year - 150, :end_year => Date.today.year - 5
+    = f.input :gender, :collection => ["Male", "Female", "Other"]
+    = f.input :ethnicity, :collection => ["Black", "White", "Native American", "Asian / Pacific Islanders", "Hispanic", "Bi-Racial", "Other"]
     %h6 CONNECTS Information
     - if offsite?
-      = f.input :registered_at, :label => 'Registration Location'
+      = f.input :registered_at, :label => 'Registration Location', :collection => PGHCONNECTS["abbrs"].values.append("Other")
     - else
       = f.input :registered_at, :label => 'Registration Location', :input_html => { :value => PGHCONNECTS["abbrs"][resolve_ip_to_abbr] }
 

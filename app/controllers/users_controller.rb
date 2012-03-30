@@ -6,6 +6,7 @@ class UsersController < ApplicationController
   end
 
   def new
+		form_requirement_notice
     @user = User.new
   end
 
