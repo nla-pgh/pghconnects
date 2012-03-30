@@ -6,25 +6,24 @@ class UsersController < ApplicationController
   end
 
   def new
-    @user = User.new(:registered_at => resolve_ip.to_s)
+    @user = User.new
   end
 
   def edit
   end
 
   def create
-    @user = User.new
-    params[:user].each do |attr, value|
-      @user[attr.to_sym] = value
-    end
+    @user = User.new(params[:user])
 
     if @user.save
-      flash[:notice] = "User successfully created, please fill in additional information to receive login information"
-      redirect_to "#{user_url}/addresses/new"
+      flash[:success] = "User successfully created, please fill in additional information to receive login information"
+
+      @user.update_attributes({:user_name => generate_user_name}, :as => :admin)
+      session[:user_id] = params[:id]
+      redirect_to :back #"#{user_url}/addresses/new"
     else
       render new_user_path
     end
-
   end
 
   def update
@@ -35,16 +34,12 @@ class UsersController < ApplicationController
 
 
   private
-    def resolve_ip
-      client_ip = request.remote_ip
-      client_ip = "10.96.0.23"
-      regex = /^(\d*\.\d*)/
-      match = regex.match(client_ip)[1]
+    def base_user_name
+      "#{params[:user][:first].downcase[0,1]}#{params[:user][:last].downcase}_"
+    end
 
-      if match and PGHCONNECTS["resolutions"][match.to_f]
-        PGHCONNECTS["resolutions"][match.to_f]
-      else
-        client_ip
-      end
+    def generate_user_name
+      size = User.count(:user_name, :conditions => "user_name LIKE '#{base_user_name}%'")
+      "#{base_user_name}#{size}"
     end
 end

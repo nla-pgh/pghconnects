@@ -11,7 +11,7 @@
 #  zip              :string(255)     not null
 #  created_at       :datetime        not null
 #  updated_at       :datetime        not null
-#  user_id          :integer         not null
+#  user_id          :integer
 #  household_number :integer         not null
 #  household_income :float           not null
 #
@@ -28,9 +28,8 @@ class Address < ActiveRecord::Base
                         :length => { :is => 5 },
                         :numericality => true
 
-	validates :household_number, :presence => true, :numericality => { :greater_than => 0 }
-	validates :household_income, :presence => true, :numericality => { :greater_than_or_equal_to => 0.0 }
+    validates :household_number, :presence => true, :numericality => { :greater_than => 0 }
+    validates :household_income, :presence => true, :numericality => { :greater_than_or_equal_to => 0.0 }
 
-    validates :user_id, :presence => true, :numericality => { :greater_than_or_equal_to => 0 }
     belongs_to :user
 end

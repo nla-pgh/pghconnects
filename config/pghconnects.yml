@@ -9,3 +9,9 @@ abbrs:
   HY: Homewood YMCA
   HT: Hill Top YMCA
   HH: Hill House Association
+
+reverse_abbrs:
+  Bloomfield-Garfield Corporation: BGC
+  Homewood YMCA: HY
+  Hill Top YMCA: HT
+  Hill House Association: HH

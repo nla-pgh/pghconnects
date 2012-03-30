@@ -21,7 +21,7 @@ ActiveRecord::Schema.define(:version => 20120330040000) do
     t.string   "zip",              :null => false
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
-    t.integer  "user_id",          :null => false
+    t.integer  "user_id"
     t.integer  "household_number", :null => false
     t.float    "household_income", :null => false
   end
@@ -34,7 +34,7 @@ ActiveRecord::Schema.define(:version => 20120330040000) do
     t.date     "finish_on"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
-    t.integer  "user_id",         :null => false
+    t.integer  "user_id"
     t.string   "education_level"
   end
 
@@ -44,7 +44,7 @@ ActiveRecord::Schema.define(:version => 20120330040000) do
     t.string   "root",       :null => false
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
-    t.integer  "user_id",    :null => false
+    t.integer  "user_id"
   end
 
   create_table "events", :force => true do |t|
@@ -93,15 +93,15 @@ ActiveRecord::Schema.define(:version => 20120330040000) do
     t.string   "line",       :null => false
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
-    t.integer  "user_id",    :null => false
+    t.integer  "user_id"
   end
 
   create_table "sign_ups", :force => true do |t|
     t.boolean  "attended",   :default => false, :null => false
     t.datetime "created_at",                    :null => false
     t.datetime "updated_at",                    :null => false
-    t.integer  "event_id",                      :null => false
-    t.integer  "user_id",                       :null => false
+    t.integer  "event_id"
+    t.integer  "user_id"
   end
 
   create_table "sites", :force => true do |t|
@@ -120,11 +120,11 @@ ActiveRecord::Schema.define(:version => 20120330040000) do
     t.string   "registered_at",   :null => false
     t.string   "gender"
     t.string   "ethnicity"
-    t.string   "clearance_level", :null => false
+    t.string   "clearance_level", :default => 'U', :null => false
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
-    t.string   "user_name",       :null => false
-    t.integer  "site_id",         :null => false
+    t.string   "user_name"
+    t.integer  "site_id"
   end
 
   add_index "users", ["user_name"], :name => "index_users_on_user_name", :unique => true

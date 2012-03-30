@@ -10,11 +10,11 @@
 #  registered_at   :string(255)     not null
 #  gender          :string(255)
 #  ethnicity       :string(255)
-#  clearance_level :string(255)     not null
+#  clearance_level :string(255)     default("U"), not null
 #  created_at      :datetime        not null
 #  updated_at      :datetime        not null
-#  user_name       :string(255)     not null
-#  site_id         :integer         not null
+#  user_name       :string(255)
+#  site_id         :integer
 #
 
 require 'spec_helper'
@@ -48,18 +48,6 @@ describe "Users" do
 				let(:user) { factory_user(:site_id, 0) }
 				it { should respond_to(:site_id) }
 				it { should be_valid }
-
-				context "with invalid attributes" do
-					context "blank site id" do
-						let(:user) { factory_user(:site_id, nil) }
-						it { should_not be_valid }
-					end
-
-					context "negative site id" do
-						let(:user) { factory_user(:site_id, -1) }
-						it { should_not be_valid }
-					end
-				end
 			end
 		end
 
@@ -83,16 +71,6 @@ describe "Users" do
 
 			describe "when registered at is empty" do
 				let(:user) { factory_user(:registered_at, ' ') }
-				it { should_not be_valid }
-			end
-
-			describe "when clearance level is empty" do
-				let(:user) { factory_user(:clearance_level, ' ') }
-				it { should_not be_valid }
-			end
-
-			describe "when user name is empty" do
-				let(:user) { factory_user(:user_name, ' ') }
 				it { should_not be_valid }
 			end
 		end

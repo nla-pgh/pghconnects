@@ -11,7 +11,7 @@
 #  zip              :string(255)     not null
 #  created_at       :datetime        not null
 #  updated_at       :datetime        not null
-#  user_id          :integer         not null
+#  user_id          :integer
 #  household_number :integer         not null
 #  household_income :float           not null
 #
@@ -28,8 +28,8 @@ describe "Addresses" do
 	it { should respond_to(:city) }
 	it { should respond_to(:state) }
 	it { should respond_to(:zip) }
-    it { should respond_to(:household_number) }
-    it { should respond_to(:household_income) }
+  it { should respond_to(:household_number) }
+  it { should respond_to(:household_income) }
 
 	describe "relationships" do 
 		it { should respond_to(:user) }
@@ -39,17 +39,6 @@ describe "Addresses" do
 
 			let(:address) { factory_address(:user_id, 0) }
 			it { should be_valid }
-			context "with invalid attributes:" do
-				context "blank user id" do
-					let(:address) { factory_address(:user_id, nil) }
-					it { should_not be_valid }
-				end
-
-				context "negative user id" do
-					let(:address) { factory_address(:user_id, -1) }
-					it { should_not be_valid }
-				end
-			end
 		end
 	end
 

@@ -8,7 +8,7 @@
 #  line       :string(255)     not null
 #  created_at :datetime        not null
 #  updated_at :datetime        not null
-#  user_id    :integer         not null
+#  user_id    :integer
 #
 
 require 'spec_helper'
@@ -29,18 +29,6 @@ describe "Phones" do
 				let(:phone) { factory_phone(:user_id, 0) }
 				it { should respond_to(:user_id) }
 				it { should be_valid }
-
-				context "with invalid attributes:" do
-					context "blank user id" do
-						let(:phone) { factory_phone(:user_id, nil) }
-						it { should_not be_valid }
-					end
-
-					context "negative user id" do
-						let(:phone) { factory_phone(:user_id, -1) }
-						it { should_not be_valid }
-					end
-				end
 			end
 		end
 

@@ -10,25 +10,23 @@
 #  registered_at   :string(255)     not null
 #  gender          :string(255)
 #  ethnicity       :string(255)
-#  clearance_level :string(255)     not null
+#  clearance_level :string(255)     default("U"), not null
 #  created_at      :datetime        not null
 #  updated_at      :datetime        not null
-#  user_name       :string(255)     not null
-#  site_id         :integer         not null
+#  user_name       :string(255)
+#  site_id         :integer
 #
 
 class User < ActiveRecord::Base
 	attr_accessible :first, :middle, :last, :birth_date, :registered_at, :gender, :ethnicity, :user_name, :clearance_level, :as => :admin
 
-    attr_accessible :first, :middle, :last, :birth_date, :registered_at, :gender, :ethnicity, :user_name
+    attr_accessible :first, :middle, :last, :birth_date, :registered_at, :gender, :ethnicity
 
 	validates :first, :presence => true
 	validates :last, :presence => true
 	validates :birth_date, :presence => true
 	validates :registered_at, :presence => true
-	validates :clearance_level, :presence => true
-	validates :user_name, :presence => true
-    validates :site_id, :presence => true, :numericality => { :greater_than_or_equal_to => 0 }
+  validates :user_name, :uniqueness => { :allow_nil => true, :allow_blank => true }
 	
 	belongs_to :site
 	has_many :addresses, :dependent => :destroy

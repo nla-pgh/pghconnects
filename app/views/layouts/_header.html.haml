@@ -8,8 +8,15 @@
 
       = link_to root_path, :class => "brand" do
         %strong Pittsburgh CONNECTS Centers
-      .nav-collapse
+      .nav-collapse.pull-right
         %ul.nav
-          %li.active= link_to "Home", root_path
-          %li.divider-vertical
           %li= link_to "Register with Us!", new_user_path
+.container
+  .hero-unit
+    %h1 Pittsburgh CONNECTS
+    %p Free, public computer centers
+    %ul.thumbnails
+      %li.span5
+        = image_tag "BTOP.png"
+      %li.span5
+        = image_tag "NLA_logo.png"

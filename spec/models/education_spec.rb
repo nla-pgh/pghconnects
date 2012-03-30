@@ -10,7 +10,7 @@
 #  finish_on       :date
 #  created_at      :datetime        not null
 #  updated_at      :datetime        not null
-#  user_id         :integer         not null
+#  user_id         :integer
 #  education_level :string(255)
 #
 
@@ -35,25 +35,6 @@ describe "Educations" do
             let(:edu) { factory_edu(:user_id, 0) }
             it { should respond_to(:user_id) }
             it { should be_valid }
-
-            context "with invalid attributes:" do
-                context "blank user id" do
-                    let(:edu) { factory_edu(:user_id, nil) }
-                    it { should_not be_valid }
-                end
-
-                context "negative user id" do
-                    let(:edu) { factory_edu(:user_id, -1) }
-                    it { should_not be_valid }
-                end
-            end
-        end
-    end
-
-    describe "with invalid attributes:" do
-        context "education level is empty" do
-            let(:user) { factory_user(:education_level, ' ') }
-            it { should_not be_valid }
         end
     end
 end
