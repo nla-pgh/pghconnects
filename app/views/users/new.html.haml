@@ -1,10 +1,18 @@
 - provide :title, "Register"
 .container
   .hero-unit
-    = image_tag "/images/BTOP_small"
-    = image_tag "/images/NLA_logo"
-    %h1 Registration Form
-    %p Please fill in the fields below. Those marked with * are mandatory.
+    %ul.thumbnails
+      %li
+        = image_tag "BTOP.png"
+      %li
+        = image_tag "NLA_logo.png"
+  .page-header
+    %h1 
+      Registration Form
+      %small
+        Please fill in the fields below. Those marked with
+        %strong *
+        are mandatory.
 .container
   = simple_form_for @user, :html => { :class => "form-horizontal" } do |f|
     %h6 Personal Information
