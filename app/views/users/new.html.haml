@@ -1,6 +1,8 @@
 - provide :title, "Register"
 .container
   .hero-unit
+    = image_tag "/images/BTOP_small"
+    = image_tag "/images/NLA_logo"
     %h1 Registration Form
     %p Please fill in the fields below. Those marked with * are mandatory.
 .container
@@ -17,5 +19,5 @@
       = f.input :registered_at, :label => 'Registration Location'
 
     = submit_tag "Next Step", :class => "btn btn-large btn-primary"
-
-= debug @user
+.container
+  = debug @user

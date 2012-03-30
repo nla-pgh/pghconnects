@@ -12,6 +12,7 @@ gem 'simple_form'
 group :development do
   gem 'bootstrap-sass'
 	gem 'annotate', '~>2.4.1.beta'
+	gem 'faker'
 end
 
 # Gems used only for assets and not required

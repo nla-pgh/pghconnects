@@ -61,5 +61,10 @@ module Pghconnects
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+
+    # Set rspec as test generators
+    config.generators do |g|
+      g.test_framework :rspec
+    end
   end
 end
