@@ -12,3 +12,6 @@
   %body
     = render "layouts/header"
     = yield
+  =if Rails.env.development?
+    .container
+      = debug @user

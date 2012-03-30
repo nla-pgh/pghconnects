@@ -6,8 +6,7 @@ class UsersController < ApplicationController
   end
 
   def new
-		form_requirement_notice
-    @user = User.new
+    form_requirement_notice
   end
 
   def edit
@@ -20,6 +19,7 @@ class UsersController < ApplicationController
       flash[:success] = "User successfully created, please fill in additional information to receive login information"
 
       @user.update_attributes({:user_name => generate_user_name}, :as => :admin)
+      
       session[:user_id] = params[:id]
       redirect_to :back #"#{user_url}/addresses/new"
     else
