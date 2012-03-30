@@ -10,18 +10,20 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120328193141) do
+ActiveRecord::Schema.define(:version => 20120330040000) do
 
   create_table "addresses", :force => true do |t|
-    t.integer  "number",     :null => false
-    t.string   "street",     :null => false
+    t.integer  "number",           :null => false
+    t.string   "street",           :null => false
     t.string   "apt_fl"
-    t.string   "city",       :null => false
-    t.string   "state",      :null => false
-    t.string   "zip",        :null => false
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-    t.integer  "user_id",    :null => false
+    t.string   "city",             :null => false
+    t.string   "state",            :null => false
+    t.string   "zip",              :null => false
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+    t.integer  "user_id",          :null => false
+    t.integer  "household_number", :null => false
+    t.float    "household_income", :null => false
   end
 
   create_table "educations", :force => true do |t|
@@ -30,9 +32,10 @@ ActiveRecord::Schema.define(:version => 20120328193141) do
     t.string   "credential"
     t.string   "school_id"
     t.date     "finish_on"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-    t.integer  "user_id",     :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+    t.integer  "user_id",         :null => false
+    t.string   "education_level"
   end
 
   create_table "emails", :force => true do |t|
@@ -82,7 +85,7 @@ ActiveRecord::Schema.define(:version => 20120328193141) do
     t.datetime "updated_at",         :null => false
   end
 
-  add_index "logins_audits", ["site"], :name => "index_logins_audits_on_site", :unique => true, :order => {"site"=>:desc}
+  add_index "logins_audits", ["site"], :name => "index_logins_audits_on_site", :unique => true
 
   create_table "phones", :force => true do |t|
     t.string   "area",       :null => false
@@ -110,21 +113,18 @@ ActiveRecord::Schema.define(:version => 20120328193141) do
   end
 
   create_table "users", :force => true do |t|
-    t.string   "first",            :null => false
+    t.string   "first",           :null => false
     t.string   "middle"
-    t.string   "last",             :null => false
-    t.date     "birth_date",       :null => false
-    t.string   "registered_at",    :null => false
+    t.string   "last",            :null => false
+    t.date     "birth_date",      :null => false
+    t.string   "registered_at",   :null => false
     t.string   "gender"
     t.string   "ethnicity"
-    t.integer  "household_number", :null => false
-    t.float    "household_income", :null => false
-    t.string   "education_level",  :null => false
-    t.string   "clearance_level",  :null => false
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
-    t.string   "user_name",        :null => false
-    t.integer  "site_id",          :null => false
+    t.string   "clearance_level", :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+    t.string   "user_name",       :null => false
+    t.integer  "site_id",         :null => false
   end
 
   add_index "users", ["user_name"], :name => "index_users_on_user_name", :unique => true
@@ -139,5 +139,4 @@ ActiveRecord::Schema.define(:version => 20120328193141) do
     t.datetime "updated_at",  :null => false
     t.integer  "user_id"
   end
-
 end

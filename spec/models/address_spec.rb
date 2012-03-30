@@ -2,16 +2,18 @@
 #
 # Table name: addresses
 #
-#  id         :integer         not null, primary key
-#  number     :integer         not null
-#  street     :string(255)     not null
-#  apt_fl     :string(255)
-#  city       :string(255)     not null
-#  state      :string(255)     not null
-#  zip        :string(255)     not null
-#  created_at :datetime        not null
-#  updated_at :datetime        not null
-#  user_id    :integer         not null
+#  id               :integer         not null, primary key
+#  number           :integer         not null
+#  street           :string(255)     not null
+#  apt_fl           :string(255)
+#  city             :string(255)     not null
+#  state            :string(255)     not null
+#  zip              :string(255)     not null
+#  created_at       :datetime        not null
+#  updated_at       :datetime        not null
+#  user_id          :integer         not null
+#  household_number :integer         not null
+#  household_income :float           not null
 #
 
 require 'spec_helper'
@@ -26,6 +28,8 @@ describe "Addresses" do
 	it { should respond_to(:city) }
 	it { should respond_to(:state) }
 	it { should respond_to(:zip) }
+    it { should respond_to(:household_number) }
+    it { should respond_to(:household_income) }
 
 	describe "relationships" do 
 		it { should respond_to(:user) }
@@ -126,5 +130,30 @@ describe "Addresses" do
 			it { should_not be_valid }
 		end
 
+        describe "with invalid attributes:" do
+            context "blank" do
+                context "household number" do
+                    let(:address) { factory_address(:household_number, nil) }
+                    it { should_not be_valid }
+                end
+
+                context "household income" do
+                    let(:address) { factory_address(:household_income, nil) }
+                    it { should_not be_valid }
+                end
+            end
+
+            context "number range" do
+                context "household number 0" do
+                    let(:address) { factory_address(:household_number, 0) }
+                    it { should_not be_valid }
+                end
+
+                context "household income negative" do
+                    let(:address) { factory_address(:household_income, -1.0) }
+                    it { should_not be_valid }
+                end
+            end
+        end
 	end
 end

@@ -9,18 +9,15 @@ def factory_user(attr, value)
 		:registered_at => "BGC",
 		:gender => "Female",
 		:ethnicity => "Black",
-		:household_number => 3,
-		:household_income => 100000.00,
-		:education_level => "college",
 		:user_name => Faker::Internet.user_name,
-		:clearance_level => "user"
+		:clearance_level => "U"
 	}
 
-	if attr 
-		attrs[attr] = value
-	end
+    attrs[attr] = value if attr
 
-	User.new(attrs)
+	user = User.new
+    user.assign_attributes(attrs, :without_protection => true)
+    return user
 end
 
 def factory_address(attr, value)
@@ -30,25 +27,34 @@ def factory_address(attr, value)
 		:apt_fl => 1,
 		:city => Faker::Address.city,
 		:state => Faker::Address.us_state_abbr,
-		:zip => Faker::Address.zip_code[0,5]
+		:zip => Faker::Address.zip_code[0,5],
+        :household_number => 1,
+        :household_income => 1.0
 	}
 
 	attrs[attr] = value if attr
-    Address.new(attrs)
+
+    address = Address.new
+    address.assign_attributes(attrs, :without_protection => true)
+    return address
 end
 
 def factory_phone(attr, value)
     attrs = { :area => '412', :carrier => '456', :line => '7890' }
 
     attrs[attr] = value if attr
-    Phone.new(attrs)
+    phone = Phone.new
+    phone.assign_attributes(attrs, :without_protection => true)
+    return phone
 end
 
 def factory_email(attr, value)
     attrs = { :address => "dkm", :domain => "fake", :root => "com" }
 
     attrs[attr] = value if attr
-    Email.new(attrs)
+    email = Email.new
+    email.assign_attributes(attrs, :without_protection => true)
+    return email
 end
 
 def factory_edu(attr, value) 
@@ -61,25 +67,33 @@ def factory_edu(attr, value)
 
     attrs[attr] = value if attr
 
-    Education.new(attrs)
+    edu = Education.new
+    edu.assign_attributes(attrs, :without_protection => true)
+    return edu
 end
 
 def factory_site(attr, value)
 	attrs = { :name => "NLA", :address => "5429 Penn Ave", :phone => "412-123-4556" }
 
 	attrs[attr] = value if attr
-	Site.new(attrs)
+	site = Site.new
+    site.assign_attributes(attrs, :without_protection => true)
+    return site
 end
 
 def factory_event(attr, value)
 	attrs = { :name => "Event", :start => DateTime.yesterday, :end => DateTime.now, :description => "A Test Event" }
 
 	attrs[attr] = value if attr
-	Event.new(attrs)
+    event = Event.new
+    event.assign_attributes(attrs, :without_protection => true)
+    return event
 end
 
 def factory_signup(attr, value)
 	attrs = { :attended => false, :event_id => 0, :user_id => 0 }
 	attrs[attr] = value if attr
-	SignUp.new(attrs)
+	sign_up = SignUp.new
+    sign_up.assign_attributes(attrs, :without_protection => true)
+    return sign_up
 end

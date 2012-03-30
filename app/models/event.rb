@@ -12,6 +12,8 @@
 #
 
 class Event < ActiveRecord::Base
+    attr_accessible :name, :start, :end, :description
+
 	validates :name, :presence => true
 	validates :start, :presence => true
 	validates :end, :presence => true

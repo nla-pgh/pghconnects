@@ -11,6 +11,8 @@
 #
 
 class Site < ActiveRecord::Base
+    attr_accessible :name, :address, :phone
+
 	validates :name, :presence => true
 	validates :address, :presence => true
 	validates :phone, :presence => true, :format => { :with => %r_\A\d{3}-\d{3}-\d{4}\Z_ }

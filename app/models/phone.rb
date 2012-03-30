@@ -12,6 +12,8 @@
 #
 
 class Phone < ActiveRecord::Base
+    attr_accessible :area, :carrier, :line
+
     validates :area, :presence => true, :length => { :is => 3 }, :numericality => true
     validates :carrier, :presence => true, :length => { :is => 3 }, :numericality => true
     validates :line, :presence => true, :length => { :is => 4 }, :numericality => true

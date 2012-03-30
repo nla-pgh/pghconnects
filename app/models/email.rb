@@ -12,9 +12,11 @@
 #
 
 class Email < ActiveRecord::Base
+    attr_accessible :address, :domain, :root
+
     validates :address, :presence => true
     validates :domain, :presence => true
     validates :root, :presence => true, :length => { :in => 2..3 }
-		validates :user_id, :presence => true, :numericality => { :greater_than_or_equal_to => 0 }
-		belongs_to :user
+    validates :user_id, :presence => true, :numericality => { :greater_than_or_equal_to => 0 }
+    belongs_to :user
 end
