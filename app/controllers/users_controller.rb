@@ -7,6 +7,7 @@ class UsersController < ApplicationController
 
   def new
     form_requirement_notice
+    @user = User.new
   end
 
   def edit
@@ -21,9 +22,9 @@ class UsersController < ApplicationController
       @user.update_attributes({:user_name => generate_user_name}, :as => :admin)
       
       session[:user_id] = params[:id]
-      redirect_to :back #"#{user_url}/addresses/new"
+      redirect_to "#{user_url}/addresses/new"
     else
-      render new_user_path
+      render :new
     end
   end
 

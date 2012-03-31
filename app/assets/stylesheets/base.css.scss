@@ -1,7 +1,18 @@
 @import "bootstrap";
 
+// Ubuntu Web Font - Google Web Font API
+@import url(http://fonts.googleapis.com/css?family=Ubuntu:400,700,400italic);
+
+
 body {
   padding: { top: 40px; }
+}
+
+.hero-unit {
+    .thumbnail {
+        border: none;
+        @include box-shadow(none);
+    }
 }
 
 @import "bootstrap-responsive";

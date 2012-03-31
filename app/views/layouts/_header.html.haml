@@ -13,29 +13,18 @@
       .nav-collapse.pull-right
         %ul.nav
           %li= link_to "Register with Us!", new_user_path
+
 .container
-  .hero-unit
-    .row
-      .span5
-        %h1 Pittsburgh CONNECTS
-        %p Free, public computer centers
-      .span4.offset1
-        .row
-          %ul.thumbnails
-            %li.span4
-              %h2 Sponsored by:
-              = image_tag "BTOP.png"
-            %li.span4
-              %h2 Partnership with:
-              = image_tag "NLA_logo.png"
   .page-header
     %h1 
       = yield :page_header if :page_header
       %small
         = yield :page_header_small if :page_header_small
+
   .container
     - flash.each do |type, msg|
       %div{:class => "alert alert-#{type}"}
         %a.close{ :data => { :dismiss => "alert" } }x
         %h4.alert-heading= "#{type.to_s.titlecase}"
         = msg.html_safe
+

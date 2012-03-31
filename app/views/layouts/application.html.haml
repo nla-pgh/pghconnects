@@ -12,6 +12,7 @@
   %body
     = render "layouts/header"
     = yield
-  =if Rails.env.development?
+    = render "layouts/footer"
+  - if Rails.env.development?
     .container
       = debug @user

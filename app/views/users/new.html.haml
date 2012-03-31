@@ -2,7 +2,7 @@
 - provide :page_header, "Registration Form"
 
 .container
-  = simple_form_for User.new, :html => { :class => "form-horizontal" } do |f|
+  = simple_form_for @user, :html => { :class => "form-horizontal" } do |f|
     %h6 Personal Information
     = f.input :first, :label => 'First Name'
     = f.input :middle, :label => 'Middle Initial'
