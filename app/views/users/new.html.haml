@@ -10,9 +10,10 @@
     = f.input :gender, :collection => ["Male", "Female", "Other"]
     = f.input :ethnicity, :collection => ["Black", "White", "Native American", "Asian / Pacific Islanders", "Hispanic", "Bi-Racial", "Other"]
     %h6 CONNECTS Information
-    - if offsite?
-      = f.input :registered_at, :label => 'Registration Location', :collection => PGHCONNECTS["abbrs"].values.append("Other")
-    - else
-      = f.input :registered_at, :label => 'Registration Location', :input_html => { :value => PGHCONNECTS["abbrs"][resolve_ip_to_abbr] }
+
+    - # Registration hash for simple form f.input
+    - reg_hash = { :label => "Registration Site", :collection => all_sites, :include_blank => false, :value_method => Proc.new { |v| v }, :selected => ip_to_name }
+
+    = f.input :registered_at, reg_hash
 
     = submit_tag "Next Step", :class => "btn btn-large btn-primary"

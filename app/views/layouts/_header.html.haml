@@ -9,7 +9,7 @@
       = link_to root_path, :class => "brand" do
         %strong
           Pittsburgh CONNECTS Centers
-          = "> #{PGHCONNECTS["abbrs"][resolve_ip_to_abbr]}" unless offsite?
+          = "> #{ip_to_name}" unless offsite?
       .nav-collapse.pull-right
         %ul.nav
           %li= link_to "Register with Us!", new_user_path

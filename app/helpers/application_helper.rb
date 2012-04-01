@@ -1,17 +1,34 @@
 module ApplicationHelper
+  IP_REGEX = /\A(\d*\.\d*)/
+
   def offsite?
-    not PGHCONNECTS['resolutions'].value? resolve_ip_to_abbr
+      Site.all.each do |site|
+          return false if site[:name] == ip_to_name
+      end
+
+      true
   end
 
-  def resolve_ip_to_abbr
+  def ip_to_name
     client_ip = request.remote_ip
-    regex = /^(\d*\.\d*)/
-    match = regex.match(client_ip)[1]
+    match = IP_REGEX.match(client_ip)[1]
 
-    if match and PGHCONNECTS["resolutions"][match.to_f]
-      PGHCONNECTS["resolutions"][match.to_f]
-    else
-      client_ip
+    Site.all.each do |site|
+        return site[:name] if site[:base_ip] == match.to_s
     end
+
+    match
   end
+
+  def all_sites
+      names = []
+
+      Site.all(:order => "name").each do |site|
+          names << site.name
+      end
+
+      names
+  end
+
+
 end

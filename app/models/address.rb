@@ -19,8 +19,8 @@
 class Address < ActiveRecord::Base
     attr_accessible :number, :street, :apt_fl, :city, :state, :zip, :household_number, :household_income
 
-    validates :number,  :presence => true,  :numericality => { :greater_than_or_equal_to => 0 }
-    validates :street,  :presence => true, :format => { :with => %r_([a-zA-Z]+)\s+([a-zA-Z]{3,6})_ }# street must be in the format of XXXXX XXXXX
+    validates :number,  :presence => true,  :numericality => { :greater_than => 0 }
+    validates :street,  :presence => true, :format => { :with => %r_([a-zA-Z]+)\s+([a-zA-Z]{3,6})_, :message => "should be in the format: Penn Ave" }# street must be in the format of XXXXX XXXXX
     validates :city,    :presence => true
     validates :state,   :presence => true, :length => { :is => 2 }
     validates :zip,     :presence => true,

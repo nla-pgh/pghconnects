@@ -17,7 +17,7 @@ class UsersController < ApplicationController
     @user = User.new(params[:user])
 
     if @user.save
-      flash[:success] = "User successfully created, please fill in additional information to receive login information"
+      flash[:success] = "Thank you, <strong>#{@user.first}</strong> for registering with Pittsburgh CONNECTS! To receive your login information, please fill in the remaining forms."
 
       @user.update_attributes({:user_name => generate_user_name}, :as => :admin)
       
@@ -27,7 +27,8 @@ class UsersController < ApplicationController
       session[:user] = @user
       redirect_to new_user_address_path(@user)
     else
-      render :new
+        person_error @user
+        render :new
     end
   end
 
