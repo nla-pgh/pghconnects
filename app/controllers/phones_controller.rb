@@ -1,11 +1,11 @@
-class AddressesController < ApplicationController
+class PhonesController < ApplicationController
     def index
     end
 
     def new
         form_requirement_notice
         @user = User.find(params[:user_id])
-        @addr = Address.new
+        @phone = Phone.new
     end
 
     def show
@@ -13,15 +13,14 @@ class AddressesController < ApplicationController
 
     def create
         @user = User.find(params[:user_id])
-        @addr = @user.addresses.new(params[:address])
+        @phone = @user.phones.new(params[:phone])
 
-        if @addr.save
-            @addr.user = @user
-            flash[:success] = " Address information saved!
+        if @phone.save
+            @phone.user = @user
+            flash[:success] = " Phone information saved!
                                     Thank you, <strong>#{@user.first}</strong>!
                                     To receive your login information, please fill in the remaining forms."
-
-            redirect_to new_user_phone_path(@user)
+            redirect_to new_user_email(@user)
         else
             person_error @user
             render :new

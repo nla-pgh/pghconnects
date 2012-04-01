@@ -3,6 +3,7 @@ Pghconnects::Application.routes.draw do
 
   resources :users do
       resources :addresses
+      resources :phones
   end
 
   # The priority is based upon order of creation:

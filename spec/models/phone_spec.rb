@@ -72,30 +72,4 @@ describe "Phones" do
             it { should be_valid }
         end
     end
-
-    describe "regex_full" do
-        context "with standard number" do
-            before do
-                @phone = Phone.new
-                @phone.full = "412-232-1234"
-                @phone.regex_full
-            end
-
-            it { @phone.area.should eq("412") }
-            it { @phone.carrier.should eq("232") }
-            it { @phone.line.should eq("1234") }
-        end
-
-        context "with international number" do
-            before do
-                @phone = Phone.new
-                @phone.full = "1-123-123-1234"
-                @phone.regex_full
-            end
-
-            it { @phone.area.should eq("123") }
-            it { @phone.carrier.should eq("123") }
-            it { @phone.line.should eq("1234") }
-        end
-    end
 end

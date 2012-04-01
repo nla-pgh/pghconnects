@@ -13,7 +13,7 @@
 #
 
 class Phone < ActiveRecord::Base
-    VALID_PHONE_REGEX = /\A(\d?)-?(\d{3})-?(\d{3})-?(\d{4})\z/
+    VALID_PHONE_REGEX = /\A(\d{3})-?(\d{3})-?(\d{4})\z/
     attr_accessible :area, :carrier, :line, :as => :admin
     attr_accessible :full
 
@@ -28,6 +28,6 @@ class Phone < ActiveRecord::Base
     def regex_full
         match = VALID_PHONE_REGEX.match(full)
 
-        update_attributes({:area => match[2], :carrier => match[3], :line => match[4] }, :as => :admin)
+        update_attributes({:area => match[1], :carrier => match[2], :line => match[3] }, :as => :admin)
     end
 end

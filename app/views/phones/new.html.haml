@@ -1,0 +1,8 @@
+- render "shared/title"
+
+.container
+  = simple_form_for [@user, @phone], :html => { :class => "form-horizontal" } do |f|
+    %h6 Phone Number
+    = f.input :full, :label => "Phone (xxx-xxx-xxxx)"
+
+    = submit_tag "Next Step", :class => "btn btn-large btn-primary"
