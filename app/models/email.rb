@@ -18,7 +18,7 @@ class Email < ActiveRecord::Base
     attr_accessible :address, :domain, :root, :as => :admin
     attr_accessible :full
 
-    validates :full, :presence => true, :format => { :with => VALID_EMAIL_REGEX, :message => "should be formatted as joe@email.come" }
+    validates :full, :presence => true, :format => { :with => VALID_EMAIL_REGEX, :message => "should be formatted as joe@email.com" }
 
     validates :root, :length => { :in => 2..3, :allow_blank => true, :allow_nil => true }
 

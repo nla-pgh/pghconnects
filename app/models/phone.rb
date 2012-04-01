@@ -17,7 +17,7 @@ class Phone < ActiveRecord::Base
     attr_accessible :area, :carrier, :line, :as => :admin
     attr_accessible :full
 
-    validates :full, :format => { :with => VALID_PHONE_REGEX, :message => "should be formatted as 123-123-1234" }
+    validates :full, :presence => true, :format => { :with => VALID_PHONE_REGEX, :message => "should be formatted as 123-123-1234" }
 
     validates :area, :length => { :is => 3 }, :numericality => true, :allow_blank => true, :allow_nil => true
     validates :carrier, :length => { :is => 3 }, :numericality => true, :allow_blank => true, :allow_nil => true
