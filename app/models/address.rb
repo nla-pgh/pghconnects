@@ -21,12 +21,11 @@ class Address < ActiveRecord::Base
 
     validates :number,  :presence => true,  :numericality => { :greater_than_or_equal_to => 0 }
     validates :street,  :presence => true, :format => { :with => %r_([a-zA-Z]+)\s+([a-zA-Z]{3,6})_ }# street must be in the format of XXXXX XXXXX
-    validates :apt_fl,  :numericality => true, :allow_blank => true
     validates :city,    :presence => true
     validates :state,   :presence => true, :length => { :is => 2 }
     validates :zip,     :presence => true,
                         :length => { :is => 5 },
-                        :numericality => true
+                        :numericality => { :greater_than => 0 }
 
     validates :household_number, :presence => true, :numericality => { :greater_than => 0 }
     validates :household_income, :presence => true, :numericality => { :greater_than_or_equal_to => 0.0 }

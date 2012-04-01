@@ -1,1 +1,1 @@
-PGHCONNECTS = YAML.load_file("#{Rails.root}/config/pghconnects.yml")
+CONNECTS = YAML.load_file("#{Rails.root}/config/pghconnects.yml")

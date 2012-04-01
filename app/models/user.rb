@@ -23,10 +23,11 @@ class User < ActiveRecord::Base
     attr_accessible :first, :middle, :last, :birth_date, :registered_at, :gender, :ethnicity
 
 	validates :first, :presence => true
+    validates :middle, :length => { :is => 1, :allow_nil => true, :allow_blank => true }
 	validates :last, :presence => true
 	validates :birth_date, :presence => true
 	validates :registered_at, :presence => true
-  validates :user_name, :uniqueness => { :allow_nil => true, :allow_blank => true }
+    validates :user_name, :uniqueness => { :allow_nil => true, :allow_blank => true }
 	
 	belongs_to :site
 	has_many :addresses, :dependent => :destroy

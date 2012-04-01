@@ -1,17 +1,25 @@
-resolutions:
-  10.96: BGC
-  10.32: HY
-  10.64: HT
-  10.128: HH
-
-abbrs:
-  BGC: Bloomfield-Garfield Corporation
-  HY: Homewood YMCA
-  HT: Hill Top YMCA
-  HH: Hill House Association
-
-reverse_abbrs:
-  Bloomfield-Garfield Corporation: BGC
-  Homewood YMCA: HY
-  Hill Top YMCA: HT
-  Hill House Association: HH
+sites:
+  - 
+    !ruby/sym name: Bloomfield-Garfield Corporation
+    !ruby/sym abbr: BGC
+    !ruby/sym base_ip: '10.96'
+    !ruby/sym address: BGC
+    !ruby/sym phone: 123-456-7890
+  - 
+    !ruby/sym name: Homewood YMCA
+    !ruby/sym abbr: HY
+    !ruby/sym base_ip: '10.32'
+    !ruby/sym address: HW
+    !ruby/sym phone: 123-456-7890
+  - 
+    !ruby/sym name: Hill Top YMCA
+    !ruby/sym abbr: HT
+    !ruby/sym base_ip: '10.64'
+    !ruby/sym address: HT
+    !ruby/sym phone: 123-456-7890
+  - 
+    !ruby/sym name: Hill House Association
+    !ruby/sym abbr: HH
+    !ruby/sym base_ip: '10.128'
+    !ruby/sym address: HH
+    !ruby/sym phone: 123-456-7890

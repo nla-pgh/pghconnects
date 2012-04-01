@@ -3,57 +3,78 @@
 # Table name: emails
 #
 #  id         :integer         not null, primary key
-#  address    :string(255)     not null
-#  domain     :string(255)     not null
-#  root       :string(255)     not null
+#  address    :string(255)
+#  domain     :string(255)
+#  root       :string(255)
 #  created_at :datetime        not null
 #  updated_at :datetime        not null
 #  user_id    :integer
+#  full       :string(255)     not null
 #
 
 require 'spec_helper'
 
 describe "Emails" do
 
-    let(:email) { factory_email(nil, nil) }
     subject { email }
 
-    it { should respond_to(:address) }
-    it { should respond_to(:domain) }
-    it { should respond_to(:root) }
+    before do
+        @base_attrs = { :full => "test@test.com" }
+    end
 
-		describe "relationships" do
-			it { should respond_to(:user) }
+    describe "sanity check" do
+        let(:email) { factory(:email, @base_attrs, nil) }
 
-			context "with correct structure" do
-				let(:email) { factory_email(:user_id, 0) }
-				it { should respond_to(:user_id) }
-				it { should be_valid }
-			end
-		end
+        it { should respond_to(:regex_full) }
+
+        describe "relationships" do
+            it { should respond_to(:user) }
+
+            context "with correct structure" do
+                let(:email) { factory(:email, @base_attrs, :user_id => 0) }
+                it { should respond_to(:user_id) }
+                it { should be_valid }
+            end
+        end
+    end
 
     describe "with invalid attributes: " do
-        context "blank" do
-            context "address" do
-                let(:email) { factory_email(:address, ' ') }
-                it { should_not be_valid }
-            end
+        context "blank full" do
+            let(:email) { factory(:email, @base_attrs, :full => ' ') }
+            it { should_not be_valid }
+        end
 
-            context "domain" do
-                let(:email) { factory_email(:domain, ' ') }
-                it { should_not be_valid }
-            end
-
-            context "root" do
-                let(:email) { factory_email(:root, ' ') }
+        context "invalid email formats" do
+            invalid_addresses =  %w[user@foo,com user_at_foo.org example.user@foo.]
+            invalid_addresses.each do |invalid_address|
+                let (:email) { factory(:email, @base_attrs, :full => invalid_address) }
                 it { should_not be_valid }
             end
         end
+    end
 
-        context "too long" do
-            context "root" do
-                let(:email) { factory_email(:root, 'abcd') }
-                it { should_not be_valid }
+    describe "methods" do
+        describe "regex_full" do
+            context "with standard email" do
+                let(:email) { factory(:email, @base_attrs, :full => "dkm@test.net" ) }
+                it { should be_valid }
+
+                before { email.regex_full }
+
+                it { email.address.should eq("dkm") }
+                it { email.domain.should eq("test") }
+                it { email.root.should eq("net") }
+            end
+
+            context "with complex email" do
+                let (:email) { factory(:email, @base_attrs, :full => "dkm-test.tough@wireless-neighborhoods-now.org.jp") }
+                it { should be_valid }
+
+                before { email.regex_full }
+
+                it { email.address.should eq("dkm-test.tough") }
+                it { email.domain.should eq("wireless-neighborhoods-now.org") }
+                it { email.root.should eq("jp") }
             end
         end
     end

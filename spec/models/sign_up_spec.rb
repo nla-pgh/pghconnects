@@ -13,25 +13,31 @@
 require 'spec_helper'
 
 describe "SignUps" do
-	let(:signup) { factory_signup(nil, nil) }
 	subject { signup }
 
-	it { should respond_to(:attended) }
-	
-	it { should be_valid }
+    before do
+        @base_attrs = { :attended => false }
+    end
 
-	describe "relationships" do
-		it { should respond_to(:event) }
-		context "with corrected structure" do
-			it { should respond_to(:event_id) }
-			it { should respond_to(:user_id) }
-		end
-	end
+    describe "sanity check" do
+        let(:signup) { factory(:sign_up, @base_attrs, nil) }
+        it { should be_valid }
+
+        it { should respond_to(:attended) }
+
+        describe "relationships" do
+            it { should respond_to(:event) }
+            context "with corrected structure" do
+                it { should respond_to(:event_id) }
+                it { should respond_to(:user_id) }
+            end
+        end
+    end
 
 	describe "invalid attributes:" do
 		context "blank" do
 			context "attended" do
-				let(:signup) { factory_signup(:attended, nil) }
+				let(:signup) { factory(:sign_up, @base_attrs, :attended => nil) }
 				it { should_not be_valid }
 			end
 		end

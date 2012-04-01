@@ -13,6 +13,5 @@ module ApplicationHelper
     else
       client_ip
     end
-	end
-
+  end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120330040000) do
+ActiveRecord::Schema.define(:version => 20120331195219) do
 
   create_table "addresses", :force => true do |t|
     t.integer  "number",           :null => false
@@ -39,19 +39,20 @@ ActiveRecord::Schema.define(:version => 20120330040000) do
   end
 
   create_table "emails", :force => true do |t|
-    t.string   "address",    :null => false
-    t.string   "domain",     :null => false
-    t.string   "root",       :null => false
+    t.string   "address"
+    t.string   "domain"
+    t.string   "root"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.integer  "user_id"
+    t.string   "full",       :null => false
   end
 
   create_table "events", :force => true do |t|
     t.string   "name",        :null => false
     t.datetime "start",       :null => false
     t.datetime "end",         :null => false
-    t.text     "description", :null => false
+    t.text     "description"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
@@ -88,12 +89,13 @@ ActiveRecord::Schema.define(:version => 20120330040000) do
   add_index "logins_audits", ["site"], :name => "index_logins_audits_on_site", :unique => true
 
   create_table "phones", :force => true do |t|
-    t.string   "area",       :null => false
-    t.string   "carrier",    :null => false
-    t.string   "line",       :null => false
+    t.string   "area"
+    t.string   "carrier"
+    t.string   "line"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.integer  "user_id"
+    t.string   "full",       :null => false
   end
 
   create_table "sign_ups", :force => true do |t|
@@ -110,19 +112,21 @@ ActiveRecord::Schema.define(:version => 20120330040000) do
     t.string   "phone",      :null => false
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "abbr"
+    t.string   "base_ip"
   end
 
   create_table "users", :force => true do |t|
-    t.string   "first",           :null => false
+    t.string   "first",                            :null => false
     t.string   "middle"
-    t.string   "last",            :null => false
-    t.date     "birth_date",      :null => false
-    t.string   "registered_at",   :null => false
+    t.string   "last",                             :null => false
+    t.date     "birth_date",                       :null => false
+    t.string   "registered_at",                    :null => false
     t.string   "gender"
     t.string   "ethnicity"
-    t.string   "clearance_level", :default => 'U', :null => false
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.string   "clearance_level", :default => "U", :null => false
+    t.datetime "created_at",                       :null => false
+    t.datetime "updated_at",                       :null => false
     t.string   "user_name"
     t.integer  "site_id"
   end
@@ -139,4 +143,5 @@ ActiveRecord::Schema.define(:version => 20120330040000) do
     t.datetime "updated_at",  :null => false
     t.integer  "user_id"
   end
+
 end

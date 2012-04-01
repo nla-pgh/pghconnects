@@ -5,3 +5,15 @@
 #
 #   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
 #   Mayor.create(:name => 'Emanuel', :city => cities.first)
+#
+
+# -- Populate table with CONNECTS Site information.
+# -- checkout config/pghconnects.yml for editing initial sites.
+
+CONNECTS = YAML.load_file("#{Rails.root}/config/pghconnects.yml")
+
+CONNECTS["sites"].each do |site_hash|
+    site = Site.new
+    site.assign_attributes site_hash
+    site.save!
+end

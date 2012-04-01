@@ -18,23 +18,36 @@ require 'spec_helper'
 
 describe "Educations" do
 
-    let(:edu) { factory_edu(nil, nil) }
     subject { edu }
+    
+    before do
+        @base_attrs = {
+            :institution => "Carnegie Mellon University",
+            :focus => "Computer Science",
+            :credential => "Bachelor of Science",
+            :school_id => '',
+            :finish_on => Date.today
+        }
+    end
 
-    it { should respond_to(:education_level) }
-    it { should respond_to(:institution) }
-    it { should respond_to(:focus) }
-    it { should respond_to(:credential) }
-    it { should respond_to(:school_id) }
-    it { should respond_to(:finish_on) }
+    describe "sanity check" do
+        let(:edu) { factory(:education, @base_attrs, nil) }
 
-    describe "relationships" do
-        it { should respond_to(:user) }
+        it { should respond_to(:education_level) }
+        it { should respond_to(:institution) }
+        it { should respond_to(:focus) }
+        it { should respond_to(:credential) }
+        it { should respond_to(:school_id) }
+        it { should respond_to(:finish_on) }
 
-        context "with correct structure" do
-            let(:edu) { factory_edu(:user_id, 0) }
-            it { should respond_to(:user_id) }
-            it { should be_valid }
+        describe "relationships" do
+            it { should respond_to(:user) }
+
+            context "with correct structure" do
+                let(:edu) { factory(:education, @base_attrs, :user_id => 0) }
+                it { should respond_to(:user_id) }
+                it { should be_valid }
+            end
         end
     end
 end

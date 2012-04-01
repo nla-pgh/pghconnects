@@ -19,7 +19,7 @@
     %h1 
       = yield :page_header if :page_header
       %small
-        = yield :page_header_small if :page_header_small
+        = yield :page_header_subtext if :page_header_small
 
   .container
     - flash.each do |type, msg|

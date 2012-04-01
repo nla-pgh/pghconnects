@@ -21,8 +21,11 @@ class UsersController < ApplicationController
 
       @user.update_attributes({:user_name => generate_user_name}, :as => :admin)
       
-      session[:user_id] = params[:id]
-      redirect_to "#{user_url}/addresses/new"
+      # Associate the user to an already, registered site
+      @user.site = Site.find_by_name(params[:registered_at])
+      
+      session[:user] = @user
+      redirect_to new_user_address_path(@user)
     else
       render :new
     end

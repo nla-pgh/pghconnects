@@ -21,57 +21,78 @@ require 'spec_helper'
 
 describe "Users" do
 
-		subject { user }
+    subject { user }
 
-		let (:user) { factory_user(nil, nil) }
+    before do
+        @attrs = {
+            :first => Faker::Name.first_name,
+            :last => Faker::Name.last_name,
+            :birth_date => Date.today,
+            :registered_at => "BGC",
+            :gender => "Female",
+            :ethnicity => "Black",
+            :user_name => Faker::Internet.user_name,
+            :clearance_level => "U"
+        }
+    end
 
-		it { should respond_to(:first) }
-		it { should respond_to(:middle) }
-		it { should respond_to(:last) }
-		it { should respond_to(:birth_date) }
-		it { should respond_to(:registered_at) }
-		it { should respond_to(:gender) }
-		it { should respond_to(:ethnicity) }
-		it { should respond_to(:clearance_level) }
-		it { should respond_to(:user_name) }
+    describe "sanity check" do
+        let (:user) { factory( :user, @attrs, nil ) }
 
-		describe "relationships" do
-			it { should respond_to(:addresses) }
-			it { should respond_to(:phones) }
-			it { should respond_to(:emails) }
-			it { should respond_to(:educations) }
-			it { should respond_to(:work_histories) }
+        it { should respond_to(:first) }
+        it { should respond_to(:middle) }
+        it { should respond_to(:last) }
+        it { should respond_to(:birth_date) }
+        it { should respond_to(:registered_at) }
+        it { should respond_to(:gender) }
+        it { should respond_to(:ethnicity) }
+        it { should respond_to(:clearance_level) }
+        it { should respond_to(:user_name) }
 
-			it { should respond_to(:site) }
+        context "with relationships" do
+            it { should respond_to(:addresses) }
+            it { should respond_to(:phones) }
+            it { should respond_to(:emails) }
+            it { should respond_to(:educations) }
+            it { should respond_to(:work_histories) }
 
-			context "with correct structure" do
-				let(:user) { factory_user(:site_id, 0) }
-				it { should respond_to(:site_id) }
-				it { should be_valid }
-			end
-		end
+            it { should respond_to(:site) }
 
-		describe "have invalid attributes" do
-			subject { user }
+            context "with correct structure" do
+                let(:user) { factory( :user, @attrs, :site_id => 0) }
+                it { should respond_to(:site_id) }
+                it { should be_valid }
+            end
+        end
+    end
 
-			describe "when first name is empty" do
-				let(:user) { factory_user(:first, ' ') }
-				it { should_not be_valid }
-			end	
 
-			describe "when last name is empty" do
-				let (:user) { factory_user(:last, ' ') }
-				it { should_not be_valid }
-			end	
+    describe "have invalid attributes:" do
+        context "blank" do
+            context "first name" do
+                let(:user) { factory( :user, @attrs, :first => ' ') }
+                it { should_not be_valid }
+            end
 
-			describe "when birth date is empty" do
-				let(:user) { factory_user(:birth_date, nil) }
-				it { should_not be_valid }
-			end
+            context "last name" do
+                let (:user) { factory( :user, @attrs, :last => ' ') }
+                it { should_not be_valid }
+            end
 
-			describe "when registered at is empty" do
-				let(:user) { factory_user(:registered_at, ' ') }
-				it { should_not be_valid }
-			end
-		end
+            context "birth date" do
+                let(:user) { factory( :user, @attrs, :birth_date => nil) }
+                it { should_not be_valid }
+            end
+
+            context "registered at" do
+                let(:user) { factory( :user, @attrs, :registered_at => ' ') }
+                it { should_not be_valid }
+            end
+        end	
+
+        context "middle name too long" do
+            let(:user) { factory(:user, @attrs, :middle => "a"*4) }
+            it { should_not be_valid }
+        end
+    end
 end
