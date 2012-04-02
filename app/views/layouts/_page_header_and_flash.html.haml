@@ -1,0 +1,14 @@
+.container
+  .page-header
+    %h1 
+      = yield :page_header if :page_header
+      %small
+        = yield :page_header_subtext if :page_header_small
+
+  .container
+    - flash.each do |type, msg|
+      %div{:class => "alert alert-#{type}"}
+        %a.close{ :data => { :dismiss => "alert" } }x
+        %h4.alert-heading= "#{type.to_s.titlecase}"
+        = msg.html_safe
+

@@ -7,7 +7,6 @@ class ApplicationController < ActionController::Base
 
     def person_error (user)
       flash.now[:error] = " Please fix the errors below to proceed.  
-                        Thank you
-                        #{", <strong>#{user.first}</strong>" if user.first }!"
+                        Thank you#{", <strong>#{user.first}</strong>" if not user.first.blank? }!"
     end
 end

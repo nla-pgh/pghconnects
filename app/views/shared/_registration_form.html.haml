@@ -1,0 +1,86 @@
+.container
+  = simple_form_for @user, :html => { :class => "form-horizontal container" } do |f|
+    - year = Date.today.year
+    .row
+      .span12
+        %h6 CONNECTS Information
+        - # Registration hash for simple form f.input
+        - reg_hash = { :label => "Registration Site", :collection => all_sites, :value_method => Proc.new { |v| v }, :include_blank => false, :selected => ip_to_name }
+        = f.input :registered_at, reg_hash
+    .row
+      .span5
+        %h6 Personal Information
+      .span5.offset1
+        %h6 Address Information
+    .row
+      .span5
+        = f.input :first, :label => 'First Name'
+        = f.input :middle, :label => 'Middle Initial'
+        = f.input :last, :label => 'Last Name'
+        = f.input :birth_date, :start_year => year - 150, :end_year => year - 5
+        = f.input :gender, :collection => all_genders
+        = f.input :ethnicity, :collection => all_ethnicities
+
+      .span5.offset1
+        = simple_fields_for @address do |addr_form|
+          = addr_form.input :number, :label => "House Number"
+          = addr_form.input :street, :label => "Street Name"
+          = addr_form.input :apt_fl, :label => "Apt / Floor Number"
+          = addr_form.input :city, :input_html => { :value => "Pittsburgh" }
+          = addr_form.input :state, :input_html => { :value => "PA" }
+          = addr_form.input :zip
+
+    .row
+      .span12
+        %h6 Household Information
+    .row
+      .span12
+        = simple_fields_for @address do |addr_form|
+          = addr_form.input :household_number, :collection => all_household_numbers[0], :label_method => all_household_numbers[1], :label => "Number of People in Household"
+          = addr_form.input :household_income, :collection => all_household_incomes[0], :label_method => all_household_incomes[1], :label => "Annual Household Income"
+
+    .row
+      .span12
+        %h6 Contact Information
+    .row
+      .span5
+        = simple_fields_for @email do |email_form|
+          = email_form.input :full, :label => "Email", :hint => "john@email.com"
+
+      .span5.offset1
+        = simple_fields_for @phone do |phone_form|
+          = phone_form.input :full, :label => "Phone", :hint => "Format: xxx-xxx-xxxx"
+
+    .row
+      .span12
+        %h6 Occupation Information (Optional)
+    .row
+      = simple_fields_for @work_history do |work_history_form|
+        .span5
+          = work_history_form.input :title
+          = work_history_form.input :start, :start_year => year, :end_year => year + 10
+          = work_history_form.input :end, :start_year => year, :end_year => year + 10
+        .span5.offset1
+          = work_history_form.input :description, :input_html => { :cols => 50, :rows => 6 }
+
+    .row
+      .span12
+        %h6 Education Information (Optional)
+    .row
+      = simple_fields_for @education do |education_form|
+        .span5
+          = education_form.input :education_level, :collection => all_education_levels[0], :label_method => all_education_levels[1]
+          = education_form.input :institution, :label => "Institution Name"
+          = education_form.input :focus, :label => "Main Focus"
+        .span5.offset1
+          = education_form.input :credential
+          = education_form.input :school_id, :label => "School ID"
+          = education_form.input :finish_on, :label => "Completion Date", :start_year => year - 150, :end_year => year + 10
+
+    .row
+      .span12
+        %hr
+      .span2
+        = submit_tag "Clear Form", :class => "btn btn-large span2", :type => "reset"
+      .span8.offset2
+        = submit_tag "Submit Form", :class => "btn btn-large btn-primary span8", :id => "submit"

@@ -3,12 +3,7 @@ Pghconnects::Application.routes.draw do
 
   match "/register" => "users#new"
 
-  resources :users do
-      resources :addresses
-      resources :phones
-      resources :emails
-      resources :work_histories
-  end
+  resources :users
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

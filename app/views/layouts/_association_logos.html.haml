@@ -1,0 +1,33 @@
+.container#associations
+  .page-header
+    %h1
+      %small Funder:
+  .row
+    .span12
+      %ul.thumbnails
+        %li
+          .span7
+            = link_to "http://www2.ntia.doc.gov/" do
+              = image_tag "btop.png", :alt => "Broadband USA"
+        %li
+          .span4
+            = link_to "http://pittsburghfoundation.org/" do
+              = image_tag "pgh_foundation.png", :alt => "Pittsburgh Foundation"
+  .page-header
+    %h1
+      %small Partnerships:
+  .row
+    .span12
+      %ul.thumbnails
+        %li
+          .span3
+            = link_to "http://www.ymcaofpittsburgh.org/" do
+              = image_tag "ymca.png", :alt => "YMCA of Greater Pittsburgh"
+        %li
+          .span5
+            = link_to "http://bloomfield-garfield.org/" do
+              = image_tag "bgc_hq.png", :alt => "Bloomfield Garfield Corporation"
+        %li
+          .span3
+            = link_to "http://www.hillhouse.org/home.html" do
+              = image_tag "hh.png", :alt => "Hill House Association"

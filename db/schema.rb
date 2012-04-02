@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120331195220) do
+ActiveRecord::Schema.define(:version => 20120331195221) do
 
   create_table "addresses", :force => true do |t|
     t.integer  "number",           :null => false
@@ -27,8 +27,8 @@ ActiveRecord::Schema.define(:version => 20120331195220) do
   end
 
   create_table "educations", :force => true do |t|
-    t.text     "institution"
-    t.text     "focus"
+    t.string     "institution"
+    t.string     "focus"
     t.string   "credential"
     t.string   "school_id"
     t.date     "finish_on"

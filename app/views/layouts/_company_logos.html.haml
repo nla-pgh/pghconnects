@@ -1,0 +1,15 @@
+.container#company
+  .row
+    .span12
+      .hero-unit
+        %ul.thumbnails
+          %li.span7
+            .thumbnail
+              =link_to root_path do
+                =image_tag "pgh_cnx.png", :alt => "Pittsburgh CONNECTS Centers"
+              %h6 Free, Public Computer Center for Greater Pittsburgh Area
+          %li.span3
+            .thumbnail
+              %h6 A Project Of
+              =link_to "http://neighborhoodlearning.org" do
+                =image_tag "nla_logo.png", :alt => "Neighborhood Learning Alliance"

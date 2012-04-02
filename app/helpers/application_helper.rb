@@ -65,4 +65,14 @@ module ApplicationHelper
 
       [arr, label]
   end
+
+	def all_education_levels
+		arr = CONNECTS["form"]["education_levels"]
+
+		label = Proc.new do |v|
+			v
+		end
+
+		[arr, label]
+	end
 end
