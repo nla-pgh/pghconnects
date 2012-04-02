@@ -18,7 +18,7 @@
 #
 
 class User < ActiveRecord::Base
-	attr_accessible :first, :middle, :last, :birth_date, :registered_at, :gender, :ethnicity, :user_name, :clearance_level, :as => :admin
+	attr_accessible :first, :middle, :last, :birth_date, :registered_at, :gender, :ethnicity, :user_name, :clearance_level, :site_id, :as => :admin
 
     attr_accessible :first, :middle, :last, :birth_date, :registered_at, :gender, :ethnicity
 
@@ -37,4 +37,5 @@ class User < ActiveRecord::Base
 	has_many :work_histories, :dependent => :destroy
 	has_many :sign_ups, :group => :event_id, :order => :site_id, :dependent => :destroy
 	has_many :events, :through => :sign_ups, :group => :site_id, :dependent => :destroy
+
 end

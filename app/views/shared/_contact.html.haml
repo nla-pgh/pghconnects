@@ -1,0 +1,6 @@
+= simple_fields_for :emails do |email_form|
+  %h6 Contact Information
+  = email_form.input :full, :label => "Email", :hint => "john@email.com"
+
+= simple_fields_for :phones do |phone_form|
+  = phone_form.input :full, :label => "Phone", :hint => "Format: xxx-xxx-xxxx"

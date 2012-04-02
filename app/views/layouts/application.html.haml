@@ -13,4 +13,8 @@
     = render "layouts/footer"
   - if Rails.env.development?
     .container
-      = debug @user
+      .row
+        .span6
+          = debug @user
+        .span6
+          = debug params

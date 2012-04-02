@@ -1,10 +1,13 @@
 Pghconnects::Application.routes.draw do
   root :to => 'pages#index'
 
+  match "/register" => "users#new"
+
   resources :users do
       resources :addresses
       resources :phones
       resources :emails
+      resources :work_histories
   end
 
   # The priority is based upon order of creation:

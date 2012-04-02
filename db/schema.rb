@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120331195219) do
+ActiveRecord::Schema.define(:version => 20120331195220) do
 
   create_table "addresses", :force => true do |t|
     t.integer  "number",           :null => false
@@ -22,8 +22,8 @@ ActiveRecord::Schema.define(:version => 20120331195219) do
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
     t.integer  "user_id"
-    t.integer  "household_number", :null => false
-    t.float    "household_income", :null => false
+    t.integer  "household_number"
+    t.float    "household_income"
   end
 
   create_table "educations", :force => true do |t|

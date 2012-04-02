@@ -1,0 +1,12 @@
+= simple_fields_for :addresses do |addr_form|
+    %h6 Resident Location
+    = addr_form.input :number, :label => "House Number"
+    = addr_form.input :street, :label => "Street Name"
+    = addr_form.input :apt_fl, :label => "Apt / Floor Number"
+    = addr_form.input :city, :input_html => { :value => "Pittsburgh" }
+    = addr_form.input :state, :input_html => { :value => "PA" }
+    = addr_form.input :zip
+
+    %h6 Resident Household
+    = addr_form.input :household_number, :collection => all_household_numbers[0], :label_method => all_household_numbers[1], :label => "Number of People in Household"
+    = addr_form.input :household_income, :collection => all_household_incomes[0], :label_method => all_household_incomes[1], :label => "Annual Household Income"

@@ -1,8 +1,9 @@
 - render "shared/title"
 
 .container
+  %h6 Resident Location
   = simple_form_for [@user, @addr], :html => { :class => "form-horizontal" } do |f|
-    %h6 Resident Location
+    = submit_tag "Next Step", :class => "btn btn-large btn-primary pull-right"
     = f.input :number, :label => "House Number"
     = f.input :street, :label => "Street Name"
     = f.input :apt_fl, :label => "Apt / Floor Number"
@@ -11,7 +12,5 @@
     = f.input :zip
 
     %h6 Resident Household
-    = f.input :household_number, :label => "Number of People in Household"
-    = f.input :household_income, :label => "Annual Household Income"
-
-    = submit_tag "Next Step", :class => "btn btn-large btn-primary"
+    = f.input :household_number, :collection => all_household_numbers[0], :label_method => all_household_numbers[1], :label => "Number of People in Household"
+    = f.input :household_income, :collection => all_household_incomes[0], :label_method => all_household_incomes[1], :label => "Annual Household Income"

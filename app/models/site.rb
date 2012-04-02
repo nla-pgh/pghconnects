@@ -13,6 +13,7 @@
 #
 
 class Site < ActiveRecord::Base
+    attr_accessible :name, :address, :phone, :abbr, :base_ip, :as => :admin
     attr_accessible :name, :address, :phone, :abbr, :base_ip
 
 	validates :name, :presence => true

@@ -30,5 +30,39 @@ module ApplicationHelper
       names
   end
 
+  def all_genders
+      CONNECTS["form"]["gender"].sort
+  end
 
+  def all_ethnicities
+      CONNECTS["form"]["ethnicity"].sort
+  end
+
+  def all_household_numbers
+      arr = CONNECTS["form"]["household_numbers"]
+      
+      label = Proc.new do |num|
+         if num.nonzero?
+             num.to_s 
+         else
+             "More than #{arr.max}"
+         end
+      end
+
+      [arr, label]
+  end
+
+  def all_household_incomes
+      arr = CONNECTS["form"]["household_incomes"]
+      
+      label = Proc.new do |num|
+          if num.nonzero?
+              number_to_currency(num)
+          else
+              "More than #{number_to_currency(arr.max)}"
+          end
+      end
+
+      [arr, label]
+  end
 end

@@ -1,0 +1,6 @@
+= simple_fields_for :work_histories do |work_history_form|
+    %h6 Occupations Information (Optional)
+    = work_history_form.input :title, :label => "Work Title"
+    = work_history_form.input :description
+    = work_history_form.input :start, :label => "Start Date"
+    = work_history_form.input :end, :label => "End Date"

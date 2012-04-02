@@ -11,6 +11,7 @@
 #
 
 class SignUp < ActiveRecord::Base
+    attr_accessible :attended, :as => :admin
     attr_accessible :attended
 
 	validates :attended, :inclusion => { :in => [false, true] }

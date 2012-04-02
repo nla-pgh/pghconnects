@@ -15,7 +15,7 @@
 class Email < ActiveRecord::Base
     VALID_EMAIL_REGEX = /\A([\w+\-.]+)@([a-z\d\-.]+)\.([a-z]+)\z/i
 
-    attr_accessible :address, :domain, :root, :as => :admin
+    attr_accessible :address, :domain, :root, :full, :as => :admin
     attr_accessible :full
 
     validates :full, :presence => true, :format => { :with => VALID_EMAIL_REGEX, :message => "should be formatted as joe@email.com" }

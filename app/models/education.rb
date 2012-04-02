@@ -15,6 +15,8 @@
 #
 
 class Education < ActiveRecord::Base
+    attr_accessible :institution, :focus, :credential, :school_id, :finish_on, :education_level, :as => :admin
+
     attr_accessible :institution, :focus, :credential, :school_id, :finish_on, :education_level
 
     belongs_to :user

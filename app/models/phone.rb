@@ -14,7 +14,7 @@
 
 class Phone < ActiveRecord::Base
     VALID_PHONE_REGEX = /\A(\d{3})-?(\d{3})-?(\d{4})\z/
-    attr_accessible :area, :carrier, :line, :as => :admin
+    attr_accessible :area, :carrier, :line, :full, :as => :admin
     attr_accessible :full
 
     validates :full, :presence => true, :format => { :with => VALID_PHONE_REGEX, :message => "should be formatted as 123-123-1234" }

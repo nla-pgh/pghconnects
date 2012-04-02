@@ -23,3 +23,42 @@ sites:
     !ruby/sym base_ip: '10.128'
     !ruby/sym address: HH
     !ruby/sym phone: 123-456-7890
+
+form:
+  gender:
+    Male: M
+    Female: F
+    Other: O
+  ethnicity:
+    Black: B
+    White: W
+    Native American: NA
+    Asian / Pacific Islanders: API
+    Hispanic: H
+    Bi-Racial: BR
+    Other: O
+  household_numbers:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 0
+  household_incomes:
+    - 11000
+    - 15000
+    - 18000
+    - 22000
+    - 26000
+    - 30000
+    - 33000
+    - 37000
+    - 0
+  education_levels:
+    - No High School Diploma
+    - High School Graduate
+    - GED
+    - Some College
+    - College Graduate
+    - Technical School Graduate

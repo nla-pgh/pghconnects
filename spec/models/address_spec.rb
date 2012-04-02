@@ -98,17 +98,6 @@ describe "Addresses" do
 				let (:address) { factory(:address, @base_attrs, :zip => ' ') }
 				it { should_not be_valid }
             end
-
-            # Household number
-            context "household number" do
-                let(:address) { factory(:address, @base_attrs, :household_number => nil) }
-                it { should_not be_valid }
-            end
-
-            context "household income" do
-                let(:address) { factory(:address, @base_attrs, :household_income => nil) }
-                it { should_not be_valid }
-            end
 		end
 
         context "length is invalid for" do
@@ -162,7 +151,7 @@ describe "Addresses" do
             end
 
             context "household number - 0" do
-                let(:address) { factory(:address, @base_attrs, :household_number => 0) }
+                let(:address) { factory(:address, @base_attrs, :household_number => -1) }
                 it { should_not be_valid }
             end
 
