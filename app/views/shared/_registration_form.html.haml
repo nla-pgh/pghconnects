@@ -10,7 +10,7 @@
     .row
       .span5
         %h6 Personal Information
-      .span5.offset1
+      .span5.offset2
         %h6 Address Information
     .row
       .span5
@@ -21,7 +21,7 @@
         = f.input :gender, :collection => all_genders
         = f.input :ethnicity, :collection => all_ethnicities
 
-      .span5.offset1
+      .span5.offset2
         = simple_fields_for @address do |addr_form|
           = addr_form.input :number, :label => "House Number"
           = addr_form.input :street, :label => "Street Name"
@@ -45,11 +45,11 @@
     .row
       .span5
         = simple_fields_for @email do |email_form|
-          = email_form.input :full, :label => "Email", :hint => "john@email.com"
+          = email_form.input :full, :label => "Email", :hint => "e.g. john@email.com"
 
-      .span5.offset1
+      .span5.offset2
         = simple_fields_for @phone do |phone_form|
-          = phone_form.input :full, :label => "Phone", :hint => "Format: xxx-xxx-xxxx"
+          = phone_form.input :full, :label => "Phone", :hint => "e.g. 412-123-4567"
 
     .row
       .span12
@@ -57,10 +57,10 @@
     .row
       = simple_fields_for @work_history do |work_history_form|
         .span5
-          = work_history_form.input :title
-          = work_history_form.input :start, :start_year => year, :end_year => year + 10
-          = work_history_form.input :end, :start_year => year, :end_year => year + 10
-        .span5.offset1
+          = work_history_form.input :title, :label => "Occupation Title"
+          = work_history_form.input :start, :start_year => year - 150, :end_year => year + 10, :label => "Start Date", :include_blank => true
+          = work_history_form.input :end, :start_year => year - 150, :end_year => year + 10, :label => "End Date", :include_blank => true
+        .span5.offset2
           = work_history_form.input :description, :input_html => { :cols => 50, :rows => 6 }
 
     .row
@@ -72,15 +72,15 @@
           = education_form.input :education_level, :collection => all_education_levels[0], :label_method => all_education_levels[1]
           = education_form.input :institution, :label => "Institution Name"
           = education_form.input :focus, :label => "Main Focus"
-        .span5.offset1
+        .span5.offset2
           = education_form.input :credential
           = education_form.input :school_id, :label => "School ID"
-          = education_form.input :finish_on, :label => "Completion Date", :start_year => year - 150, :end_year => year + 10
+          = education_form.input :finish_on, :label => "Completion Date", :start_year => year - 150, :end_year => year + 10, :include_blank => true
 
     .row
       .span12
         %hr
-      .span2
+      .span2.offset1
         = submit_tag "Clear Form", :class => "btn btn-large span2", :type => "reset"
-      .span8.offset2
-        = submit_tag "Submit Form", :class => "btn btn-large btn-primary span8", :id => "submit"
+      .span6.offset3
+        = submit_tag "Submit Form", :class => "btn btn-large btn-primary span6", :id => "submit"

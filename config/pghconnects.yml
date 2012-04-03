@@ -57,7 +57,9 @@ form:
     - 0
   education_levels:
     - No High School Diploma
-    - High School Graduate / G
+    - High School Graduate
+    - GED
     - Some College
     - College Graduate
     - Technical School Graduate
+    - Post-College Graduate
