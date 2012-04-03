@@ -3,6 +3,16 @@ class UsersController < ApplicationController
   end
 
   def show
+    @user = User.find(params[:id])
+    @address = @user.addresses.last
+    @email = @user.emails.last
+    @phone = @user.phones.last
+    
+    wh = @user.work_histories.last
+    @work_history = wh ? wh : @user.work_histories.new
+
+    edu = @user.educations.last
+    @education = edu ? edu : @user.educations.new
   end
 
   def new
