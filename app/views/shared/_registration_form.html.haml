@@ -55,6 +55,15 @@
 
     .row
       .span12
+        %h6 Login Password
+      .span5
+        = f.input :password, :wrapper_html => { :class => "label label-important" }
+      .span5.offset2
+        = f.input :password_confirmation, :label => "Password again", :wrapper_html => { :class => "label label-important" }
+
+    - #-----------OPTIONAL INFORMATION--------------#
+    .row
+      .span12
         %h1.page-header
           %small Optional Information
 

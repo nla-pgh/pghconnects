@@ -5,8 +5,8 @@ class ApplicationController < ActionController::Base
 		flash.now[:info] = "Please fill in the fields below. Those marked with * are <strong>required</strong>!"
 	end
 
-    def person_error (user)
-      flash.now[:error] = " Please fix the errors below to proceed.  
-                        Thank you#{", <strong>#{user.first}</strong>" if not user.first.blank? }!"
-    end
+	def person_error (user)
+		flash.now[:error] = " Please fix the errors below to proceed.  
+											Thank you#{", <strong>#{user.first}</strong>" if not user.first.blank? }!"
+	end
 end

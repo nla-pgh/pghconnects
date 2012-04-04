@@ -32,6 +32,8 @@ class User < ActiveRecord::Base
 	validates :birth_date, :presence => true
 	validates :registered_at, :presence => true
 	validates :user_name, :uniqueness => { :allow_nil => true, :allow_blank => true }
+	validates :password, :presence => true
+	validates :password_confirmation, :presence => true
 
 	belongs_to :site
 	has_many :addresses, :dependent => :destroy
@@ -53,7 +55,7 @@ class User < ActiveRecord::Base
 
     def generate_user_name
       size = User.count(:user_name, :conditions => "user_name LIKE '#{base_user_name}%'")
-      user_name = "#{base_user_name}#{size}"
+      self.user_name = "#{base_user_name}#{size}"
     end
 
 		def expand_clearance

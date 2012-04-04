@@ -39,8 +39,6 @@ class UsersController < ApplicationController
     if @user.save
       flash[:success] = "Thank you, <strong>#{@user.first}</strong> for registering with Pittsburgh CONNECTS! To receive your login information, please fill in the remaining forms."
 
-      @user.update_attributes({:user_name => generate_user_name}, :as => :admin)
-
       # Associate the user to an ALREADY, REGISTERED site
       @user.update_attribute(:site_id, Site.find_by_name(params[:user][:registered_at]))
 
@@ -48,9 +46,9 @@ class UsersController < ApplicationController
 			@user.work_histories << @work_history if build_optionals(@work_history)
 			@user.educations << @education if build_optionals(@education)
 
-			session[:user] = @user
+			session[:user] = @user.id
 
-      redirect_to registered_path
+      redirect_to user_path(@user)
     else
 			person_error @user
 			render :new

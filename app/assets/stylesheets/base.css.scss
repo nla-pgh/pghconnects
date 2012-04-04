@@ -229,4 +229,11 @@ select.date {
 img {
   width: 100%;
 }
+
+form {
+	.label {
+		label { color: $white; }
+		background: $nlaRed;
+	}
+}
 @import "bootstrap-responsive";

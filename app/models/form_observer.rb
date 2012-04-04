@@ -3,13 +3,14 @@ class FormObserver < ActiveRecord::Observer
 					:education, :site, :phone
 
 	def before_validation(model)
-		strip_whitespaces(model)
+		formalize_strings(model)
 	end
 
 	private
-		def strip_whitespaces(model)
+		# Strip whitespaces, squeeze white spaces and '-', and upcase all characters
+		def formalize_strings(model)
 			model.attributes.each do |attribute, value|
-				model[attribute] = value.strip if value.respond_to?(:strip)
+				model[attribute] = value.strip.squeeze(' ').squeeze('-').upcase if value.acts_like?(:string)
 			end
 		end
 end
