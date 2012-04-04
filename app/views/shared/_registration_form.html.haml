@@ -43,21 +43,6 @@
 
     .row
       .span12
-        %h6 Household Information
-    .row
-      .span12
-        = simple_fields_for @address do |addr_form|
-          = addr_form.input :household_number,
-            :collection => household_numbers[:list], 
-            :label_method => household_numbers[:label],
-            :label => "Number of People in Household"
-          = addr_form.input :household_income,
-            :collection => household_incomes[:list],
-            :label_method => household_incomes[:label], 
-            :label => "Annual Household Income"
-
-    .row
-      .span12
         %h6 Contact Information
     .row
       .span5
@@ -67,6 +52,27 @@
       .span5.offset2
         = simple_fields_for @phone do |phone_form|
           = phone_form.input :full, :label => "Phone", :hint => "e.g. 412-123-4567"
+
+    .row
+      .span12
+        %h1.page-header
+          %small Optional Information
+
+    .row
+      .span12
+        %h6 Household Information (Optional)
+    .row
+      = simple_fields_for @address do |addr_form|
+        .span5
+          = addr_form.input :household_number,
+            :collection => household_numbers[:list], 
+            :label_method => household_numbers[:label],
+            :label => "Number of People in Household"
+        .span5.offset2
+          = addr_form.input :household_income,
+            :collection => household_incomes[:list],
+            :label_method => household_incomes[:label], 
+            :label => "Annual Household Income"
 
     .row
       .span12
