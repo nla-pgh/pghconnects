@@ -25,12 +25,15 @@ describe "Phones" do
     describe "sanity check" do
         let (:phone) { factory( :phone, @base_attrs, nil ) }
 
+				before { phone.save! }
         it { should respond_to(:area) }
         it { should respond_to(:carrier) }
         it { should respond_to(:line) }
         it { should respond_to(:full) }
 
-        it { should respond_to(:regex_full) }
+				it { phone.area == "123" }
+				it { phone.carrier == "456" }
+				it { phone.line == "7890" }
 
         describe "relationships" do
             it { should respond_to(:user) }

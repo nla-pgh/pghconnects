@@ -32,7 +32,7 @@ describe "Users" do
             :gender => "Female",
             :ethnicity => "Black",
             :user_name => Faker::Internet.user_name,
-            :clearance_level => "U"
+            :clearance_level => "U",
         }
     end
 
@@ -48,6 +48,10 @@ describe "Users" do
         it { should respond_to(:ethnicity) }
         it { should respond_to(:clearance_level) }
         it { should respond_to(:user_name) }
+				it { should respond_to(:password_digest) }
+				it { should respond_to(:password) }
+				it { should respond_to(:password_confirmation) }
+				it { should respond_to(:authenticate) }
 
         context "with relationships" do
             it { should respond_to(:addresses) }
@@ -60,6 +64,9 @@ describe "Users" do
 
             context "with correct structure" do
                 let(:user) { factory( :user, @attrs, :site_id => 0) }
+
+								before { user.password = user.password_confirmation = 'password' }
+
                 it { should respond_to(:site_id) }
                 it { should be_valid }
             end
@@ -88,11 +95,55 @@ describe "Users" do
                 let(:user) { factory( :user, @attrs, :registered_at => ' ') }
                 it { should_not be_valid }
             end
+
+						context "password" do
+							let(:user) { factory( :user, @attrs, nil) }
+							before { user.password = user.password_confirmation = ' ' }
+							it { should_not be_valid }
+						end
+
+						context "password_confirmation" do
+							let(:user) { factory( :user, @attrs, nil) }
+							before { user.password = user.password_confirmation = nil }
+							it { should_not be_valid }
+						end
         end	
 
         context "middle name too long" do
             let(:user) { factory(:user, @attrs, :middle => "a"*4) }
             it { should_not be_valid }
         end
+
+				context "password and password confirmation differs" do
+					let(:user) { factory( :user, @attrs, nil) }
+					before do
+						user.password = "password"
+						user.password_confirmation = "invalid"
+					end
+
+					it { should_not be_valid }
+				end
     end
+
+		describe "return value of authenticate method" do
+			let (:user) { factory( :user, @attrs, nil ) }
+			
+			before do 
+				user.password = user.password_confirmation = "password"
+				user.save!
+			end
+
+			let (:user_found) { User.find_by_user_name(user.user_name) }
+
+			describe "with valid password" do
+				it { should == user_found.authenticate(user.password) }
+			end
+
+			describe "with invalid password" do
+				let (:user_invalid_password) { user_found.authenticate("invalid") }
+
+				it { should_not == user_invalid_password }
+				specify { user_invalid_password.should be_false }
+			end
+	 end
 end

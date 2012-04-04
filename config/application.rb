@@ -66,5 +66,8 @@ module Pghconnects
     config.generators do |g|
       g.test_framework :rspec
     end
+
+		# Add model observers
+		config.active_record.observers = :form_observer
   end
 end

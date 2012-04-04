@@ -1,5 +1,8 @@
 module ApplicationHelper
   IP_REGEX = /\A(\d*\.\d*)/
+	def admin?
+		false
+	end
 
   def offsite?
       Site.all.each do |site|
@@ -20,59 +23,67 @@ module ApplicationHelper
     match
   end
 
-  def all_sites
-      names = []
-
-      Site.all(:order => "name").each do |site|
-          names << site.name
-      end
-
-      names
+  def sites
+      Site.all(:order => "name")
   end
 
-  def all_genders
-      CONNECTS["form"]["gender"].sort
+  def genders
+  	{ :list => CONNECTS["form"]["gender"].sort }
   end
 
-  def all_ethnicities
-      CONNECTS["form"]["ethnicity"].sort
+  def ethnicities
+		{ :list => CONNECTS["form"]["ethnicity"].sort }
   end
 
-  def all_household_numbers
-      arr = CONNECTS["form"]["household_numbers"]
+  def household_numbers
+      list = CONNECTS["form"]["household_numbers"]
       
       label = Proc.new do |num|
          if num.nonzero?
              num.to_s 
          else
-             "More than #{arr.max}"
+             "More than #{list.max}"
          end
       end
 
-      [arr, label]
+			{ :list => list, :label => label}
   end
 
-  def all_household_incomes
-      arr = CONNECTS["form"]["household_incomes"]
+  def household_incomes
+      list = CONNECTS["form"]["household_incomes"]
       
       label = Proc.new do |num|
           if num.nonzero?
               number_to_currency(num)
           else
-              "More than #{number_to_currency(arr.max)}"
+              "More than #{number_to_currency(list.max)}"
           end
       end
 
-      [arr, label]
+			{ :list => list, :label => label }
   end
 
-	def all_education_levels
-		arr = CONNECTS["form"]["education_levels"]
+	def education_levels
+		list = CONNECTS["form"]["education_levels"]
 
 		label = Proc.new do |v|
 			v
 		end
 
-		[arr, label]
+		{ :list => list, :label => label }
+	end
+
+	def clearance_levels
+		list = CONNECTS["form"]["clearance_levels"].sort
+
+		label = Proc.new do |v|
+			v
+		end
+
+		value = Proc.new do |v|
+			v[0,1]
+		end
+
+		{ :list => list, :label => label, :value => value }
 	end
 end

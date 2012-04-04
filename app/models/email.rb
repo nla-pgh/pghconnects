@@ -24,9 +24,14 @@ class Email < ActiveRecord::Base
 
     belongs_to :user
 
-    def regex_full
-        match = VALID_EMAIL_REGEX.match(full)
 
-        update_attributes({ :address => match[1], :domain => match[2], :root => match[3] }, :as => :admin)
-    end
+
+		before_create :regex_full
+
+		private 
+			def regex_full
+					match = VALID_EMAIL_REGEX.match(full)
+
+					assign_attributes({ :address => match[1], :domain => match[2], :root => match[3] }, :as => :admin)
+			end
 end

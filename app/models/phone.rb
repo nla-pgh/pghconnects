@@ -25,9 +25,13 @@ class Phone < ActiveRecord::Base
 
 	belongs_to :user
 
-    def regex_full
-        match = VALID_PHONE_REGEX.match(full)
+	before_create :regex_full
 
-        update_attributes({:area => match[1], :carrier => match[2], :line => match[3] }, :as => :admin)
-    end
+	private
+
+		def regex_full
+				match = VALID_PHONE_REGEX.match(full)
+
+				assign_attributes({:area => match[1], :carrier => match[2], :line => match[3] }, :as => :admin)
+		end
 end

@@ -25,7 +25,10 @@ describe "Emails" do
     describe "sanity check" do
         let(:email) { factory(:email, @base_attrs, nil) }
 
-        it { should respond_to(:regex_full) }
+				before { email.save! }
+				it { email.address.should == "test" }
+				it { email.domain.should == "test" }
+				it { email.root.should == "com" }
 
         describe "relationships" do
             it { should respond_to(:user) }
@@ -49,32 +52,6 @@ describe "Emails" do
             invalid_addresses.each do |invalid_address|
                 let (:email) { factory(:email, @base_attrs, :full => invalid_address) }
                 it { should_not be_valid }
-            end
-        end
-    end
-
-    describe "methods" do
-        describe "regex_full" do
-            context "with standard email" do
-                let(:email) { factory(:email, @base_attrs, :full => "dkm@test.net" ) }
-                it { should be_valid }
-
-                before { email.regex_full }
-
-                it { email.address.should eq("dkm") }
-                it { email.domain.should eq("test") }
-                it { email.root.should eq("net") }
-            end
-
-            context "with complex email" do
-                let (:email) { factory(:email, @base_attrs, :full => "dkm-test.tough@wireless-neighborhoods-now.org.jp") }
-                it { should be_valid }
-
-                before { email.regex_full }
-
-                it { email.address.should eq("dkm-test.tough") }
-                it { email.domain.should eq("wireless-neighborhoods-now.org") }
-                it { email.root.should eq("jp") }
             end
         end
     end

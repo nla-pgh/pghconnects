@@ -63,3 +63,7 @@ form:
     - College Graduate
     - Technical School Graduate
     - Post-College Graduate
+  clearance_levels:
+    - User
+    - Coordinator
+    - Manager

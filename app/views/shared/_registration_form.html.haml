@@ -4,9 +4,20 @@
     .row
       .span12
         %h6 CONNECTS Information
+    .row
+      .span5
         - # Registration hash for simple form f.input
-        - reg_hash = { :label => "Registration Site", :collection => all_sites, :value_method => Proc.new { |v| v }, :include_blank => false, :selected => ip_to_name }
+        - reg_hash = { :label => "Registration Site", :collection => sites, :value_method => Proc.new { |v| v }, :include_blank => false, :selected => ip_to_name }
         = f.input :registered_at, reg_hash
+
+      - reg_hash = { :collection => clearance_levels[:list], :label => "Clearance", :value_method => clearance_levels[:value], :label_method => clearance_levels[:label], :include_blank => false, :selected => @user.clearance_level }
+      - if admin?
+        .span5.offset2
+          = f.input :clearance_level, reg_hash
+      - else
+        .span5.offset2
+          = f.input :clearance_level, reg_hash.merge(:disabled => true)
+
     .row
       .span5
         %h6 Personal Information
@@ -18,8 +29,8 @@
         = f.input :middle, :label => 'Middle Initial'
         = f.input :last, :label => 'Last Name'
         = f.input :birth_date, :start_year => year - 150, :end_year => year - 5
-        = f.input :gender, :collection => all_genders
-        = f.input :ethnicity, :collection => all_ethnicities
+        = f.input :gender, :collection => genders[:list]
+        = f.input :ethnicity, :collection => ethnicities[:list]
 
       .span5.offset2
         = simple_fields_for @address do |addr_form|
@@ -36,8 +47,14 @@
     .row
       .span12
         = simple_fields_for @address do |addr_form|
-          = addr_form.input :household_number, :collection => all_household_numbers[0], :label_method => all_household_numbers[1], :label => "Number of People in Household"
-          = addr_form.input :household_income, :collection => all_household_incomes[0], :label_method => all_household_incomes[1], :label => "Annual Household Income"
+          = addr_form.input :household_number,
+            :collection => household_numbers[:list], 
+            :label_method => household_numbers[:label],
+            :label => "Number of People in Household"
+          = addr_form.input :household_income,
+            :collection => household_incomes[:list],
+            :label_method => household_incomes[:label], 
+            :label => "Annual Household Income"
 
     .row
       .span12
@@ -58,10 +75,15 @@
       = simple_fields_for @work_history do |work_history_form|
         .span5
           = work_history_form.input :title, :label => "Occupation Title"
-          = work_history_form.input :start, :start_year => year - 150, :end_year => year + 10, :label => "Start Date", :include_blank => true
-          = work_history_form.input :end, :start_year => year - 150, :end_year => year + 10, :label => "End Date", :include_blank => true
+          = work_history_form.input :start, 
+            :start_year => year - 150, :end_year => year + 10, 
+            :label => "Start Date", :include_blank => true
+          = work_history_form.input :end, 
+            :start_year => year - 150, :end_year => year + 10, 
+            :label => "End Date", :include_blank => true
         .span5.offset2
-          = work_history_form.input :description, :input_html => { :cols => 50, :rows => 6 }
+          = work_history_form.input :description, 
+            :input_html => { :cols => 50, :rows => 6 }
 
     .row
       .span12
@@ -69,13 +91,18 @@
     .row
       = simple_fields_for @education do |education_form|
         .span5
-          = education_form.input :education_level, :collection => all_education_levels[0], :label_method => all_education_levels[1]
+          = education_form.input :education_level, 
+            :collection => education_levels[:list], 
+            :label_method => education_levels[:label]
           = education_form.input :institution, :label => "Institution Name"
           = education_form.input :focus, :label => "Main Focus"
         .span5.offset2
           = education_form.input :credential
           = education_form.input :school_id, :label => "School ID"
-          = education_form.input :finish_on, :label => "Completion Date", :start_year => year - 150, :end_year => year + 10, :include_blank => true
+          = education_form.input :finish_on, 
+            :label => "Completion Date", 
+            :start_year => year - 150, :end_year => year + 10, 
+            :include_blank => true
 
     .row
       .span12
