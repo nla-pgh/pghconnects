@@ -69,5 +69,6 @@ module Pghconnects
 
 		# Add model observers
 		config.active_record.observers = :form_observer
+		config.encryptor = :bcrypt
   end
 end
