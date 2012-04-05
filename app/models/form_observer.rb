@@ -10,7 +10,9 @@ class FormObserver < ActiveRecord::Observer
 		# Strip whitespaces, squeeze white spaces and '-', and upcase all characters
 		def formalize_strings(model)
 			model.attributes.each do |attribute, value|
-				model[attribute] = value.strip.squeeze(' ').squeeze('-').upcase if value.acts_like?(:string)
+        unless(attribute == "password_digest")
+          model[attribute] = value.strip.squeeze(' ').squeeze('-').upcase if value.acts_like?(:string)
+        end
 			end
 		end
 end
