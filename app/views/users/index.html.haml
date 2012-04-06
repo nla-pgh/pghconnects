@@ -2,34 +2,29 @@
 - provide :page_header, "All Users"
 - provide :page_header_subtext, "Based on your site location"
 = render "layouts/page_header_and_flash"
+- site_users(@user)
 
 .container
-  .row
-    .span8
-      %table.table.table-striped
-        %thead
-          %tr
-            %th User ID
-            %th Last Name
-            %th First Name
-            %th Registration Date
-            %th Actions
-        %tbody
-          - site_users(@user)
-          - @users.each do |user|
-            %tr
-              %td= user.user_name
-              %td= user.last
-              %td= user.first
-              %td= user.created_at.to_date
-              %td
-                .btn-group
-                  .btn.btn-mini= link_to "Edit", edit_user_path(user)
-                  .btn.btn-mini= link_to "View", user_path(user)
-    .span4
-      = render 'shared/filter'
-  .row
-    .span3
-      = page_entries_info @users
-    .span5
-      = will_paginate @users
+  %table.table.table-striped.table-bordered#users_table
+    %thead
+      %tr
+        - ["User ID", "Last Name", "First Name", "Registration Date"].each do |header|
+          %th
+            = header
+            .pull-right
+              %i.icon-white.icon-chevron-up
+              %i.icon-white.icon-chevron-down
+        %th{:filter => "false"}
+          Remove Sorting
+    %tbody
+      - @users.each do |user|
+        %tr
+          %td= user.user_name
+          %td= user.last
+          %td= user.first
+          %td= user.created_at.to_date
+          %td
+            .btn-group
+              .btn.btn-mini.btn-inverse= link_to "Edit", edit_user_path(user)
+              .btn.btn-mini.btn-primary= link_to "View", user_path(user)
+              .btn.btn-mini.btn-danger= link_to "Disable", "#"

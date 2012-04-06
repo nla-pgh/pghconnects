@@ -89,7 +89,7 @@ module ApplicationHelper
 
 	def site_users(user)
 		if user
-			@users = User.paginate(:page => params[:page], :per_page => 10).find_all_by_registered_at(user.registered_at, :order => "user_name")
+			@users = User.find_all_by_registered_at(user.registered_at, :order => "last")
 		else
 			@users = []
 		end

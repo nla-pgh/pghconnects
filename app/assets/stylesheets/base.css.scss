@@ -241,5 +241,39 @@ form {
 	th, td {
 		vertical-align: bottom;
 	}
+
+  th.header {
+    color: $white;
+    background: { color: $nlaRed; }
+    padding: {left: 10px; right: 10px; }
+    
+    .icon-chevron-down, .icon-chevron-up {
+      display: inline-block;
+    }
+  }
+
+  th.headerSortUp {
+    .icon-chevron-up { display: none; }
+  }
+
+  th.headerSortDown {
+    .icon-chevron-down { display: none; }
+  }
+
+  input[id*="filter"] {
+    margin: { bottom: 0; }
+  }
+
+  .btn-group .btn {
+    a {
+      &:link, &:visited, &:hover, &:active { color: $white; }
+      font-weight: bold;
+    }
+  }
+
+  th:last-child, td:last-child {
+    text-align: middle;
+  }
 }
+
 @import "bootstrap-responsive";

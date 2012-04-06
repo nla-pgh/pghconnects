@@ -2,7 +2,7 @@ namespace :db do
 	desc "Fill database with sample data"
 	task :populate => :environment do
 		Rake::Task['db:reset'].invoke
-		100.times do |n|
+		2000.times do |n|
 			first = Faker::Name.first_name
 			last = Faker::Name.last_name
 			birth_date = Date.today
