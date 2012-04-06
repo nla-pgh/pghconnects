@@ -9,6 +9,7 @@ gem 'jquery-rails'
 gem 'pg'
 gem 'simple_form'
 gem 'bootstrap-sass'
+gem 'will_paginate'
 
 group :development do
     gem 'annotate', '>=2.4.1.beta'

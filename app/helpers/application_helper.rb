@@ -86,4 +86,12 @@ module ApplicationHelper
 
 		{ :list => list, :label => label, :value => value }
 	end
+
+	def site_users(user)
+		if user
+			@users = User.paginate(:page => params[:page], :per_page => 10).find_all_by_registered_at(user.registered_at, :order => "user_name")
+		else
+			@users = []
+		end
+	end
 end

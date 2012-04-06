@@ -236,4 +236,10 @@ form {
 		background: $nlaRed;
 	}
 }
+
+.table {
+	th, td {
+		vertical-align: bottom;
+	}
+}
 @import "bootstrap-responsive";

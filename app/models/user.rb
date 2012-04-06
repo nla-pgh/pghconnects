@@ -32,8 +32,8 @@ class User < ActiveRecord::Base
 	validates :birth_date, :presence => true
 	validates :registered_at, :presence => true
 	validates :user_name, :uniqueness => { :allow_nil => true, :allow_blank => true }
-	validates :password, :presence => true
-	validates :password_confirmation, :presence => true
+	validates :password, :presence => { :if => Proc.new { |s| self.new_record? } }
+	validates :password_confirmation, :presence => { :if => Proc.new { |s| self.new_record? } }
 
 	belongs_to :site
 	has_many :addresses, :dependent => :destroy
@@ -54,15 +54,11 @@ class User < ActiveRecord::Base
     end
 
     def generate_user_name
-      size = User.count(:user_name, :conditions => "user_name LIKE '#{base_user_name}%'")
-      self.user_name = "#{base_user_name}#{size}"
+			if user_name
+				user_name
+			else
+				size = User.count(:user_name, :conditions => "user_name LIKE \"#{base_user_name}%\"")
+				self.user_name = "#{base_user_name}#{size}"
+			end
     end
-
-		def expand_clearance
-			clearance_level = CONNECTS["form"]["clearance_levels"][clearance_level]
-		end
-
-		def shrink_clearance
-			clearance_level = clearance_level[0,1] if CONNECTS["form"]["clearance_levels"][clearance_level]
-		end
 end

@@ -1,14 +1,10 @@
 class UsersController < ApplicationController
   def index
+		@user = User.first
   end
 
   def show
-		@user = User.find(params[:id]);
-		@address = @user.addresses.last
-		@email = @user.emails.last
-		@phone = @user.emails.last
-		@work_history = @user.work_histories.last || @user.work_histories.new
-		@education = @user.educations.last || @user.educations.new
+		registered_user_info
   end
 
   def new
@@ -22,16 +18,7 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user = User.find(params[:id])
-    @address = @user.addresses.last
-    @email = @user.emails.last
-    @phone = @user.phones.last
-    
-    wh = @user.work_histories.last
-    @work_history = wh ? wh : @user.work_histories.new
-
-    edu = @user.educations.last
-    @education = edu ? edu : @user.educations.new
+		registered_user_info
   end
 
   def create
@@ -51,8 +38,6 @@ class UsersController < ApplicationController
 			# Save optional models if user filled (some) fields
 			@user.work_histories << @work_history if build_optionals(@work_history)
 			@user.educations << @education if build_optionals(@education)
-
-			session[:user] = @user.id
 
       redirect_to user_path(@user)
     else
@@ -80,5 +65,14 @@ class UsersController < ApplicationController
 			end
 
 			save
+		end
+
+		def registered_user_info
+			@user = User.find(params[:id])
+			@address = @user.addresses.last
+			@email = @user.emails.last
+			@phone = @user.emails.last
+			@work_history = @user.work_histories.last || @user.work_histories.new
+			@education = @user.educations.last || @user.educations.new
 		end
 end

@@ -9,7 +9,7 @@ Pghconnects::Application.routes.draw do
 		resources :sign_ups
 	end
 
-  resources :users, :path => 'profile', :except => :destroy do
+  resources :users, :except => :destroy do
 		resources :events do
 			resources :sign_ups
 		end
