@@ -13,4 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap
-//= require_self 
+//= require_self
+//= require picnet.table.filter.min
+//= require jquery.tablesorter.min
+//= require base
