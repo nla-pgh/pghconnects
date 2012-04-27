@@ -1,1 +1,11 @@
 - provide :title, "Events"
+
+.container
+  .row
+    .span12
+      = simple_form_for @event do |form|
+        = f.input :name
+        = f.input :start
+        = f.input :end
+        = f.input :description
+
