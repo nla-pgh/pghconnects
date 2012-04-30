@@ -9,4 +9,10 @@ class ApplicationController < ActionController::Base
 		flash.now[:error] = " Please fix the errors below to proceed.  
 											Thank you#{", <strong>#{user.first}</strong>" if not user.first.blank? }!"
 	end
+
+    def flash_success(user)
+        flash[:success] = <<-END
+            Thank you, <strong>#{@user.first}</strong> for registering with Pittsburgh CONNECTS! To receive your login information, please fill in the remaining information."
+            END
+    end
 end
