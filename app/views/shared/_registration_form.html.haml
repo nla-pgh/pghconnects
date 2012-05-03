@@ -4,27 +4,24 @@
     .row
       .span12
         %h6 CONNECTS Information
-    .row
-      .span5
-        - # Registration hash for simple form f.input
-        - reg_hash = { :label => "Registration Site", :collection => sites, :value_method => Proc.new { |v| v }, :include_blank => false, :selected => ip_to_name }
-        = f.input :registered_at, reg_hash
 
-      - reg_hash = { :collection => clearance_levels[:list], :label => "Clearance", :value_method => clearance_levels[:value], :label_method => clearance_levels[:label], :include_blank => false, :selected => @user.clearance_level }
+      .span5
+        - if @user.new_record?
+          = f.input :registered_at, site_hash
+        - else
+          = f.input :registered_at, site_hash.merge(:disabled => true)
+
       - if admin?
         .span5.offset2
-          = f.input :clearance_level, reg_hash
+          = f.input :clearance_level, clearance_hash
       - else
         .span5.offset2
-          = f.input :clearance_level, reg_hash.merge(:disabled => true)
+          = f.input :clearance_level, clearance_hash.merge(:disabled => true)
 
     .row
       .span5
         %h6 Personal Information
-      .span5.offset2
-        %h6 Address Information
-    .row
-      .span5
+
         = f.input :first, :label => 'First Name'
         = f.input :middle, :label => 'Middle Initial'
         = f.input :last, :label => 'Last Name'
@@ -33,6 +30,8 @@
         = f.input :ethnicity, :collection => ethnicities[:list]
 
       .span5.offset2
+        %h6 Address Information
+
         = simple_fields_for @address do |addr_form|
           = addr_form.input :number, :label => "House Number"
           = addr_form.input :street, :label => "Street Name"
@@ -44,14 +43,21 @@
     .row
       .span12
         %h6 Contact Information
-    .row
+
       .span5
         = simple_fields_for @email do |email_form|
-          = email_form.input :full, :label => "Email", :hint => "e.g. john@email.com"
+          = email_form.input :full, 
+            :label => "Email", 
+            :hint => "e.g. john@email.com"
+          = email_form.input :full_confirmation,
+            :label => "Enter Confirmation",
+            :hint => "must match email above"
 
       .span5.offset2
         = simple_fields_for @phone do |phone_form|
-          = phone_form.input :full, :label => "Phone", :hint => "e.g. 412-123-4567"
+          = phone_form.input :full, 
+            :label => "Phone", 
+            :hint => "e.g. 412-123-4567"
 
     .row
       .span12
@@ -61,16 +67,16 @@
       .span5.offset2
         = f.input :password_confirmation, :label => "Password again", :wrapper_html => { :class => "label label-important" }
 
-    - #-----------OPTIONAL INFORMATION--------------#
+    <!-----------OPTIONAL INFORMATION-------------->
     .row
       .span12
-        %h1.page-header
+        %h2
           %small Optional Information
 
     .row
       .span12
         %h6 Household Information (Optional)
-    .row
+
       = simple_fields_for @address do |addr_form|
         .span5
           = addr_form.input :household_number,
@@ -86,7 +92,7 @@
     .row
       .span12
         %h6 Occupation Information (Optional)
-    .row
+
       = simple_fields_for @work_history do |work_history_form|
         .span5
           = work_history_form.input :title, :label => "Occupation Title"
@@ -103,7 +109,7 @@
     .row
       .span12
         %h6 Education Information (Optional)
-    .row
+
       = simple_fields_for @education do |education_form|
         .span5
           = education_form.input :education_level, 

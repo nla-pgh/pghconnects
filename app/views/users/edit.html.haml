@@ -1,6 +1,6 @@
 - provide :title, "Administrative Panel - User Information | Pittsburgh CONNECTS"
-- provide :page_header, 'Administrative Panel'
-- provide :page_header_subtext, 'User Information'
+- provide :page_header, "#{@user.last}, #{@user.first}" if @user
+- provide :page_header_subtext, 'Edit Registration Information'
 = render 'layouts/page_header_and_flash'
 
 = render 'shared/registration_form'

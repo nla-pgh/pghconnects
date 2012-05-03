@@ -2,13 +2,12 @@
 - provide :page_header, "All Users"
 - provide :page_header_subtext, "Based on your site location"
 = render "layouts/page_header_and_flash"
-- site_users(@user)
 
 .container
   %table.table.table-striped.table-bordered#users_table
     %thead
       %tr
-        - ["User ID", "Last Name", "First Name", "Registration Date"].each do |header|
+        - ["Location", "User ID", "Last Name", "First Name", "Registration Date"].each do |header|
           %th
             = header
             .pull-right
@@ -19,6 +18,7 @@
     %tbody
       - @users.each do |user|
         %tr
+          %td= user.registered_at
           %td= user.user_name
           %td= user.last
           %td= user.first

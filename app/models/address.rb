@@ -33,4 +33,8 @@ class Address < ActiveRecord::Base
 	validates :household_income, :numericality => { :greater_than_or_equal_to => 0.0, :allow_blank => true, :allow_nil => true }
 
 	belongs_to :user
+
+    def full_address
+        "#{number} #{street} Apt/Fl ##{apt_fl}, #{city}, #{state} #{zip}" unless new_record?
+    end
 end

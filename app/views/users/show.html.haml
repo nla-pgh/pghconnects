@@ -1,5 +1,45 @@
 - provide :title, "User Profile | Pittsburgh CONNECTS"
-- provide :page_header, "#{@user.first} #{@user.middle} #{@user.last}'s Profile"
+- provide :page_header, "#{@user.full_name}'s Profile"
 = render 'layouts/page_header_and_flash'
 
-= render 'shared/registration_form'
+.container
+  %h2 User Information
+  %table.table.table-bordered.table-striped
+    %thead
+      %tr
+        %th Full Name
+        %th Last Name
+        %th First Name
+        %th Middle Initial
+        %th Birth Date
+        %th Gender
+        %th Ethnicity
+    %tbody
+      %tr
+        %td= @user.full_name
+        %td= @user.last
+        %td= @user.first
+        %td= @user.middle
+        %td= @user.pretty_birth_date
+        %td= @user.gender
+        %td= @user.full_ethnicity
+  %h2 User Address
+  %table.table.table-bordered.table-striped
+    %thead
+      %tr
+        %th Full Address
+        %th House Number
+        %th Street Name
+        %th Apartment/Floor Number
+        %th City
+        %th State
+        %th Zip
+    %tbody
+      %tr
+        %td= @address.full_address
+        %td= @address.number
+        %td= @address.street
+        %td= @address.apt_fl
+        %td= @address.city
+        %td= @address.state
+        %td= @address.zip

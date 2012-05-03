@@ -56,13 +56,12 @@ form:
     - 37000
     - 0
   education_levels:
-    - No High School Diploma
+    - In School
     - High School Graduate
-    - GED
-    - Some College
+    - Attended College or Technical School
+    - Associates or Technical Degree
     - College Graduate
-    - Technical School Graduate
-    - Post-College Graduate
+    - Advanced Degree
   clearance_levels:
     - User
     - Coordinator
