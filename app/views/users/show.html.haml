@@ -3,17 +3,17 @@
 = render 'layouts/page_header_and_flash'
 
 .container
-  %h2 User Information
-  %table.table.table-bordered.table-striped
+  <!-- Personal Information -->
+  %h2 Personal Information
+  %table.table
     %thead
-      %tr
-        %th Full Name
-        %th Last Name
-        %th First Name
-        %th Middle Initial
-        %th Birth Date
-        %th Gender
-        %th Ethnicity
+      %th Full Name
+      %th Last Name
+      %th First Name
+      %th Middle Initial
+      %th Birth Date
+      %th Gender
+      %th Ethnicity
     %tbody
       %tr
         %td= @user.full_name
@@ -23,8 +23,9 @@
         %td= @user.pretty_birth_date
         %td= @user.gender
         %td= @user.full_ethnicity
-  %h2 User Address
-  %table.table.table-bordered.table-striped
+  <!-- Address Information -->
+  %h2 Address Information
+  %table.table
     %thead
       %tr
         %th Full Address
@@ -43,3 +44,63 @@
         %td= @address.city
         %td= @address.state
         %td= @address.zip
+  <!-- Email Information -->
+  %h2 Email Information
+  %table.table
+    %thead
+      %tr
+        %th Full Email
+        %th Address
+        %th Domain
+        %th Root
+    %tbody
+      %tr
+        %td= @email.full
+        %td= @email.address
+        %td= @email.domain
+        %td= @email.root
+  <!-- Phone Information -->
+  %h2 Phone Information
+  %table.table
+    %thead
+      %tr
+        %th Full Phone Number
+        %th Area Code
+        %th Carrier Code
+        %th Line Code
+    %tbody
+      %tr
+        %td= @phone.full
+        %td= @phone.area
+        %td= @phone.carrier
+        %td= @phone.line
+  <!-- Education Information -->
+  %h2 Education Information
+  %table.table
+    %thead
+      %tr
+        %th Education Level
+        %th Institution
+        %th Focus
+        %th Credential
+        %th School Id
+        %th Finish Date
+    %tbody
+      %tr
+        %td= @education.education_level
+        %td= @education.institution
+        %td= @education.focus
+        %td= @education.credential
+        %td= @education.school_id
+        %td= @education.pretty_finish_on
+  <!-- Work History Information -->
+  %h2 Work History Information
+  %table.table
+    %thead
+      %tr
+        %th Business
+        %th Title
+        %th Description
+        %th Begin Date
+        %th End Date
+    %tbody

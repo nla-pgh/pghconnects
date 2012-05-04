@@ -61,7 +61,7 @@ class UsersController < ApplicationController
 
     def create_sections
         @user = params[:id] ? User.find(params[:id]) : User.new
-        @address = @user.addresses.last || @user.addresses.new
+        @addresses = @user.addresses.last || @user.addresses.new
         @email = @user.emails.last || @user.emails.new
         @phone = @user.phones.last || @user.phones.new
         @work_history = @user.work_histories.last || @user.work_histories.new

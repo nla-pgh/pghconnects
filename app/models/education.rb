@@ -20,4 +20,8 @@ class Education < ActiveRecord::Base
     attr_accessible :institution, :focus, :credential, :school_id, :finish_on, :education_level
 
     belongs_to :user
+
+    def pretty_finish_on
+        finish_on.to_s(:long) if finish_on
+    end
 end

@@ -1,0 +1,14 @@
+= simple_fields_for education do |education_form|
+  .span5
+    = education_form.input :education_level, 
+      :collection => education_levels[:list], 
+      :label_method => education_levels[:label]
+    = education_form.input :institution, :label => "Institution Name"
+    = education_form.input :focus, :label => "Main Focus"
+  .span5.offset2
+    = education_form.input :credential
+    = education_form.input :school_id, :label => "School ID"
+    = education_form.input :finish_on, 
+      :label => "Completion Date", 
+      :start_year => year - 150, :end_year => year + 10, 
+      :include_blank => true

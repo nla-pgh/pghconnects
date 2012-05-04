@@ -35,6 +35,6 @@ class Address < ActiveRecord::Base
 	belongs_to :user
 
     def full_address
-        "#{number} #{street} Apt/Fl ##{apt_fl}, #{city}, #{state} #{zip}" unless new_record?
+        "#{number} #{street} APT/FL #{apt_fl}, #{city}, #{state} #{zip}" unless new_record?
     end
 end
