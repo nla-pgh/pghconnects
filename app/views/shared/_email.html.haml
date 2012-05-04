@@ -1,0 +1,8 @@
+.span5
+  = simple_fields_for email do |email_form|
+    = email_form.input :full, 
+      :label => "Email", 
+      :hint => "e.g. john@email.com"
+    = email_form.input :full_confirmation,
+      :label => "Enter Confirmation",
+      :hint => "must match email above"

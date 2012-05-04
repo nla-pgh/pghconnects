@@ -1,0 +1,12 @@
+= simple_fields_for work_history do |work_history_form|
+  .span5
+    = work_history_form.input :title, :label => "Occupation Title"
+    = work_history_form.input :start, 
+      :start_year => year - 150, :end_year => year + 10, 
+      :label => "Start Date", :include_blank => true
+    = work_history_form.input :end, 
+      :start_year => year - 150, :end_year => year + 10, 
+      :label => "End Date", :include_blank => true
+  .span5
+    = work_history_form.input :description, 
+      :input_html => { :cols => 50, :rows => 6 }

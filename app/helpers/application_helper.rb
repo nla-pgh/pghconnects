@@ -93,4 +93,8 @@ module ApplicationHelper
 
     def site_users(user)
     end
+    
+    def year
+        Date.today.year
+    end
 end

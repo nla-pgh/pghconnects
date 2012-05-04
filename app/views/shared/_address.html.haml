@@ -1,0 +1,7 @@
+= simple_fields_for address do |addr_form|
+  = addr_form.input :number, :label => "House Number"
+  = addr_form.input :street, :label => "Street Name"
+  = addr_form.input :apt_fl, :label => "Apt / Floor Number"
+  = addr_form.input :city, :input_html => { :value => "Pittsburgh" }
+  = addr_form.input :state, :input_html => { :value => "PA" }
+  = addr_form.input :zip
