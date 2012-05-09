@@ -1,6 +1,5 @@
 .container
   = simple_form_for @user, :html => { :class => "form-horizontal container" } do |f|
-    - year = Date.today.year
     <!-- CONNECTS Information -->
     .row
       .span12
@@ -116,8 +115,7 @@
     .row
       .span12
         %h6 Education Information (Optional)
-        - @educations.each do |education|
-          = render :partial => '/shared/education', :locals => { :education => education }
+      = render :partial => '/shared/education', :locals => { :education => @education }
 
     <!-- Form Buttons -->
     .row
