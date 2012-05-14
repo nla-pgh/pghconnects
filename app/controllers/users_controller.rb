@@ -27,8 +27,18 @@ class UsersController < ApplicationController
     @email = @user.emails.build(params[:email])
     @phone = @user.phones.build(params[:phone])
     @user.site = Site.find_by_name(params[:user][:registered_at])
-    @work_history = @user.work_histories.build(params[:work_history]) if build_optionals?(params[:work_history])
-    @education = @user.educations.build(params[:education]) if build_optionals?(params[:education])
+
+    if build_optionals?(params[:work_history])
+        @work_history = @user.work_histories.build(params[:work_history])
+    else
+        @work_history = WorkHistory.new # just discard it - NOT SAVED!
+    end
+
+    if build_optionals?(params[:work_history])
+        @education = @user.educations.build(params[:education])
+    else
+        @education = Education.new # just discard it - NOT SAVED!
+    end
 
     if @user.save
         flash_success @user
@@ -52,8 +62,8 @@ class UsersController < ApplicationController
     # For example, blank work history field won't create a blank work history
     # entry
     def build_optionals?(opt)
-        opt.each do |attr|
-            return true unless attr.blank?
+        opt.each do |attr, value|
+            return true unless value.blank?
         end
 
         return false

@@ -1,35 +1,35 @@
-sites:
+:sites:
   - 
-    !ruby/sym name: Bloomfield-Garfield Corporation
-    !ruby/sym abbr: BGC
-    !ruby/sym base_ip: '10.96'
-    !ruby/sym address: BGC
-    !ruby/sym phone: 123-456-7890
+    :name: Bloomfield-Garfield Corporation
+    :abbr: BGC
+    :base_ip: '10.96'
+    :address: BGC
+    :phone: 123-456-7890
   - 
-    !ruby/sym name: Homewood YMCA
-    !ruby/sym abbr: HY
-    !ruby/sym base_ip: '10.32'
-    !ruby/sym address: HW
-    !ruby/sym phone: 123-456-7890
+    :name: Homewood YMCA
+    :abbr: HY
+    :base_ip: '10.32'
+    :address: HW
+    :phone: 123-456-7890
   - 
-    !ruby/sym name: Hill Top YMCA
-    !ruby/sym abbr: HT
-    !ruby/sym base_ip: '10.64'
-    !ruby/sym address: HT
-    !ruby/sym phone: 123-456-7890
+    :name: Hill Top YMCA
+    :abbr: HT
+    :base_ip: '10.64'
+    :address: HT
+    :phone: 123-456-7890
   - 
-    !ruby/sym name: Hill House Association
-    !ruby/sym abbr: HH
-    !ruby/sym base_ip: '10.128'
-    !ruby/sym address: HH
-    !ruby/sym phone: 123-456-7890
+    :name: Hill House Association
+    :abbr: HH
+    :base_ip: '10.128'
+    :address: HH
+    :phone: 123-456-7890
 
-form:
-  gender:
+:form:
+  :gender:
     Male: M
     Female: F
     Other: O
-  ethnicity:
+  :ethnicity:
     Black: B
     White: W
     Native American: NA
@@ -37,7 +37,7 @@ form:
     Hispanic: H
     Bi-Racial: BR
     Other: O
-  household_numbers:
+  :household_numbers:
     - 1
     - 2
     - 3
@@ -45,7 +45,7 @@ form:
     - 5
     - 6
     - 0
-  household_incomes:
+  :household_incomes:
     - 11000
     - 15000
     - 18000
@@ -55,14 +55,22 @@ form:
     - 33000
     - 37000
     - 0
-  education_levels:
+  :education_levels:
     - In School
     - High School Graduate
     - Attended College or Technical School
     - Associates or Technical Degree
     - College Graduate
     - Advanced Degree
-  clearance_levels:
+  :clearance_levels:
     - User
     - Coordinator
     - Manager
+
+:ldap:
+  :host: '10.96.0.12'
+  :port: 389
+  :auth:
+    :username: 'cn=administrator, cn=users, dc=users, dc=pghconnects, dc=org'
+    :password: 'YaphA3uc'
+    :method: :simple

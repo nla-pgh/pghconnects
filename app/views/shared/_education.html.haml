@@ -2,7 +2,8 @@
   .span5
     = education_form.input :education_level, 
       :collection => education_levels[:list], 
-      :label_method => education_levels[:label]
+      :label_method => education_levels[:label],
+      :value_method => education_levels[:value]
     = education_form.input :institution, :label => "Institution Name"
     = education_form.input :focus, :label => "Main Focus"
   .span5.offset2

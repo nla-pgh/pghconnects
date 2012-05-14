@@ -32,8 +32,9 @@ class User < ActiveRecord::Base
 	validates :birth_date, :presence => true
 	validates :registered_at, :presence => true
 	validates :user_name, :uniqueness => { :allow_nil => true, :allow_blank => true }
-	validates :password, :presence => { :if => Proc.new { |s| self.new_record? } }, :confirmation => true
-	validates :password_confirmation, :presence => { :if => Proc.new { |s| self.new_record? } }
+
+	validates :password, :presence => { :if => Proc.new { |s| s.new_record? } }, :confirmation => { :unless => Proc.new { |s| s.password_confirmation.blank? } }
+	validates :password_confirmation, :presence => { :if => Proc.new { |s| s.new_record? } }
 
 	belongs_to :site
 	has_many :addresses, :dependent => :destroy
@@ -60,6 +61,8 @@ class User < ActiveRecord::Base
         CONNECTS["form"]["ethnicity"].each do |full, abbr|
             return full if abbr == ethnicity
         end
+
+        return nil
     end
     
 private

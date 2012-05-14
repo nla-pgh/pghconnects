@@ -73,8 +73,12 @@ module ApplicationHelper
         label = Proc.new do |v|
             v
         end
+        
+        value = Proc.new do |v|
+            v.upcase
+        end
 
-        { :list => list, :label => label }
+        { :list => list, :label => label, :value => value }
     end
 
     def clearance_levels

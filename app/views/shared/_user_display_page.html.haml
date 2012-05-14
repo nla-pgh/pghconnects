@@ -1,0 +1,118 @@
+.container
+  <!-- Personal Information -->
+  %h2 Personal Information
+  %table.table.well
+    %thead
+      %th Full Name
+      %th Last Name
+      %th First Name
+      %th Middle Initial
+      %th Birth Date
+      %th Gender
+      %th Ethnicity
+    %tbody
+      %tr
+        %td= @user.full_name
+        %td= @user.last
+        %td= @user.first
+        %td= @user.middle
+        %td= @user.pretty_birth_date
+        %td= @user.gender
+        %td= @user.full_ethnicity
+
+  <!-- Address Information -->
+  %h2 Address Information
+  %table.table.well
+    %thead
+      %tr
+        %th Full Address
+        %th House Number
+        %th Street Name
+        %th Apartment/Floor Number
+        %th City
+        %th State
+        %th Zip
+    %tbody
+      %tr
+        %td= @address.full_address
+        %td= @address.number
+        %td= @address.street
+        %td= @address.apt_fl
+        %td= @address.city
+        %td= @address.state
+        %td= @address.zip
+
+  <!-- Email Information -->
+  %h2 Email Information
+  %table.table.well
+    %thead
+      %tr
+        %th Full Email
+        %th Address
+        %th Domain
+        %th Root
+    %tbody
+      %tr
+        %td= @email.full
+        %td= @email.address
+        %td= @email.domain
+        %td= @email.root
+
+  <!-- Phone Information -->
+  %h2 Phone Information
+  %table.table.well
+    %thead
+      %tr
+        %th Full Phone Number
+        %th Area Code
+        %th Carrier Code
+        %th Line Code
+    %tbody
+      %tr
+        %td= @phone.full
+        %td= @phone.area
+        %td= @phone.carrier
+        %td= @phone.line
+
+  - unless @education.new_record?
+    <!-- Education Information -->
+    %h2 Education Information
+    %table.table.well
+      %thead
+        %tr
+          %th Education Level
+          %th Institution
+          %th Focus
+          %th Credential
+          %th School Id
+          %th Finish Date
+      %tbody
+        %tr
+          %td= @education.education_level
+          %td= @education.institution
+          %td= @education.focus
+          %td= @education.credential
+          %td= @education.school_id
+          %td= @education.pretty_finish_on
+
+  - unless @work_history.new_record?
+    <!-- Work History Information -->
+    %h2 Work History Information
+    %table.table.well
+      %thead
+        %tr
+          %th Business
+          %th Title
+          %th Description
+          %th Begin Date
+          %th End Date
+      %tbody
+        %tr
+          %td= @work_history.business
+          %td= @work_history.title
+          %td= @work_history.description
+          %td= @work_history.start
+          %td= @work_history.end
+
+    .row
+      = link_to "Click here to edit information", edit_user_path(@user), :class => "span12 btn btn-large btn-primary"
