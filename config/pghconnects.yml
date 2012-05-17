@@ -3,26 +3,26 @@
     :name: Bloomfield-Garfield Corporation
     :abbr: BGC
     :base_ip: '10.96'
-    :address: BGC
-    :phone: 123-456-7890
+    :address: '5321 Penn Ave'
+    :phone: 412-441-9833
   - 
     :name: Homewood YMCA
     :abbr: HY
     :base_ip: '10.32'
-    :address: HW
-    :phone: 123-456-7890
+    :address: '7140 Bennett St'
+    :phone: 412-243-2900
   - 
     :name: Hill Top YMCA
     :abbr: HT
     :base_ip: '10.64'
-    :address: HT
-    :phone: 123-456-7890
+    :address: '500 Brownsville Rd'
+    :phone: 412-223-6851
   - 
     :name: Hill House Association
     :abbr: HH
     :base_ip: '10.128'
-    :address: HH
-    :phone: 123-456-7890
+    :address: '1860 Center Ave'
+    :phone: 412-281-8483
 
 :form:
   :gender:

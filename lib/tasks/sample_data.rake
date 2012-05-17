@@ -6,9 +6,9 @@ namespace :db do
 			first = Faker::Name.first_name
 			last = Faker::Name.last_name
 			birth_date = Date.today
-			registered_at = CONNECTS["sites"][n % 4][:name]
-			gender = CONNECTS["form"]["gender"].values[n % 3]
-			ethnicity = CONNECTS["form"]["ethnicity"].values[n % 7]
+			registered_at = CONNECTS[:sites][n % 4][:name]
+			gender = CONNECTS[:form][:gender].values[n % 3]
+			ethnicity = CONNECTS[:form][:ethnicity].values[n % 7]
 			password = password_confirmation = 'password'
 			
 			User.create!(:first => first, :last => last, :birth_date => birth_date,

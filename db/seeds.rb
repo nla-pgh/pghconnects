@@ -12,7 +12,7 @@
 
 CONNECTS = YAML.load_file("#{Rails.root}/config/pghconnects.yml")
 
-CONNECTS["sites"].each do |site_hash|
+CONNECTS[:sites].each do |site_hash|
     site = Site.new
     site.assign_attributes site_hash
     site.save!
