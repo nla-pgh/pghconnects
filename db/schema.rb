@@ -23,7 +23,7 @@ ActiveRecord::Schema.define(:version => 20120403141951) do
     t.datetime "updated_at",       :null => false
     t.integer  "user_id"
     t.integer  "household_number"
-    t.float    "household_income"
+    t.integer  "household_income"
   end
 
   create_table "educations", :force => true do |t|

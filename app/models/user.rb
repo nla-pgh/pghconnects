@@ -58,7 +58,7 @@ class User < ActiveRecord::Base
     end
 
     def full_ethnicity
-        CONNECTS["form"]["ethnicity"].each do |full, abbr|
+        CONNECTS[:form][:ethnicity].each do |full, abbr|
             return full if abbr == ethnicity
         end
 

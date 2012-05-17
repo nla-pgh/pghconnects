@@ -50,6 +50,16 @@ class UsersController < ApplicationController
   end
 
   def update
+      create_sections
+
+      if @user.update_attributes(params[:user]) and @address.update_attributes(params[:address]) and @email.update_attributes(params[:email]) and @phone.update_attributes(params[:phone]) and @work_history.update_attributes(params[:work_history]) and @education.update_attributes(params[:education])
+
+          flash_success @user
+          redirect_to user_path(@user)
+      else
+          person_error @user
+          render :edit
+      end
   end
 
   def destroy
