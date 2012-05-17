@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
   def index
+      # TODO Administrative authentication for indexing.
+      # Only administrative users should be able to see all the users
     @user = User.first
     if @user
         @users = User.find_all_by_registered_at(@user.registered_at, :order => "last")
@@ -28,6 +30,8 @@ class UsersController < ApplicationController
     @phone = @user.phones.build(params[:phone])
     @user.site = Site.find_by_name(params[:user][:registered_at])
 
+    # TODO Move this logic into the model, so empty entries are not saved
+
     if build_optionals?(params[:work_history])
         @work_history = @user.work_histories.build(params[:work_history])
     else
@@ -52,6 +56,7 @@ class UsersController < ApplicationController
   def update
       create_sections
 
+      # TODO Messy code! Should really consider improving the logic...somehow
       if @user.update_attributes(params[:user]) and @address.update_attributes(params[:address]) and @email.update_attributes(params[:email]) and @phone.update_attributes(params[:phone]) and @work_history.update_attributes(params[:work_history]) and @education.update_attributes(params[:education])
 
           flash_success @user
