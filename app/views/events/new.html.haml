@@ -1,11 +1,14 @@
 - provide :title, "Events"
+- provide :page_header, "Create Event"
+- provide :page_header_subtext, "Fill in the following information to allow your users register"
+
+= render 'layouts/page_header_and_flash'
 
 .container
-  .row
-    .span12
-      = simple_form_for @event do |form|
-        = f.input :name
-        = f.input :start
-        = f.input :end
-        = f.input :description
-
+  = simple_form_for @event, :html => { :class => "form-horizontal" } do |form|
+    = form.input :name, :input_html => { :class => "span6" }, :label => "Event Name"
+    = form.input :start, :input_html => { :class => "span1" }, :label => "Start Date & Time"
+    = form.input :end, :input_html => { :class => "span1" }, :label => "End Date & Time"
+    = form.input :description, :input_html => { :class => "span6" }, :label => "Event Description"
+    = form.association :sites, :as => :check_boxes
+    = form.button :submit, :class => "btn-primary btn-large span8"

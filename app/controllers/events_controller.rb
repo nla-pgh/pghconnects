@@ -6,6 +6,7 @@ class EventsController < ApplicationController
 	end
 
 	def new
+        @event = Event.new
 	end
 
 	def show
@@ -15,6 +16,16 @@ class EventsController < ApplicationController
 	end
 
 	def create
+        site_ids = params[:event].delete(:site_ids)
+
+        @event = Event.new(params[:event])
+        @event.site_ids = site_ids
+
+        if @event.save
+            redirect_to event_path(@event)
+        else
+            render :new
+        end
 	end
 
 	def edit

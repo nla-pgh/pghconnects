@@ -18,6 +18,7 @@ class Event < ActiveRecord::Base
 	validates :name, :presence => true
 	validates :start, :presence => true
 	validates :end, :presence => true
+    validates :sites, :presence => true
 
 	has_and_belongs_to_many :sites
 	has_many :sign_ups
