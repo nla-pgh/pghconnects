@@ -1,1 +1,35 @@
 - provide :title, "All Events"
+- provide :page_header, "All Events"
+- provide :page_header_subtext, "all events ever created"
+
+= render 'layouts/page_header_and_flash'
+
+.container
+  %table.table.table-striped.table-bordered.sort_filter_table
+    %thead
+      %tr
+        - ["Location", "Event Name", "Start Time", "End Time"].each do |header|
+          %th
+            = header
+            .pull-right
+              %i.icon-white.icon-chevron-up
+              %i.icon-white.icon-chevron-down
+        %th{:filter => "false"}
+          Event Description
+        %th{:filter => "false"}
+          Remove Sorting
+    %tbody
+      - @events.each do |event|
+        %tr
+          %td
+            - event.sites.each do |site|
+              #{site.name}<br /> 
+          %td= event.name
+          %td= event.start
+          %td= event.end
+          %td= event.description
+          %td
+            .btn-group
+              .btn.btn-mini.btn-inverse= link_to "Edit", edit_event_path(event)
+              .btn.btn-mini.btn-primary= link_to "View", event_path(event)
+              .btn.btn-mini.btn-info= link_to "Sign Ups", "#"

@@ -1,3 +1,20 @@
-- provide :page_header, "Event"
+- provide :title, "#{@event.name}"
+- provide :page_header, "#{@event.name}"
+- provide :page_header_subtext, "Event Information"
 
 = render 'layouts/page_header_and_flash'
+
+.container
+  %table.table.table-bordered.table-striped
+    %thead
+      %tr
+        - ["Event Name", "Starts At", "Ends At", "Event Description", "Sponsor Organizations"].each do |header|
+          %th= header
+    %tbody
+      %tr
+        %td= @event.name
+        - # TODO convert to helper method
+        %td= @event.start.in_time_zone('EST').to_s(:long_ordinal)
+        %td= @event.end.in_time_zone('EST').to_s(:long_ordinal)
+        %td= @event.description
+        %td= raw @event.sites.collect { |site| site.name }.to_sentence( :words_connector => "<br />", :last_word_connector => "<br />" )

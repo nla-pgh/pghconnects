@@ -1,3 +1,3 @@
 $(document).ready ->
-  $("#users_table").tableFilter()
-  $("#users_table").tablesorter()
+  $(".sort_filter_table").tableFilter()
+  $(".sort_filter_table").tablesorter()

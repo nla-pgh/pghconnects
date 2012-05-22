@@ -4,7 +4,7 @@
 = render "layouts/page_header_and_flash"
 
 .container
-  %table.table.table-striped.table-bordered#users_table
+  %table.table.table-striped.table-bordered.sort_filter_table
     %thead
       %tr
         - ["Location", "User ID", "Last Name", "First Name", "Registration Date"].each do |header|

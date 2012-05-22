@@ -23,5 +23,6 @@ class Event < ActiveRecord::Base
 	has_and_belongs_to_many :sites
 	has_many :sign_ups
 	has_many :users, :through => :sign_ups
-	has_many :attendents, :class_name  => "User", :conditions => { :attended => true }
+	has_many :attendents, :class_name  => "SignUp", 
+        :conditions => { :attended => true }
 end
