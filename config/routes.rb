@@ -4,8 +4,8 @@ Pghconnects::Application.routes.draw do
     match "/sign_in" => 'pages#sign_in'
 
     match "/register" => "users#new"
-
-	resources :events, :only => [:index]
+    
+    resources :events
 
     resources :users, :except => :destroy do
         resources :events do

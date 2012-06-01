@@ -1,7 +1,6 @@
 class EventsController < ApplicationController
 	def index
-        @user = User.find(params[:user_id])
-        @events = @user.events
+        @events = Event.all
 	end
 
 	def update
