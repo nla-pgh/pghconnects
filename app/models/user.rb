@@ -42,8 +42,8 @@ class User < ActiveRecord::Base
 	has_many :emails, :dependent => :destroy
 	has_many :educations, :dependent => :destroy
 	has_many :work_histories, :dependent => :destroy
-	has_many :sign_ups, :group => :event_id, :order => :site_id, :dependent => :destroy
-	has_many :events, :through => :sign_ups, :group => :site_id, :dependent => :destroy
+	has_many :sign_ups, :group => :event_id, :dependent => :destroy
+	has_many :events, :through => :sign_ups, :dependent => :destroy
 
 	has_secure_password
 

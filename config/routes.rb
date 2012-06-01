@@ -5,15 +5,14 @@ Pghconnects::Application.routes.draw do
 
     match "/register" => "users#new"
 
-	resources :events do
-		resources :sign_ups
-	end
+	resources :events, :only => [:index]
 
     resources :users, :except => :destroy do
-        resources :events, :only => [:index, :show] do
+        resources :events do
             resources :sign_ups
         end
     end
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

@@ -1,27 +1,32 @@
 class EventsController < ApplicationController
 	def index
-        @events = Event.all
+        @user = User.find(params[:user_id])
+        @events = @user.events
 	end
 
 	def update
+        @user = User.find(params[:user_id])
         @event = Event.find(params[:id])
 
         site_ids = params[:event].delete(:site_ids)
 
         if @event.update_attributes(params[:event])
             @event.site_ids = site_ids
-            redirect_to event_path(@event)
+            redirect_to user_event_path(@user, @event)
         else
             render :edit
         end
 	end
 
 	def new
+        @user = User.find(params[:user_id])
         @event = Event.new
 	end
 
 	def show
+        @user = User.find(params[:user_id])
         @event = Event.find(params[:id])
+        @sign_up = SignUp.new
 	end
 
 	def destroy

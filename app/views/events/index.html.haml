@@ -30,6 +30,6 @@
           %td= event.description
           %td
             .btn-group
-              .btn.btn-mini.btn-inverse= link_to "Edit", edit_event_path(event)
-              .btn.btn-mini.btn-primary= link_to "View", event_path(event)
+              .btn.btn-mini.btn-inverse= link_to "Edit", edit_user_event_path(@user, event)
+              .btn.btn-mini.btn-primary= link_to "View", user_event_path(@user, event)
               .btn.btn-mini.btn-info= link_to "Sign Ups", "#"
