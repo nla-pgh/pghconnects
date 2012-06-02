@@ -1,13 +1,10 @@
 class UsersController < ApplicationController
+  before_filter :signed_in_user, :except => [:new]
+  before_filter :correct_user, :only => [:show, :edit, :update]
+  before_filter :admin_user, :only => [:index]
+  
   def index
-      # TODO Administrative authentication for indexing.
-      # Only administrative users should be able to see all the users
-    @user = User.first
-    if @user
-        @users = User.find_all_by_registered_at(@user.registered_at, :order => "last")
-    else
-        @users = []
-    end
+      @users = User.find_all_by_registered_at(current_user.registered_at, :order => "last")
   end
 
   def show
@@ -45,7 +42,8 @@ class UsersController < ApplicationController
     end
 
     if @user.save
-        flash_success @user
+        flash[:success] = "Thank you for signing up with Pittsburgh CONNECTS!"
+        sign_in @user
         redirect_to user_path(@user)
     else
         person_error @user
@@ -60,36 +58,36 @@ class UsersController < ApplicationController
       if @user.update_attributes(params[:user]) and @address.update_attributes(params[:address]) and @email.update_attributes(params[:email]) and @phone.update_attributes(params[:phone]) and @work_history.update_attributes(params[:work_history]) and @education.update_attributes(params[:education])
 
           flash_success @user
-          redirect_to user_path(@user)
+          redirect_back_or( user_path(@user) )
       else
           person_error @user
           render :edit
       end
   end
 
-  def destroy
+  def sign_up!(event)
   end
 
+private
+  # Parse through the optional fields in the form (work history, education,
+  # etc.) and decide whether to create new entries for each model.
+  # For example, blank work history field won't create a blank work history
+  # entry
+  def build_optionals?(opt)
+      opt.each do |attr, value|
+          return true unless value.blank?
+      end
 
-  private
-    # Parse through the optional fields in the form (work history, education,
-    # etc.) and decide whether to create new entries for each model.
-    # For example, blank work history field won't create a blank work history
-    # entry
-    def build_optionals?(opt)
-        opt.each do |attr, value|
-            return true unless value.blank?
-        end
+      return false
+  end
 
-        return false
-    end
+  def create_sections
+      @user = params[:id] ? User.find(params[:id]) : User.new
+      @address = @user.addresses.last || @user.addresses.new
+      @email = @user.emails.last || @user.emails.new
+      @phone = @user.phones.last || @user.phones.new
+      @work_history = @user.work_histories.last || @user.work_histories.new
+      @education = @user.educations.last || @user.educations.new
+  end
 
-    def create_sections
-        @user = params[:id] ? User.find(params[:id]) : User.new
-        @address = @user.addresses.last || @user.addresses.new
-        @email = @user.emails.last || @user.emails.new
-        @phone = @user.phones.last || @user.phones.new
-        @work_history = @user.work_histories.last || @user.work_histories.new
-        @education = @user.educations.last || @user.educations.new
-    end
 end

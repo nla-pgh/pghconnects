@@ -1,17 +1,18 @@
 Pghconnects::Application.routes.draw do
     root :to => 'pages#index'
 
-    match "/sign_in" => 'pages#sign_in'
-
     match "/register" => "users#new"
     
-    resources :events
+    resources :sessions, :only => [:new, :create, :destroy]
 
-    resources :users, :except => :destroy do
-        resources :events do
-            resources :sign_ups
-        end
+    match '/signin' => 'sessions#new'
+    match '/signout' => 'sessions#destroy', :via => :delete
+
+    resources :events do
+      resources :sign_ups, :only => [:create, :destroy]
     end
+
+    resources :users, :except => :destroy
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

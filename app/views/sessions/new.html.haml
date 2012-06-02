@@ -1,0 +1,10 @@
+- provide :title, "Sign In"
+- provide :page_header, "Sign In"
+- provide :page_header_small, "Please ask for assistance if you cannot remember your username or password"
+= render 'layouts/page_header_and_flash'
+
+.container
+  = simple_form_for(:session, :url => sessions_path, :html => { :class => "form-horizontal" }) do |f|
+    = f.input :user_name
+    = f.input :password
+    = submit_tag "Sign In", :class => "btn btn-large btn-primary"

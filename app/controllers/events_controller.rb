@@ -1,4 +1,6 @@
 class EventsController < ApplicationController
+  before_filter :admin_user, :only => [:new, :create, :update, :destroy]
+
 	def index
         @events = Event.all
 	end

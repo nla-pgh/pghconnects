@@ -1,16 +1,12 @@
 - provide(:title, "Welcome")
 
 .container
-  %ul.thumbnails
-    %li
-      .thumbnail
-        %a.btn.btn-large.btn-primary{:href => register_path}
-          %h2 First time visitors, welcome!
-          %i.icon-user.icon-white
-          %h1 Register Here!
-    %li
-      .thumbnail
-        %a.btn.btn-large.btn-success{:href => sign_in_path}
-          %h2 Return users, welcome back! 
-          %i.icon-pencil.icon-white
-          %h1 Sign In Here!
+  .row
+    %a.btn.btn-large.btn-primary.span5{:href => register_path}
+      %h2 First time visitors, welcome!
+      %i.icon-user.icon-white
+      %h1 Register Here!
+    %a.btn.btn-large.btn-success.span5.offset1{:href => signin_path}
+      %h2 Return users, welcome back! 
+      %i.icon-pencil.icon-white
+      %h1 Sign In Here!

@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
+  include SessionsHelper
 
 	def form_requirement_notice
 		flash.now[:info] = "Please fill in the fields below. Those marked with * are <strong>required</strong>!"
@@ -15,4 +16,6 @@ class ApplicationController < ActionController::Base
             Thank you, <strong>#{@user.first}</strong> for registering with Pittsburgh CONNECTS! To receive your login information, please fill in the remaining information."
             END
     end
+
+protected
 end
