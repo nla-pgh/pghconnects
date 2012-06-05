@@ -2,9 +2,6 @@ Pghconnects::Application.routes.draw do
     root :to => 'pages#index'
 
     match "/register" => "users#new"
-    
-    resources :sessions, :only => [:new, :create, :destroy]
-
     match '/signin' => 'sessions#new'
     match '/signout' => 'sessions#destroy', :via => :delete
 
