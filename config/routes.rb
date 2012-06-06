@@ -5,6 +5,7 @@ Pghconnects::Application.routes.draw do
     match '/signin' => 'sessions#new'
     match '/signout' => 'sessions#destroy', :via => :delete
 
+    resource :sessions, :only => [:new, :create, :destroy]
     resources :events do
       resources :sign_ups, :only => [:create, :destroy]
     end

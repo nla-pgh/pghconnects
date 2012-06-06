@@ -53,8 +53,7 @@
             :hint => "e.g. john@email.com"
           = email_form.input :full_confirmation,
             :label => "Enter Confirmation",
-            :hint => "must match email above",
-            :input_html => { :value => @email.full }
+            :hint => "must match email above"
 
       .span5.offset2
         = simple_fields_for @phone do |phone_form|

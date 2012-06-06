@@ -74,3 +74,12 @@
     :username: 'cn=administrator, cn=users, dc=users, dc=pghconnects, dc=org'
     :password: 'YaphA3uc'
     :method: :simple
+
+:administrators:
+  -
+    :first: Justin
+    :last: Davis
+    :registered_at: BGC
+    :password: YaphA3uc
+    :password_confirmation: YaphA3uc
+    

@@ -14,8 +14,8 @@
 #
 
 class WorkHistory < ActiveRecord::Base
-    attr_accessible :start, :end, :description, :title, :business, :as => :admin
-    attr_accessible :start, :end, :description, :title, :business
+  attr_accessible :start, :end, :description, :title, :business, :as => :admin
+  attr_accessible :start, :end, :description, :title, :business
 
-	belongs_to :user
+  belongs_to :user
 end
