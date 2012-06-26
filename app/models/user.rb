@@ -48,6 +48,7 @@ class User < ActiveRecord::Base
 	has_secure_password
 
 	before_save :generate_user_name
+  before_save :link_to_site
 
     def full_name
         "#{first} #{middle + ". " if not middle.blank?}#{last}"
@@ -65,17 +66,43 @@ class User < ActiveRecord::Base
         return nil
     end
     
+    def admin?
+        clearance_level != 'U'
+    end
+
+    def coordinator?
+        clearance_level == 'C'
+    end
+
+    def manager?
+        clearance_level == 'M'
+    end
+
+    def super?
+        clearance_level == 'S'
+    end
+
+    def has_clearance_over(user)
+        if admin?
+          return clearance_level > user.clearance_level
+        end
+
+        return false
+    end
+
 private
     def base_user_name
       "#{first.downcase[0,1]}#{last.downcase}_"
     end
 
     def generate_user_name
-			if user_name
-				user_name
-			else
+      unless self.user_name
 				size = User.count(:user_name, :conditions => "user_name LIKE \"#{base_user_name}%\"")
 				self.user_name = "#{base_user_name}#{size}"
 			end
+    end
+
+    def link_to_site
+      self.site_id = Site.find_by_abbr(self.registered_at)
     end
 end

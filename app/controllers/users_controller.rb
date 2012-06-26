@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_filter :signed_in_user, :except => [:new, :create]
-  before_filter :correct_user, :only => [:show, :edit, :update]
+  before_filter :correct_user_or_admin_user, :only => [:show, :edit, :update]
+  before_filter :has_clearance, :only => [:edit, :update]
   before_filter :admin_user, :only => [:index]
   
   def index
@@ -41,7 +42,15 @@ class UsersController < ApplicationController
         @education = Education.new # just discard it - NOT SAVED!
     end
 
-    if @user.save
+    successful_save = false
+    
+    if manager? or super?
+      successful_save = @user.save(:as => :admin)
+    else
+      successful_save = @user.save
+    end
+
+    if successful_save
         flash[:success] = "Thank you for signing up with Pittsburgh CONNECTS!"
         sign_in @user
         redirect_to user_path(@user)

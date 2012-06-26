@@ -1,5 +1,7 @@
 module SessionsHelper
 
+  DENIED_MSG = "Access denied.  Please login if you have not already done so."
+
   def sign_in(user)
     session[:remember_token] = user.id
     @current_user = user
@@ -19,7 +21,8 @@ module SessionsHelper
   end
 
   def admin?
-    signed_in? && current_user.clearance_level != 'U'
+    # Administrator = clearance_level of 'C', 'M', or 'S'
+    signed_in? && current_user.admin?
   end
 
   def current_user?(user)
@@ -38,7 +41,7 @@ module SessionsHelper
   def signed_in_user
     unless signed_in?
       store_location
-      redirect_to signin_path, :notice => "Please sign in."
+      redirect_to signin_path, :notice => DENIED_MSG
     end
   end
 
@@ -46,16 +49,41 @@ module SessionsHelper
     @user = User.find(params[:id])
     unless current_user?(@user)
       store_location
-      redirect_to(root_path)
+      redirect_to root_path, :notice => DENIED_MSG
     end
   end
 
   def admin_user
     unless admin?
       store_location
-      redirect_to signin_path, :alert => "If you're an administrator, please sign in."
+      redirect_to root_path, :notice => DENIED_MSG
     end
   end
+
+  def correct_user_or_admin_user
+    @user = User.find(params[:id])
+    unless current_user?(@user) or admin?
+      store_location
+      redirect_to root_path, :notice => DENIED_MSG
+    end
+  end
+
+  def has_clearance
+    @user = User.find(params[:id])
+    unless current_user.has_clearance_over(@user)
+      store_location
+      redirect_to root_path, :notice => DENIED_MSG
+    end
+  end
+
+  def manager?
+    signed_in? && current_user.manager?
+  end
+
+  def super?
+    signed_in? && current_user.super?
+  end
+
 private
   def current_user=(user)
     @current_user = user

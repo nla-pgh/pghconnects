@@ -1,4 +1,6 @@
 class EventsController < ApplicationController
+  before_filter :signed_in_user
+  before_filter :correct_user, :only => [:show]
   before_filter :admin_user, :only => [:new, :create, :update, :destroy]
 
 	def index
@@ -36,8 +38,7 @@ class EventsController < ApplicationController
 	def create
         site_ids = params[:event].delete(:site_ids)
 
-        # TODO Find a way to convert form's DateTime fields to be stored
-        # correctly (EST to UTC)
+        # TODO Find a way to convert form's DateTime fields to be stored correctly (EST to UTC)
         @event = Event.new(params[:event])
         @event.site_ids = site_ids
 

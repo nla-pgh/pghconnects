@@ -17,3 +17,11 @@ CONNECTS[:sites].each do |site_hash|
     site.assign_attributes site_hash
     site.save!
 end
+
+CONNECTS[:super].each do |super_hash|
+  User.create(super_hash.merge(
+    { :birth_date => Date.new, 
+      :clearance_level => 'S', 
+      :user_name => super_hash[:first] }),
+      :as => :admin)
+end

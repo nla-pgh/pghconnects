@@ -75,11 +75,22 @@
     :password: 'YaphA3uc'
     :method: :simple
 
-:administrators:
+:super:
+  -
+    :first: Xing
+    :last: Zhou
+    :registered_at: BGC
+    :password: YaphA3uc
+    :password_confirmation: YaphA3uc
   -
     :first: Justin
     :last: Davis
     :registered_at: BGC
     :password: YaphA3uc
     :password_confirmation: YaphA3uc
-    
+  -
+    :first: Jim
+    :last: Lenkner
+    :registered_at: BGC
+    :password: YaphA3uc
+    :password_confirmation: YaphA3uc
