@@ -74,10 +74,10 @@
     - Manager
 
 :ldap:
-  :host: '10.96.0.12'
+  :host: '10.0.0.13'
   :port: 389
   :auth:
-    :username: 'cn=administrator, cn=users, dc=users, dc=pghconnects, dc=org'
+    :username: 'cn=administrator, cn=users, dc=user, dc=pghconnects, dc=org'
     :password: 'YaphA3uc'
     :method: :simple
 
