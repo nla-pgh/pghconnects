@@ -12,6 +12,7 @@ gem 'bootstrap-sass'
 gem 'will_paginate'
 gem 'will_paginate-bootstrap'
 gem 'net-ldap'
+gem 'sqlite3'
 
 group :development do
     gem 'annotate', '>=2.4.1.beta'

@@ -23,6 +23,12 @@
     :base_ip: '10.128'
     :address: '1860 Center Ave'
     :phone: 412-281-8483
+  -
+    :name: West End
+    :abbr: WE
+    :base_ip: '10.160'
+    :address: '56 Crucible Street'
+    :phone: 777-777-7777
 
 :form:
   :gender:
