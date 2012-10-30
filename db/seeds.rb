@@ -20,7 +20,7 @@ end
 
 CONNECTS[:super].each do |super_hash|
   User.create(super_hash.merge(
-    { :birth_date => Date.new, 
+    { :birth_date => Date.today, 
       :clearance_level => 'S', 
       :user_name => super_hash[:first] }),
       :as => :admin)
