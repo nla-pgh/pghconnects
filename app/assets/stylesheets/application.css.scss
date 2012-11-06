@@ -138,15 +138,15 @@ $hrBorder:                $grayLighter !default;
 // Navbar
 // -------------------------
 $navbarHeight:                    40px !default;
-$navbarBackground:                $nlaRed; // $grayDarker !default;
-$navbarBackgroundHighlight:       $nlaRed; // $grayDark !default;
+$navbarBackground:                $grayDarker !default;
+$navbarBackgroundHighlight:       $grayDark !default;
 
-$navbarText:                      $white; // $grayLight !default;
-$navbarLinkColor:                 $white; // $grayLight !default;
-$navbarLinkColorHover:            $nlaRed; // $white !default;
+$navbarText:                      $grayLight !default;
+$navbarLinkColor:                 $grayLight !default;
+$navbarLinkColorHover:            $white !default;
 $navbarLinkColorActive:           $navbarLinkColorHover !default;
-$navbarLinkBackgroundHover:       $white; // transparent !default;
-$navbarLinkBackgroundActive:      $white; // $navbarBackground !default;
+$navbarLinkBackgroundHover:       transparent !default;
+$navbarLinkBackgroundActive:      $navbarBackground !default;
 
 $navbarSearchBackground:          lighten($navbarBackground, 25%) !default;
 $navbarSearchBackgroundFocus:     $white !default;
@@ -245,18 +245,21 @@ form {
     color: $white;
     background: { color: $nlaRed; }
     padding: {left: 10px; right: 10px; }
+    cursor: pointer;
     
     .icon-chevron-down, .icon-chevron-up {
-      display: inline-block;
+      display: none;
     }
   }
 
   th.headerSortUp {
-    .icon-chevron-up { display: none; }
+    .icon-filter { display: none; }
+    .icon-chevron-down { display: inline-block; }
   }
 
   th.headerSortDown {
-    .icon-chevron-down { display: none; }
+    .icon-filter { display: none; }
+    .icon-chevron-up { display: inline-block; }
   }
 
   input[id*="filter"] {

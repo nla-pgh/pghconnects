@@ -8,13 +8,14 @@
     %thead
       %tr
         - ["Location", "User ID", "Last Name", "First Name", "Registration Date"].each do |header|
-          %th
+          %th{:title => "Sort by #{header}"}
             = header
             .pull-right
+              %i.icon-white.icon-filter
               %i.icon-white.icon-chevron-up
               %i.icon-white.icon-chevron-down
         %th{:filter => "false"}
-          Remove Sorting
+          Clear Sorting
     %tbody
       - @users.each do |user|
         %tr

@@ -11,7 +11,7 @@
           Pittsburgh CONNECTS Centers
           = "> #{ip_to_name}" unless offsite?
 
-      .nav-collapse.pull-right
+      .nav-collapse
         %ul.nav
           %li= link_to "View Events", events_path
           - if signed_in?
@@ -21,4 +21,4 @@
             %li= link_to "Sign In", signin_path
             %li= link_to "Register with Us!", new_user_path
 
-= render 'layouts/company_logos'
+-#= render 'layouts/company_logos'

@@ -90,6 +90,10 @@ module FormHelper
             v[0,1]
         end
 
+        if (current_user && current_user.super?)
+          list = ['Super'] + list
+        end
+
         { :list => list, :label => label, :value => value }
     end
 

@@ -10,6 +10,7 @@ class UsersController < ApplicationController
 
   def show
     create_sections
+    render :action => :edit
   end
 
   def new
@@ -22,6 +23,8 @@ class UsersController < ApplicationController
   end
 
   def create
+    logger.debug "Current logged in user: #{current_user}"
+    logger.debug "User param: #{params[:user]}"
     @user = User.new(params[:user])
     @address = @user.addresses.build(params[:address])
     @email = @user.emails.build(params[:email])
@@ -43,8 +46,8 @@ class UsersController < ApplicationController
     end
 
     successful_save = false
-    
-    if manager? or super?
+
+    if current_user and (current_user.manager? or current_user.super?)
       successful_save = @user.save(:as => :admin)
     else
       successful_save = @user.save
