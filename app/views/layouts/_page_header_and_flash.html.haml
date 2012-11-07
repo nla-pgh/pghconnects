@@ -1,11 +1,11 @@
-.container
+.container-fluid
   .page-header
     %h1 
       = yield :page_header if :page_header
       %small
         = yield :page_header_small if :page_header_small
 
-  .container
+  .container-fluid
     - flash.each do |type, msg|
       %div{:class => "alert alert-#{type}"}
         %a.close{ :data => { :dismiss => "alert" } }x
