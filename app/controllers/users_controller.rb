@@ -23,9 +23,19 @@ class UsersController < ApplicationController
   end
 
   def create
-    logger.debug "Current logged in user: #{current_user}"
-    logger.debug "User param: #{params[:user]}"
-    @user = User.new(params[:user])
+
+    role = :admin
+
+    # Remove clearance level for unprivileged users
+    unless current_user && current_user.has_clearance_over(params[:user])
+      params[:user].delete(:clearance_level)
+      role = :default
+    end
+
+    logger.debug "PARAMS: #{params.inspect}"
+    logger.debug "ROLE: #{role}"
+    
+    @user = User.new(params[:user], :as => role)
     @address = @user.addresses.build(params[:address])
     @email = @user.emails.build(params[:email])
     @phone = @user.phones.build(params[:phone])
@@ -45,15 +55,8 @@ class UsersController < ApplicationController
         @education = Education.new # just discard it - NOT SAVED!
     end
 
-    successful_save = false
 
-    if current_user and (current_user.manager? or current_user.super?)
-      successful_save = @user.save(:as => :admin)
-    else
-      successful_save = @user.save
-    end
-
-    if successful_save
+    if @user.save
         flash[:success] = "Thank you for signing up with Pittsburgh CONNECTS!"
         sign_in @user
         redirect_to user_path(@user)
@@ -64,17 +67,24 @@ class UsersController < ApplicationController
   end
 
   def update
-      create_sections
+    create_sections
+    role = current_user.has_clearance_over(self) ? :admin : :default
 
-      # TODO Messy code! Should really consider improving the logic...somehow
-      if @user.update_attributes(params[:user]) and @address.update_attributes(params[:address]) and @email.update_attributes(params[:email]) and @phone.update_attributes(params[:phone]) and @work_history.update_attributes(params[:work_history]) and @education.update_attributes(params[:education])
+    if  @education.update_attributes(params[:education]) and
+        @work_history.update_attributes(params[:work_history]) and
+        @phone.update_attributes(params[:phone]) and
+        @email.update_attributes(params[:email]) and
+        @address.update_attributes(params[:address]) and
+        @user.update_attributes(params[:user], :as => role)
 
-          flash_success @user
-          redirect_back_or( user_path(@user) )
-      else
-          person_error @user
-          render :edit
-      end
+      logger.debug "Successful Update"
+      flash_success @user
+      redirect_back_or( user_path(@user) )
+    else
+      logger.debug "Unsuccessful Update"
+      person_error @user
+      render :edit
+    end
   end
 
   def sign_up!(event)
@@ -85,6 +95,8 @@ private
   # etc.) and decide whether to create new entries for each model.
   # For example, blank work history field won't create a blank work history
   # entry
+
+  # TODO move logic into 
   def build_optionals?(opt)
       opt.each do |attr, value|
           return true unless value.blank?

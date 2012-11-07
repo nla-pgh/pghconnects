@@ -71,6 +71,7 @@ module SessionsHelper
   def has_clearance
     @user = User.find(params[:id])
     unless current_user.has_clearance_over(@user)
+      logger.debug "Current user: #{current_user.clearance_level}"
       store_location
       redirect_to root_path, :notice => DENIED_MSG
     end
