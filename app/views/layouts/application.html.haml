@@ -9,20 +9,23 @@
 
   %body
     .container-fluid
+      .navbar.navbar-fixed-top
+        .navbar-inner
+          .container-fluid
+            %a.brand{:href => "/"} Pittsburgh CONNECTS
+            %ul.nav.pull-right
+              %li
+                %a{:href => "/"} Home
+              %li
+                %a{:href => "/register"} Register
+              %li
+                %a{:href => "/signin"} Sign In
       .row-fluid
         %section#side-body.span2
-          -#Site-wide Navigation
-          %ul#site-nav.nav.nav-tabs.nav-stacked
-            %li
-              %a{:href => "/"} Home
-            %li
-              %a{:href => "/register"} Register
-            %li
-              %a{:href => "/help"} Help
-
           = yield :side_bar
         %section.span10
           = yield
+
   - if Rails.env.development?
     .container-fluid
       .row-fluid

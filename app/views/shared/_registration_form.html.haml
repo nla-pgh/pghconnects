@@ -1,16 +1,32 @@
 - content_for :side_bar do
   .row-fluid
     .span12
-      .tabbable.tabs-left
-        %ul.nav.nav-tabs
+      .well#form_nav{:data => {:spy => "affix", :"offset-top" => "50"}}
+        %h4 Registration Form
+        %ul.nav.nav-list
+          %li.nav-header Required Information
           %li
-            %a{:href => "#connects"} CONNECTS Information
+            %a{:href => "#personal"} Personal
+          %li
+            %a{:href => "#contact"} Contact
+          %li
+            %a{:href => "#connects"} CONNECTS
+          %li.nav-header Optional Information
+          %li
+            %a{:href => "#household"} Household
+          %li
+            %a{:href => "#occupation"} Occupation
+          %li
+            %a{:href => "#education"} Education
+          %li.divider
+          %li
+            %a{:href => "#submit"} Submit
 
 .container-fluid
   = simple_form_for @user, :html => { :class => "form-horizontal tab-content" } do |f|
     <!-- Personal Information -->
     .row-fluid
-      .span12
+      .span12#personal
         %h1 Personal Information
 
         .row-fluid
@@ -36,7 +52,7 @@
 
     <!-- Contact Information -->
     .row-fluid
-      .span12
+      .span12#contact
         %h1 Contact Information
 
         .row-fluid
@@ -64,7 +80,7 @@
 
     <!-- Household Information -->
     .row-fluid
-      .span12
+      .span12#household
         %h1 Household Information (Optional)
 
         .row-fluid
@@ -82,7 +98,7 @@
 
     <!-- Occupation Information -->
     .row-fluid
-      .span12
+      .span12#occupation
         %h1 Occupation Information (Optional)
 
         .row-fluid
@@ -103,14 +119,14 @@
 
     <!-- Education Information -->
     .row-fluid
-      .span12
+      .span12#education
         %h1 Education Information (Optional)
         = render :partial => '/shared/education', :locals => { :education => @education }
 
     <!-- CONNECTS Information -->
     .row-fluid
-      .span12
-        %h1#connects CONNECTS Information
+      .span12#connects
+        %h1 CONNECTS Information
 
         .row-fluid
           .span6
@@ -139,11 +155,7 @@
 
     <!-- Form Buttons -->
     .row-fluid
-      .span12
-        %hr
-
-        .row-fluid
-          .span6
-            = submit_tag "Clear Form", :class => "btn btn-large span2", :type => "reset"
-          .span6
-            = submit_tag "Submit Form", :class => "btn btn-large btn-primary span6", :id => "submit"
+      .span6#submit
+        = submit_tag "Clear Form", :class => "btn btn-large span2", :type => "reset"
+      .span6
+        = submit_tag "Submit Form", :class => "btn btn-large btn-primary span6", :id => "submit"
