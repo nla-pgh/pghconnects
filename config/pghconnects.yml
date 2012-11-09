@@ -23,6 +23,11 @@
     :base_ip: '10.128'
     :address: '1860 Center Ave'
     :phone: 412-281-8483
+  -
+    :name: West End
+    :abbr: WE
+    :base_ip: '10.160'
+    :address: '856 Crucible Street'
 
 :form:
   :gender:
@@ -68,10 +73,10 @@
     - Manager
 
 :ldap:
-  :host: '10.96.0.12'
+  :host: '10.0.0.13'
   :port: 389
   :auth:
-    :username: 'cn=administrator, cn=users, dc=users, dc=pghconnects, dc=org'
+    :username: 'cn=administrator, cn=users, dc=user, dc=pghconnects, dc=org'
     :password: 'YaphA3uc'
     :method: :simple
 
