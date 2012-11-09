@@ -78,7 +78,7 @@ class UsersController < ApplicationController
 
     if success
       flash[:success] = "Your information has been updated!"
-      redirect_back_or( user_path(@user) )
+      redirect_to user_path(@user)
     else
       person_error @user
       render :edit

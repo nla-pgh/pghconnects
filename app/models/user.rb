@@ -106,7 +106,7 @@ class User < ActiveRecord::Base
 
   # Update attributes to ldap
   before_update do |user|
-    succes = true
+    success = true
     dn = "CN=#{user.user_name},OU=#{user.site.abbr},OU=PC_Users,DC=user,DC=pghconnects,DC=org"
 
     Net::LDAP.open(CONNECTS[:ldap]) do |ldap|
@@ -116,7 +116,11 @@ class User < ActiveRecord::Base
       # Locate entry to test whether or not to toggle enable/disable
       error = ldap.search(:base => dn, :attributes => "userAccountControl", :return_result => false) do |entry|
         # Disable / Enable entry
-        e = ldap.replace_attribute(dn, :userAccountControl, user.enable) if user.enable != entry.userAccountControl
+        Rails.logger.debug "Status: #{user.enable.inspect}"
+        Rails.logger.debug "Entry: #{entry.inspect}"
+        Rails.logger.debug "Entry Stats: #{entry.userAccountControl[0].inspect}"
+
+        e = ldap.replace_attribute(dn, :userAccountControl, user.enable) if user.enable != entry.userAccountControl[0]
         unless e
           Rails.logger.debug "Result: #{ldap.get_operation_result.code}"
           Rails.logger.debug "Message: #{ldap.get_operation_result.message}"
