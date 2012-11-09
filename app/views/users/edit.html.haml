@@ -5,7 +5,6 @@
     %span.label= "#{@user.full_name}."
     You may change the information by filling in and submitting the form below.
 
-- provide :title do
-  =yield :hero_header
+- provide :title, raw(@user.full_name)
 
 = render 'shared/registration_form'

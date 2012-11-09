@@ -41,38 +41,38 @@ module SessionsHelper
   def signed_in_user
     unless signed_in?
       store_location
-      redirect_to root_path, :notice => DENIED_MSG
+      redirect_to :back, :notice => DENIED_MSG
     end
   end
 
   def correct_user
-    @user = User.find(params[:id])
-    unless current_user?(@user)
+    user = User.find(params[:id])
+    unless current_user?(user)
       store_location
-      redirect_to root_path, :notice => DENIED_MSG
+      redirect_to :back, :notice => DENIED_MSG
     end
   end
 
   def admin_user
     unless admin?
       store_location
-      redirect_to root_path, :notice => DENIED_MSG
+      redirect_to :back, :notice => DENIED_MSG
     end
   end
 
   def correct_user_or_admin_user
-    @user = User.find(params[:id])
-    unless current_user?(@user) or admin?
+    user = User.find(params[:id])
+    unless current_user?(user) or admin?
       store_location
-      redirect_to root_path, :notice => DENIED_MSG
+      redirect_to :back, :notice => DENIED_MSG
     end
   end
 
   def has_clearance
-    @user = User.find(params[:id])
-    unless current_user.has_clearance_over(@user)
+    user = User.find(params[:id])
+    unless current_user.has_clearance_over(user)
       store_location
-      redirect_to root_path, :notice => DENIED_MSG
+      redirect_to :back, :notice => DENIED_MSG
     end
   end
 

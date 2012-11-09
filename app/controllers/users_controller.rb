@@ -16,7 +16,7 @@ class UsersController < ApplicationController
   def new
     create_sections
     if signed_in?
-      flash[:info] = "You are logged in as #{current_user.full_name}.
+      flash.now[:info] = "You are logged in as #{current_user.full_name}.
       You may use the form below to register another user."
     end
   end
@@ -26,7 +26,6 @@ class UsersController < ApplicationController
   end
 
   def create
-
     role = :admin
 
     # Remove clearance level for unprivileged users
@@ -35,9 +34,6 @@ class UsersController < ApplicationController
       role = :default
     end
 
-    logger.debug "PARAMS: #{params.inspect}"
-    logger.debug "ROLE: #{role}"
-    
     @user = User.new(params[:user], :as => role)
     @address = @user.addresses.build(params[:address])
     @email = @user.emails.build(params[:email])
@@ -70,20 +66,20 @@ class UsersController < ApplicationController
 
   def update
     create_sections
-    role = current_user.has_clearance_over(self) ? :admin : :default
+    role = current_user.has_clearance_over(@user) ? :admin : :default
 
-    if  @education.update_attributes(params[:education]) and
-        @work_history.update_attributes(params[:work_history]) and
-        @phone.update_attributes(params[:phone]) and
-        @email.update_attributes(params[:email]) and
-        @address.update_attributes(params[:address]) and
-        @user.update_attributes(params[:user], :as => role)
+    # Must go through all associations update to collection complete errors
+    success = @education.update_attributes(params[:education])
+    success = @work_history.update_attributes(params[:work_history]) and success
+    success = @phone.update_attributes(params[:phone]) and success
+    success = @email.update_attributes(params[:email]) and success
+    success = @address.update_attributes(params[:address]) and success
+    success = @user.update_attributes(params[:user], :as => role) and success
 
-      logger.debug "Successful Update"
-      flash_success @user
+    if success
+      flash[:success] = "Your information has been updated!"
       redirect_back_or( user_path(@user) )
     else
-      logger.debug "Unsuccessful Update"
       person_error @user
       render :edit
     end

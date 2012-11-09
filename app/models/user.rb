@@ -90,7 +90,7 @@ class User < ActiveRecord::Base
       return clearance_level >= user.clearance_level
     end
 
-    return false
+    return self == user
   end
 
 private

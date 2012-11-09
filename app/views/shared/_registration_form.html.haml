@@ -113,17 +113,19 @@
     .span12
       = f.input :user_name, :disabled => true, :placeholder => "Automatically Assigned"
   .row-fluid
+    .span12
+      .alert Please remember your password.  Pittsburgh CONNECTS cannot recover your password.
+  .row-fluid
     .span6
-      = f.input :password, :required => true
+      = f.input :password, :required => true, :wrapper_html => {:class => "alert"}
     .span6
-      = f.input :password_confirmation, :label => "Repeat Password", :required => true
-
+      = f.input :password_confirmation, :label => "Repeat Password", :required => true, :wrapper_html => {:class => "alert"}
 
   <!-----------OPTIONAL INFORMATION-------------->
   .row-fluid
     .span12
       %h1
-        %small Optional
+        %small Optional Information
 
   <!-- Household Information -->
   .row-fluid
@@ -180,6 +182,8 @@
       %hr#submit
   .row-fluid
     .span6
-      = submit_tag "Clear Form", :class => "btn btn-large", :type => "reset"
+      .row-fluid
+        = submit_tag "Clear Form", :class => "btn btn-large span6", :type => "reset"
     .span6
-      = submit_tag "Submit Form", :class => "btn btn-large btn-success pull-right span8", :id => "submit"
+      .row-fluid
+        = submit_tag "Submit Form", :class => "btn btn-large btn-success pull-right span12", :id => "submit"

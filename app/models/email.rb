@@ -22,8 +22,7 @@ class Email < ActiveRecord::Base
     validates :full, 
         :presence => true, 
         :confirmation => true,
-        :format => { :with => VALID_EMAIL_REGEX, 
-            :message => "should be formatted as" }
+        :format => { :with => VALID_EMAIL_REGEX }
 
     validates :root, 
         :length => { :in => 2..3, 

@@ -11,6 +11,10 @@
     .navbar.navbar-fixed-top
       .navbar-inner
         .container-fluid
+          %a.btn.btn-navbar{:data => {:toggle => "collapse", :target => ".nav-collapse"}}
+            %span.icon-bar
+            %span.icon-bar
+            %span.icon-bar
           %a#brand.brand{:href => "/"}= image_tag "pgh_cnx.png"
           -if signed_in?
             %ul.nav.pull-left
@@ -22,28 +26,27 @@
                     ="#{current_user.full_name}"
                     %i.icon-white.icon-user
                     Click here to see your profile.
-          %ul.nav.pull-right
-            %li
-              %a{:href => register_path}
-                Register
-            %li.divider-vertical
-            -if signed_in?
-              - if current_user.admin?
+          .nav-collapse.collapse
+            %ul.nav.pull-right
+              %li
+                %a{:href => register_path}
+                  Register
+              %li.divider-vertical
+              -if signed_in?
+                - if current_user.admin?
+                  %li
+                    %a{:href => users_path}
+                      User Directory
+                  %li.divider-vertical
                 %li
-                  %a.btn.btn-primary{:href => users_path}
-                    User Directory
-                %li.divider-vertical
-              %li
-                %a.btn.btn-inverse{:href => signout_path, :data => {:method => :delete}, :rel => "nofollow"}
-                  Sign Out
-            -else
-              %li
-                = simple_form_for(:session, :url => sessions_path, :wrapper => :navbar, :html => { :class => "pull-right" }) do |f|
-                  = f.input :user_name, :input_html => {:placeholder => "Username"}
-                  = f.input :password, :input_html => {:placeholder => "Password"}
-                  %button.btn.btn-primary{:name => "commit", :type => "submit", :value => "Sign In"}
-                    %i.icon-white.icon-ok
-                    Sign In
+                  %a{:href => signout_path, :data => {:method => :delete}, :rel => "nofollow"}
+                    Sign Out
+              -else
+                %li
+                  = simple_form_for(:session, :url => sessions_path, :wrapper => :navbar) do |f|
+                    = f.input :user_name, :input_html => {:placeholder => "Username"}
+                    = f.input :password, :input_html => {:placeholder => "Password"}
+                    = submit_tag "Sign In", :class => "btn btn-primary"
 
     <!-- Main Body -->
     .container-fluid
