@@ -84,8 +84,7 @@ class User < ActiveRecord::Base
         :userAccountControl => ENABLE,
         :objectClass => %w[top person organizationalPerson user],
         :userPassword => user.password,
-        :cn => user.user_name,
-        :pwdLastSet => "0"
+        :cn => user.user_name
       }
 
       Rails.logger.debug "Attributes: #{attrs.inspect}"
