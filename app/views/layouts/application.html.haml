@@ -53,9 +53,9 @@
       .row-fluid
         .span12
           .well
-            %h1= yield :hero_header
             .row-fluid
               .span8
+                %h1= yield :hero_header
                 =yield :hero_sub
               .span4
                 - flash.each do |type, msg|
