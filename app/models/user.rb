@@ -53,9 +53,9 @@ class User < ActiveRecord::Base
   #       Jill Smith => jsmith_1
   before_save do |user|
     unless user.user_name
-      base_user_name = "#{first.downcase[0,1]}#{last.downcase}_"
-      size = User.count(:user_name, :conditions => "user_name LIKE \"#{base_user_name}%\"")
-      user.user_name = "#{base_user_name}#{size}"
+      base_user_name = "#{first.downcase[0,1]}#{last.downcase}"
+      size = User.count(:user_name, :conditions => "user_name LIKE '#{base_user_name}\_%'")
+      user.user_name = "#{base_user_name}_#{size}"
     end
   end
 
