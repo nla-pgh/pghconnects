@@ -110,8 +110,11 @@
 
   <!-- Login Information -->
   .row-fluid
-    .span12
+    .span6
       = f.input :user_name, :disabled => true, :placeholder => "Automatically Assigned"
+    .span6
+      -if admin?
+        = f.input :enable, :as => :radio_buttons, :selected => @user.enable == User::ENABLE ? 'true' : 'false'
   .row-fluid
     .span12
       .alert Please remember your password.  Pittsburgh CONNECTS cannot recover your password.

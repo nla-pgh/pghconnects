@@ -21,10 +21,10 @@ class User < ActiveRecord::Base
 
   attr_accessible :first, :middle, :last, :birth_date, :registered_at, :gender, :ethnicity,
                   :user_name, :clearance_level, :site_id, :password, :password_confirmation,
-                  :password_digest, :as => :admin
+                  :password_digest, :enable, :as => :admin
 
   attr_accessible :first, :middle, :last, :birth_date, :registered_at, :gender, :ethnicity,
-                  :password, :password_confirmation
+                  :password, :password_confirmation, :enable
 
   validates :first, :presence => true
   validates :middle, :length => { :is => 1, :allow_nil => true, :allow_blank => true }
@@ -48,8 +48,101 @@ class User < ActiveRecord::Base
 
   has_secure_password
 
-  before_save :generate_user_name
-  before_save :link_to_site
+  # Generate user name as first initial lastname _ number
+  # i.e.  John Smith => jsmith_0
+  #       Jill Smith => jsmith_1
+  before_save do |user|
+    unless user.user_name
+      base_user_name = "#{first.downcase[0,1]}#{last.downcase}_"
+      size = User.count(:user_name, :conditions => "user_name LIKE \"#{base_user_name}%\"")
+      user.user_name = "#{base_user_name}#{size}"
+    end
+  end
+
+  # Link user to a site
+  before_save do |user|
+    user.site_id = Site.find_by_abbr(user.registered_at)
+  end
+
+  ENABLE = "512"
+  DISABLE = "2"
+
+  # Add user to ldap
+  before_create do |user|
+    success = true
+    Net::LDAP.open(CONNECTS[:ldap]) do |ldap|
+      dn = "CN=#{user.user_name},OU=#{user.site.abbr},OU=PC_Users,DC=user,DC=pghconnects,DC=org"
+
+      attrs = {
+        :distinguishedName => dn,
+        :displayName => user.user_name,
+        :givenName => user.first,
+        :name => user.full_name,
+        :sn => user.last,
+        :sAMAccountName => user.user_name,
+        :userPrincipalName => "#{user.user_name}@user.pghconnects.org",
+        :userAccountControl => ENABLE,
+        :objectClass => %w[top person organizationalPerson user],
+        :userPassword => user.password,
+        :cn => user.user_name,
+        :pwdLastSet => "0"
+      }
+
+      Rails.logger.debug "Attributes: #{attrs.inspect}"
+
+      Rails.logger.debug "DN: #{dn}"
+
+      unless ldap.add(:dn => dn, :attributes => attrs)
+        Rails.logger.debug "Result: #{ldap.get_operation_result.code}"
+        Rails.logger.debug "Message: #{ldap.get_operation_result.message}"
+        success = false
+      end
+    end
+
+    unless success
+      errors.add(:enable, "Error with LDAP connection.  Please notify administrators.")
+    end
+  end
+
+  # Update attributes to ldap
+  before_update do |user|
+    succes = true
+    dn = "CN=#{user.user_name},OU=#{user.site.abbr},OU=PC_Users,DC=user,DC=pghconnects,DC=org"
+
+    Net::LDAP.open(CONNECTS[:ldap]) do |ldap|
+
+      success = ldap.replace_attribute(dn, :userpassword, user.password) if user.password
+
+      # Locate entry to test whether or not to toggle enable/disable
+      error = ldap.search(:base => dn, :attributes => "userAccountControl", :return_result => false) do |entry|
+        # Disable / Enable entry
+        e = ldap.replace_attribute(dn, :userAccountControl, user.enable) if user.enable != entry.userAccountControl
+        unless e
+          Rails.logger.debug "Result: #{ldap.get_operation_result.code}"
+          Rails.logger.debug "Message: #{ldap.get_operation_result.message}"
+          success = false
+        end
+      end
+
+      unless error
+        Rails.logger.debug "Result: #{ldap.get_operation_result.code}"
+        Rails.logger.debug "Message: #{ldap.get_operation_result.message}"
+        success = false
+      end
+    end
+
+    unless success
+      errors.add(:enable, "Error with LDAP connection.  Please notify administrators.")
+    end
+  end
+
+  def enable=(v)
+    @enable = v == 'true' ? ENABLE : DISABLE
+  end
+
+  def enable
+    @enable || ENABLE
+  end
 
   def full_name
     "#{first} #{middle + ". " if not middle.blank?}#{last}"
@@ -91,21 +184,5 @@ class User < ActiveRecord::Base
     end
 
     return self == user
-  end
-
-private
-  def base_user_name
-    "#{first.downcase[0,1]}#{last.downcase}_"
-  end
-
-  def generate_user_name
-  unless self.user_name
-    size = User.count(:user_name, :conditions => "user_name LIKE \"#{base_user_name}%\"")
-    self.user_name = "#{base_user_name}#{size}"
-  end
-  end
-
-  def link_to_site
-    self.site_id = Site.find_by_abbr(self.registered_at)
   end
 end
