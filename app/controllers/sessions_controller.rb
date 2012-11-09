@@ -1,8 +1,5 @@
 class SessionsController < ApplicationController
 
-  def new
-  end
-
   def create
     user = User.find_by_user_name(params[:session][:user_name])
     
@@ -11,8 +8,8 @@ class SessionsController < ApplicationController
       sign_in user
       redirect_to user
     else
-      flash.now[:error] = "Sign in Failed.  Please make sure that your username and password are correct"
-      render :new
+      flash[:error] = "Sign in Failed.  Please make sure that your username and password are correct"
+      redirect_to :back
     end
   end
 

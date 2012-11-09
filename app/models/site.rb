@@ -27,4 +27,5 @@ class Site < ActiveRecord::Base
   has_and_belongs_to_many :events
 
   has_one :manager, :class_name => "User", :conditions => { :clearance_level => "M" }, :dependent => :destroy
+  
 end

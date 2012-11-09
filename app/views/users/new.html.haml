@@ -1,4 +1,13 @@
-- render "shared/title"
-= render "layouts/page_header_and_flash"
+-#= render "layouts/page_header_and_flash"
+- content_for :hero_header, "Account Registration"
+- content_for :hero_sub do
+  %p
+    In order to use services offered by Pittsburgh CONNECTS, please complete the form below.
+    Items marked with
+    %b *
+    are required.
+
+- content_for :title do
+  =yield :hero_header
 
 = render "shared/registration_form"

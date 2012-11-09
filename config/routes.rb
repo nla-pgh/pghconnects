@@ -1,5 +1,5 @@
 Pghconnects::Application.routes.draw do
-    root :to => 'pages#index'
+    root :to => 'users#new'
 
     match "/register" => "users#new"
     match '/signin' => 'sessions#new'
@@ -7,9 +7,9 @@ Pghconnects::Application.routes.draw do
 
     resource :sessions, :only => [:new, :create, :destroy]
 
-    resources :events do
-      resources :sign_ups, :only => [:create, :destroy]
-    end
+    #resources :events do
+      #resources :sign_ups, :only => [:create, :destroy]
+    #end
 
     resources :users, :except => :destroy
 

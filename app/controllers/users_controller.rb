@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   before_filter :admin_user, :only => [:index]
   
   def index
-      @users = User.find_all_by_registered_at(current_user.registered_at, :order => "last")
+      @users = User.all(:order => "last")
   end
 
   def show
@@ -14,8 +14,11 @@ class UsersController < ApplicationController
   end
 
   def new
-    form_requirement_notice
     create_sections
+    if signed_in?
+      flash[:info] = "You are logged in as #{current_user.full_name}.
+      You may use the form below to register another user."
+    end
   end
 
   def edit
@@ -54,7 +57,6 @@ class UsersController < ApplicationController
     else
         @education = Education.new # just discard it - NOT SAVED!
     end
-
 
     if @user.save
         flash[:success] = "Thank you for signing up with Pittsburgh CONNECTS!"

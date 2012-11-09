@@ -7,8 +7,44 @@ body {
   padding-top: 50px;
 }
 
-#form_nav {
-  width: inherit;
+@media (max-width: 960px) {
+  #form_nav {
+    position: static;
+  }
+}
+
+@media (min-width: 960px) {
+  #form_nav {
+    position: fixed;
+    width: 13%;
+  }
+}
+
+.navbar {
+  form {
+    margin-bottom: 0;
+  }
+
+  .nav > li > a.btn {
+    @extend .btn;
+  }
+
+  .nav > li > a.btn-inverse {
+    @extend .btn-inverse;
+  }
+
+  .nav > li > a.btn-info {
+    @extend .btn-info;
+  }
+
+  .nav > li > a.btn-primary {
+    @extend .btn-primary;
+  }
+}
+
+.brand img {
+  height: 1em;
+  vertical-align: bottom;
 }
 
 .table {

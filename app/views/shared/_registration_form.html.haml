@@ -1,161 +1,185 @@
 - content_for :side_bar do
   .row-fluid
-    .span12
-      .well#form_nav{:data => {:spy => "affix", :"offset-top" => "50"}}
-        %h4 Registration Form
-        %ul.nav.nav-list
-          %li.nav-header Required Information
-          %li
-            %a{:href => "#personal"} Personal
-          %li
-            %a{:href => "#contact"} Contact
-          %li
-            %a{:href => "#connects"} CONNECTS
-          %li.nav-header Optional Information
-          %li
-            %a{:href => "#household"} Household
-          %li
-            %a{:href => "#occupation"} Occupation
-          %li
-            %a{:href => "#education"} Education
-          %li.divider
-          %li
-            %a{:href => "#submit"} Submit
+    .span12#form_nav
+      %ul.nav.nav-list
+        %li
+          %h4 
+            Navigate
+            %a#top.pull-right{:href => "#"} Top
+        %li.nav-header Required
+        %li.active
+          %a{:href => "#personal"}
+            Personal
+            %i.icon-chevron-right.pull-right
+        %li
+          %a{:href => "#contact"}
+            Contact
+            %i.icon-chevron-right.pull-right
+        %li
+          %a{:href => "#connects"}
+            CONNECTS
+            %i.icon-chevron-right.pull-right
+        %li.nav-header Optional
+        %li
+          %a{:href => "#household"}
+            Household
+            %i.icon-chevron-right.pull-right
+        %li
+          %a{:href => "#occupation"}
+            Occupation
+            %i.icon-chevron-right.pull-right
+        %li
+          %a{:href => "#education"}
+            Education
+            %i.icon-chevron-right.pull-right
+        %li.divider
+        %li
+          %a{:href => "#submit"}
+            Submit
+            %i.icon-chevron-right.pull-right
 
-.container-fluid
-  = simple_form_for @user, :html => { :class => "form-horizontal tab-content" } do |f|
-    <!-- Personal Information -->
-    .row-fluid
-      .span12#personal
-        %h1 Personal Information
+= simple_form_for @user, :html => { :class => "form-horizontal tab-content" } do |f|
+  <!-- Personal Information -->
+  .row-fluid
+    .span12#personal
+      %h2 Personal
+      %hr
 
-        .row-fluid
-          .span6
-            = f.input :first, :label => 'First Name'
-            = f.input :middle, :label => 'Middle Initial'
-            = f.input :last, :label => 'Last Name'
-            = f.input :birth_date, 
-              :start_year => year - 100, 
-              :end_year => year, 
-              :order => [:month, :day, :year]
-            = f.input :gender, :collection => genders[:list]
-            = f.input :ethnicity, :collection => ethnicities[:list]
+      .row-fluid
+        .span6
+          = f.input :first, :label => 'First Name'
+          = f.input :middle, :label => 'Middle Initial'
+          = f.input :last, :label => 'Last Name'
+          = f.input :birth_date, 
+            :start_year => year - 100, 
+            :end_year => year, 
+            :order => [:month, :day, :year]
+          = f.input :gender, :collection => genders[:list]
+          = f.input :ethnicity, :collection => ethnicities[:list]
 
-          .span6
-            = simple_fields_for @address do |addr_form|
-              = addr_form.input :number, :label => "House Number"
-              = addr_form.input :street, :label => "Street Name"
-              = addr_form.input :apt_fl, :label => "Apt / Floor Number"
-              = addr_form.input :city, :input_html => { :value => "Pittsburgh" }
-              = addr_form.input :state, :input_html => { :value => "PA" }
-              = addr_form.input :zip
-
-    <!-- Contact Information -->
-    .row-fluid
-      .span12#contact
-        %h1 Contact Information
-
-        .row-fluid
-          .span6
-            = simple_fields_for @email do |email_form|
-              = email_form.input :full, 
-                :label => "Email", 
-                :hint => "e.g. john@email.com"
-              = email_form.input :full_confirmation,
-                :label => "Enter Confirmation",
-                :hint => "must match email above"
-
-          .span6
-            = simple_fields_for @phone do |phone_form|
-              = phone_form.input :full, 
-                :label => "Phone", 
-                :hint => "e.g. 412-123-4567"
-
-
-    <!-----------OPTIONAL INFORMATION-------------->
-    .row-fluid
-      .span12
-        %h1
-          %small Optional Information
-
-    <!-- Household Information -->
-    .row-fluid
-      .span12#household
-        %h1 Household Information (Optional)
-
-        .row-fluid
+        .span6
           = simple_fields_for @address do |addr_form|
-            .span6
-              = addr_form.input :household_number,
-                :collection => household_numbers[:list], 
-                :label_method => household_numbers[:label],
-                :label => "Number of People in Household"
-            .span6
-              = addr_form.input :household_income,
-                :collection => household_incomes[:list],
-                :label_method => household_incomes[:label], 
-                :label => "Annual Household Income"
+            = addr_form.input :number, :label => "House Number"
+            = addr_form.input :street, :label => "Street Name"
+            = addr_form.input :apt_fl, :label => "Apt / Floor Number"
+            = addr_form.input :city, :input_html => { :value => "Pittsburgh" }
+            = addr_form.input :state, :input_html => { :value => "PA" }
+            = addr_form.input :zip
 
-    <!-- Occupation Information -->
-    .row-fluid
-      .span12#occupation
-        %h1 Occupation Information (Optional)
+  <!-- Contact Information -->
+  .row-fluid
+    .span12#contact
+      %h2 Contact
+      %hr
 
-        .row-fluid
-          = simple_fields_for @work_history do |work_history_form|
-            .span6
-              = work_history_form.input :title, :label => "Occupation Title"
-              = work_history_form.input :start,
-                :start_year => year - 100, :end_year => year + 10,
-                :label => "Start Date", :include_blank => true,
-                :order => [:month, :day, :year]
-              = work_history_form.input :end,
-                :start_year => year - 100, :end_year => year + 10,
-                :label => "End Date", :include_blank => true,
-                :order => [:month, :day, :year]
-            .span6
-              = work_history_form.input :description,
-                :input_html => { :cols => 50, :rows => 10 }
+      .row-fluid
+        .span6
+          = simple_fields_for @email do |email_form|
+            = email_form.input :full, 
+              :label => "Email", 
+              :hint => "e.g. john@email.com"
+            = email_form.input :full_confirmation,
+              :label => "Enter Confirmation",
+              :hint => "must match email above"
 
-    <!-- Education Information -->
-    .row-fluid
-      .span12#education
-        %h1 Education Information (Optional)
-        = render :partial => '/shared/education', :locals => { :education => @education }
+        .span6
+          = simple_fields_for @phone do |phone_form|
+            = phone_form.input :full, 
+              :label => "Phone", 
+              :hint => "e.g. 412-123-4567"
 
-    <!-- CONNECTS Information -->
-    .row-fluid
-      .span12#connects
-        %h1 CONNECTS Information
+  <!-- CONNECTS Information -->
+  .row-fluid
+    .span12#connects
+      %h2 CONNECTS
+      %hr
 
-        .row-fluid
-          .span6
-            - if @user.new_record?
-              = f.input :registered_at, site_hash
-            - else
-              = f.input :registered_at, site_hash.merge(:disabled => true)
-
-          - if admin?
-            .span6
-              = f.input :clearance_level, clearance_hash
+      .row-fluid
+        .span6
+          - if @user.new_record?
+            = f.input :registered_at, site_hash
           - else
-            .span6
-              = f.input :clearance_level, clearance_hash.merge(:disabled => true)
+            = f.input :registered_at, site_hash.merge(:disabled => true)
 
-    <!-- Login Information -->
-    .row-fluid
-      .span12
-        %h1 Login Password
-
-        .row-fluid
+        - if admin?
           .span6
-            = f.input :password
+            = f.input :clearance_level, clearance_hash
+        - else
           .span6
-            = f.input :password_confirmation, :label => "Repeat Password"
+            = f.input :clearance_level, clearance_hash.merge(:disabled => true)
 
-    <!-- Form Buttons -->
-    .row-fluid
-      .span6#submit
-        = submit_tag "Clear Form", :class => "btn btn-large span2", :type => "reset"
-      .span6
-        = submit_tag "Submit Form", :class => "btn btn-large btn-primary span6", :id => "submit"
+  <!-- Login Information -->
+  .row-fluid
+    .span12
+      = f.input :user_name, :disabled => true, :placeholder => "Automatically Assigned"
+  .row-fluid
+    .span6
+      = f.input :password, :required => true
+    .span6
+      = f.input :password_confirmation, :label => "Repeat Password", :required => true
+
+
+  <!-----------OPTIONAL INFORMATION-------------->
+  .row-fluid
+    .span12
+      %h1
+        %small Optional
+
+  <!-- Household Information -->
+  .row-fluid
+    .span12#household
+      %h2 Household
+      %hr
+
+      .row-fluid
+        = simple_fields_for @address do |addr_form|
+          .span6
+            = addr_form.input :household_number,
+              :collection => household_numbers[:list], 
+              :label_method => household_numbers[:label],
+              :label => "Number of People in Household"
+          .span6
+            = addr_form.input :household_income,
+              :collection => household_incomes[:list],
+              :label_method => household_incomes[:label], 
+              :label => "Annual Household Income"
+
+  <!-- Occupation Information -->
+  .row-fluid
+    .span12#occupation
+      %h2 Occupation
+      %hr
+
+      .row-fluid
+        = simple_fields_for @work_history do |work_history_form|
+          .span6
+            = work_history_form.input :title, :label => "Occupation Title"
+            = work_history_form.input :start,
+              :start_year => year - 100, :end_year => year + 10,
+              :label => "Start Date", :include_blank => true,
+              :order => [:month, :day, :year]
+            = work_history_form.input :end,
+              :start_year => year - 100, :end_year => year + 10,
+              :label => "End Date", :include_blank => true,
+              :order => [:month, :day, :year]
+          .span6
+            = work_history_form.input :description,
+              :input_html => { :cols => 50, :rows => 10 }
+
+  <!-- Education Information -->
+  .row-fluid
+    .span12#education
+      %h2 Education
+      %hr
+      = render :partial => '/shared/education', :locals => { :education => @education }
+
+
+  <!-- Form Buttons -->
+  .row-fluid
+    .span12
+      %hr#submit
+  .row-fluid
+    .span6
+      = submit_tag "Clear Form", :class => "btn btn-large", :type => "reset"
+    .span6
+      = submit_tag "Submit Form", :class => "btn btn-large btn-success pull-right span8", :id => "submit"

@@ -49,10 +49,24 @@ SimpleForm.setup do |config|
     b.use :html5
     b.use :placeholder
     b.use :label
+
     b.wrapper :tag => 'div', :class => 'controls' do |ba|
       ba.use :input
       ba.use :error, :wrap_with => { :tag => 'span', :class => 'help-inline' }
       ba.use :hint,  :wrap_with => { :tag => 'p', :class => 'help-block' }
+    end
+
+  end
+
+  config.wrappers :navbar, :class => "navbar-form", :tag => :span do |b|
+    b.use :html5
+    b.use :placeholder
+
+    # Navbar Wrapper
+    b.wrapper :navbar_wrapper, :tag => :span, :class => 'controls' do |component|
+      component.use :input, :wrap_with => {:tag => :span}
+      component.use :error, :wrap_with => { :tag => 'span', :class => 'help-inline' }
+      component.use :hint,  :wrap_with => { :tag => 'p', :class => 'help-block' }
     end
   end
 

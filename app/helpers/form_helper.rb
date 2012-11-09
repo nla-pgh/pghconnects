@@ -4,7 +4,7 @@ module FormHelper
         {   
             :label => "Registration Site",
             :collection => sites,
-            :value_method => Proc.new { |v| v },
+            :value_method => Proc.new { |v| v.abbr },
             :include_blank => false,
             :selected => ip_to_name
         }
@@ -95,9 +95,6 @@ module FormHelper
         end
 
         { :list => list, :label => label, :value => value }
-    end
-
-    def site_users(user)
     end
 
     def year

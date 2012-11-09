@@ -1,30 +1,73 @@
 <!DOCTYPE html>
 %html{ :lang => "en" }
   %head
-    %title= yield :title
+    %title= "#{yield :title} | Pittsburgh CONNECTS"
     = stylesheet_link_tag    "application", :media => "all"
-    = javascript_include_tag "application"
     = csrf_meta_tags
     %meta{:name => "viewport", :content => "width=device-width, initial-scale=1.0"}
 
-  %body
+  %body{:data => { :spy => "scroll", :target => "#form_nav", :offset => "150" }}
+    <!-- Navbar -->
+    .navbar.navbar-fixed-top
+      .navbar-inner
+        .container-fluid
+          %a#brand.brand{:href => "/"}= image_tag "pgh_cnx.png"
+          -if signed_in?
+            %ul.nav.pull-left
+              %li.divider-vertical
+              %li
+                %p.navbar-text<
+                  Welcome,
+                  %a.label.label-success{:href => user_path(current_user), :action => :edit}
+                    ="#{current_user.full_name}"
+                    %i.icon-white.icon-user
+                    Click here to see your profile.
+          %ul.nav.pull-right
+            %li
+              %a{:href => register_path}
+                Register
+            %li.divider-vertical
+            -if signed_in?
+              - if current_user.admin?
+                %li
+                  %a.btn.btn-primary{:href => users_path}
+                    User Directory
+                %li.divider-vertical
+              %li
+                %a.btn.btn-inverse{:href => signout_path, :data => {:method => :delete}, :rel => "nofollow"}
+                  Sign Out
+            -else
+              %li
+                = simple_form_for(:session, :url => sessions_path, :wrapper => :navbar, :html => { :class => "pull-right" }) do |f|
+                  = f.input :user_name, :input_html => {:placeholder => "Username"}
+                  = f.input :password, :input_html => {:placeholder => "Password"}
+                  %button.btn.btn-primary{:name => "commit", :type => "submit", :value => "Sign In"}
+                    %i.icon-white.icon-ok
+                    Sign In
+
+    <!-- Main Body -->
     .container-fluid
-      .navbar.navbar-fixed-top
-        .navbar-inner
-          .container-fluid
-            %a.brand{:href => "/"} Pittsburgh CONNECTS
-            %ul.nav.pull-right
-              %li
-                %a{:href => "/"} Home
-              %li
-                %a{:href => "/register"} Register
-              %li
-                %a{:href => "/signin"} Sign In
+      .row-fluid
+        .span12
+          .hero-unit
+            %h1= yield :hero_header
+            .row-fluid
+              .span8
+                =yield :hero_sub
+              .span4
+                - flash.each do |type, msg|
+                  .row-fluid
+                    .span12{:class => "alert alert-#{type}"}
+                      %a.close{ :data => { :dismiss => "alert" } }x
+                      %h4.alert-heading= "#{type.to_s.titlecase}"
+                      = msg.html_safe
+
       .row-fluid
         %section#side-body.span2
           = yield :side_bar
         %section.span10
           = yield
+    = javascript_include_tag "application"
 
   - if Rails.env.development?
     .container-fluid

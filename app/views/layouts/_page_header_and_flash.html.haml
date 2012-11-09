@@ -1,13 +1,12 @@
-.container-fluid
-  .page-header
-    %h1 
-      = yield :page_header if :page_header
-      %small
-        = yield :page_header_small if :page_header_small
+.page-header.row-fluid
+  %h1.span12
+    = yield :page_header if :page_header
+    %small
+      = yield :page_header_small if :page_header_small
 
-  .container-fluid
-    - flash.each do |type, msg|
-      %div{:class => "alert alert-#{type}"}
-        %a.close{ :data => { :dismiss => "alert" } }x
-        %h4.alert-heading= "#{type.to_s.titlecase}"
-        = msg.html_safe
+.row-fluid
+  - flash.each do |type, msg|
+    %div{:class => "alert alert-#{type} span12"}
+      %a.close{ :data => { :dismiss => "alert" } }x
+      %h4.alert-heading= "#{type.to_s.titlecase}"
+      = msg.html_safe

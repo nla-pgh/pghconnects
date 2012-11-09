@@ -1,6 +1,6 @@
 module SessionsHelper
 
-  DENIED_MSG = "Access denied.  Please login if you have not already done so."
+  DENIED_MSG = "Access denied. You do not have the privilege to access the page. Please login if you have not already done so."
 
   def sign_in(user)
     session[:remember_token] = user.id
@@ -41,7 +41,7 @@ module SessionsHelper
   def signed_in_user
     unless signed_in?
       store_location
-      redirect_to signin_path, :notice => DENIED_MSG
+      redirect_to root_path, :notice => DENIED_MSG
     end
   end
 
@@ -71,7 +71,6 @@ module SessionsHelper
   def has_clearance
     @user = User.find(params[:id])
     unless current_user.has_clearance_over(@user)
-      logger.debug "Current user: #{current_user.clearance_level}"
       store_location
       redirect_to root_path, :notice => DENIED_MSG
     end

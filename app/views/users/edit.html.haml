@@ -1,6 +1,11 @@
-- provide :title, "Administrative Panel - User Information | Pittsburgh CONNECTS"
-- provide :page_header, "#{@user.last}, #{@user.first}" if @user
-- provide :page_header_subtext, 'Edit Registration Information'
-= render 'layouts/page_header_and_flash'
+- provide :hero_header, "User Name: #{@user.user_name}"
+- provide :hero_sub do
+  %p
+    Below are the information Pittsburgh CONNECTS has for
+    %span.label= "#{@user.full_name}."
+    You may change the information by filling in and submitting the form below.
+
+- provide :title do
+  =yield :hero_header
 
 = render 'shared/registration_form'
