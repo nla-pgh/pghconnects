@@ -97,7 +97,7 @@
       .row-fluid
         .span6
           - unless @user.registered_at.nil?
-            = site_hash[:selected] => @user.registered_at
+            = site_hash[:selected] = @user.registered_at
           - if @user.new_record?
             = f.input :registered_at, site_hash
           - else
