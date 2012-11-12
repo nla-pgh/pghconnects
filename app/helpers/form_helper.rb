@@ -1,12 +1,12 @@
 module FormHelper
     # Hash for simple form input for :registered_at
     def site_hash
-        {   
+        {
             :label => "Registration Site",
             :collection => sites,
             :value_method => Proc.new { |v| v.abbr },
             :include_blank => false,
-            :selected => ip_to_name
+            :selected => @user.registered_at || ip_to_name
         }
     end
 

@@ -15,11 +15,13 @@ module ApplicationHelper
         client_ip = request.remote_ip
         match = IP_REGEX.match(client_ip)[1]
 
+        site_abbr = nil
+
         Site.all.each do |site|
-            return site[:name] if site[:base_ip] == match.to_s
+          site_abbr = site[:abbr] if site[:base_ip] == match.to_s
         end
 
-        match
+        return site_abbr
     end
 
 end
