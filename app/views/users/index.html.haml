@@ -17,9 +17,9 @@
           %th{:title => "Sort by #{header}"}
             = header
             .pull-right
-              %i.icon-white.icon-filter
-              %i.icon-white.icon-chevron-up
-              %i.icon-white.icon-chevron-down
+              %i.icon-filter
+              %i.icon-chevron-up
+              %i.icon-chevron-down
         %th{:filter => "false"}
           Clear Sorting
     %tbody
@@ -31,6 +31,4 @@
           %td= user.first
           %td= user.created_at.to_date
           %td
-            .btn-group
-              = link_to "View / Edit Profile", user_path(user), :class => "btn btn-primary btn-small"
-              = link_to "Disable", "#", :class => "btn btn-danger btn-small"
+            = link_to "View / Edit Profile", user_path(user), :class => "label label-inverse"
