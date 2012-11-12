@@ -28,6 +28,7 @@
     :abbr: WE
     :base_ip: '10.160'
     :address: '856 Crucible Street'
+    :phone: 777-777-7777
 
 :form:
   :gender:
