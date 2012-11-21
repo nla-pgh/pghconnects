@@ -4,7 +4,13 @@ namespace :db do
   task :transfer => :environment do
     ActiveRecord::Base.transaction do
       OldUsers.all(:order => "user_id ASC").each do |user|
-        User.create(user.get_all)
+        Rails.logger.info "Transfering: #{user.user_id} | #{user.Location}"
+
+        success = User.create(user.get_all)
+
+        Rails.logger.info "... #{success && success.site.abbr}"
+
+        success
       end
     end
   end

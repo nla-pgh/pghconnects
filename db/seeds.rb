@@ -19,9 +19,9 @@ CONNECTS[:sites].each do |site_hash|
 end
 
 CONNECTS[:super].each do |super_hash|
-  User.create(super_hash.merge(
+  User.create!(super_hash.merge(
     { :birth_date => Date.today,
       :clearance_level => 'S',
-      :user_name => super_hash[:first].downcase }),
-      :as => :admin)
+      :user_name => super_hash[:first].downcase 
+    }), :as => :admin)
 end

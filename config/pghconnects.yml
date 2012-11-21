@@ -7,7 +7,7 @@
     :phone: 412-441-9833
   - 
     :name: Homewood YMCA
-    :abbr: HY
+    :abbr: HW
     :base_ip: '10.32'
     :address: '7140 Bennett St'
     :phone: 412-243-2900
@@ -80,19 +80,18 @@
     :username: 'cn=administrator, cn=users, dc=user, dc=pghconnects, dc=org'
     :password: 'YaphA3uc'
     :method: :simple
-  #:encryption: :simple_tls
 
 :super:
   -
     :first: Xing
     :last: Zhou
-    :registered_at: BGC
+    :registered_at: HW
     :password: YaphA3uc
     :password_confirmation: YaphA3uc
   -
     :first: Justin
     :last: Davis
-    :registered_at: BGC
+    :registered_at: HH
     :password: YaphA3uc
     :password_confirmation: YaphA3uc
   -

@@ -61,7 +61,7 @@ class User < ActiveRecord::Base
 
   # Link user to a site
   before_save do |user|
-    user.site_id = Site.find_by_abbr(user.registered_at)
+    user.site = Site.find_by_abbr(user.registered_at)
   end
 
   ENABLE = "512"
@@ -71,6 +71,7 @@ class User < ActiveRecord::Base
   before_create do |user|
     success = true
     Net::LDAP.open(CONNECTS[:ldap]) do |ldap|
+      Rails.logger.info "Creating LDAP entry"
       dn = "CN=#{user.user_name},OU=#{user.site.abbr},OU=PC_Users,DC=user,DC=pghconnects,DC=org"
 
       attrs = {
@@ -89,45 +90,38 @@ class User < ActiveRecord::Base
 
       Rails.logger.debug "Attributes: #{attrs.inspect}"
 
-      Rails.logger.debug "DN: #{dn}"
+      Rails.logger.info "DN: #{dn}"
 
       unless ldap.add(:dn => dn, :attributes => attrs)
+        Rails.logger.info "#{ldap.get_operation_result.message}"
         Rails.logger.debug "Result: #{ldap.get_operation_result.code}"
         Rails.logger.debug "Message: #{ldap.get_operation_result.message}"
         success = false
       end
     end
 
+    Rails.logger.info "SUCCESS: #{success}"
+
     unless success
       errors.add(:enable, "Error with LDAP connection.  Please notify administrators.")
     end
+
+    return success
   end
 
   # Update attributes to ldap
   before_update do |user|
     success = true
     dn = "CN=#{user.user_name},OU=#{user.site.abbr},OU=PC_Users,DC=user,DC=pghconnects,DC=org"
+    Rails.logger.info "Updating LDAP entry"
 
     Net::LDAP.open(CONNECTS[:ldap]) do |ldap|
-
       success = ldap.replace_attribute(dn, :userpassword, user.password) if user.password
 
-      # Locate entry to test whether or not to toggle enable/disable
-      error = ldap.search(:base => dn, :attributes => "userAccountControl", :return_result => false) do |entry|
-        # Disable / Enable entry
-        Rails.logger.debug "Status: #{user.enable.inspect}"
-        Rails.logger.debug "Entry: #{entry.inspect}"
-        Rails.logger.debug "Entry Stats: #{entry.userAccountControl[0].inspect}"
+      # Always change userAccountControl per update. TODO remonve unnecessary ldap access
+      e = ldap.replace_attribute(dn, :userAccountControl, user.enable)
 
-        e = ldap.replace_attribute(dn, :userAccountControl, user.enable) if user.enable != entry.userAccountControl[0]
-        unless e
-          Rails.logger.debug "Result: #{ldap.get_operation_result.code}"
-          Rails.logger.debug "Message: #{ldap.get_operation_result.message}"
-          success = false
-        end
-      end
-
-      unless error
+      unless e
         Rails.logger.debug "Result: #{ldap.get_operation_result.code}"
         Rails.logger.debug "Message: #{ldap.get_operation_result.message}"
         success = false
@@ -135,8 +129,12 @@ class User < ActiveRecord::Base
     end
 
     unless success
+      Rails.logger.debug "Result: #{ldap.get_operation_result.code}"
+      Rails.logger.debug "Message: #{ldap.get_operation_result.message}"
       errors.add(:enable, "Error with LDAP connection.  Please notify administrators.")
     end
+
+    return success
   end
 
   def enable=(v)
