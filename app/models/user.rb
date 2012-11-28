@@ -113,24 +113,25 @@ class User < ActiveRecord::Base
   before_update do |user|
     success = true
     dn = "CN=#{user.user_name},OU=#{user.site.abbr},OU=PC_Users,DC=user,DC=pghconnects,DC=org"
-    Rails.logger.info "Updating LDAP entry"
+    Rails.logger.info "Updating LDAP entry: #{dn}"
 
     Net::LDAP.open(CONNECTS[:ldap]) do |ldap|
+      Rails.logger.info "User.password exists? #{!user.password.nil? && !user.password.blank?}"
       success = ldap.replace_attribute(dn, :userpassword, user.password) if user.password
 
       # Always change userAccountControl per update. TODO remonve unnecessary ldap access
       e = ldap.replace_attribute(dn, :userAccountControl, user.enable)
 
       unless e
-        Rails.logger.debug "Result: #{ldap.get_operation_result.code}"
-        Rails.logger.debug "Message: #{ldap.get_operation_result.message}"
+        Rails.logger.info "Result: #{ldap.get_operation_result.code}"
+        Rails.logger.info "Message: #{ldap.get_operation_result.message}"
         success = false
       end
     end
 
     unless success
-      Rails.logger.debug "Result: #{ldap.get_operation_result.code}"
-      Rails.logger.debug "Message: #{ldap.get_operation_result.message}"
+      Rails.logger.info "Result: #{ldap.get_operation_result.code}"
+      Rails.logger.info "Message: #{ldap.get_operation_result.message}"
       errors.add(:enable, "Error with LDAP connection.  Please notify administrators.")
     end
 

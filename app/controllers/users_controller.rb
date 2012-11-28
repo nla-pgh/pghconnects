@@ -68,6 +68,8 @@ class UsersController < ApplicationController
     create_sections
     role = current_user.has_clearance_over(@user) ? :admin : :default
 
+    Rails.logger.info "Update ctrl: #{@user.user_name}"
+
     # Must go through all associations update to collection complete errors
     success = @education.update_attributes(params[:education])
     success = @work_history.update_attributes(params[:work_history]) and success

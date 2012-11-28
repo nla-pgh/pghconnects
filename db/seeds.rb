@@ -18,6 +18,8 @@ CONNECTS[:sites].each do |site_hash|
     site.save!
 end
 
+Rails.logger.info "Sites created: #{Site.all.count}"
+
 CONNECTS[:super].each do |super_hash|
   User.create!(super_hash.merge(
     { :birth_date => Date.today,
