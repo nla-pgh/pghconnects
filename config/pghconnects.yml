@@ -75,11 +75,12 @@
 
 :ldap:
   :host: '10.0.0.13'
-  :port: 389
+  :port: 636
   :auth:
     :username: 'cn=administrator, cn=users, dc=user, dc=pghconnects, dc=org'
     :password: 'YaphA3uc'
     :method: :simple
+  :encryption: :simple_tls
 
 :super:
   -

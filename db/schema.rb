@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120403141951) do
+ActiveRecord::Schema.define(:version => 20121129014410) do
 
   create_table "addresses", :force => true do |t|
     t.integer  "number",           :null => false
@@ -117,19 +117,20 @@ ActiveRecord::Schema.define(:version => 20120403141951) do
   end
 
   create_table "users", :force => true do |t|
-    t.string   "first",                            :null => false
+    t.string   "first",                             :null => false
     t.string   "middle"
-    t.string   "last",                             :null => false
-    t.date     "birth_date",                       :null => false
-    t.string   "registered_at",                    :null => false
+    t.string   "last",                              :null => false
+    t.date     "birth_date",                        :null => false
+    t.string   "registered_at",                     :null => false
     t.string   "gender"
     t.string   "ethnicity"
-    t.string   "clearance_level", :default => "U", :null => false
-    t.datetime "created_at",                       :null => false
-    t.datetime "updated_at",                       :null => false
+    t.string   "clearance_level", :default => "U",  :null => false
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
     t.string   "user_name"
     t.integer  "site_id"
     t.string   "password_digest"
+    t.boolean  "active",          :default => true
   end
 
   add_index "users", ["user_name"], :name => "index_users_on_user_name", :unique => true

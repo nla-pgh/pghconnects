@@ -54,7 +54,7 @@ class User < ActiveRecord::Base
   before_save do |user|
     unless user.user_name
       base_user_name = "#{first.downcase[0,1]}#{last.downcase}"
-      size = User.count(:user_name, :conditions => "user_name LIKE '#{base_user_name}\_%'")
+      size = User.count(:user_name, :conditions => "user_name LIKE '#{base_user_name}!_%' ESCAPE '!'")
       user.user_name = "#{base_user_name}_#{size}"
     end
   end
@@ -64,60 +64,71 @@ class User < ActiveRecord::Base
     user.site = Site.find_by_abbr(user.registered_at)
   end
 
-  ENABLE = "512"
-  DISABLE = "2"
+  #ENABLE = "#{0x00010000.to_i}" # Don't expire password
+  ENABLE = "#{(0x00010000 + 0x00000200).to_i}" # normal account & non-expiring password
+  DISABLE = "2" # disable account
+
 
   # Add user to ldap
   before_create do |user|
+    dn = "CN=#{user.user_name},OU=#{user.site.abbr},OU=PC_Users,DC=user,DC=pghconnects,DC=org"
     success = true
     Net::LDAP.open(CONNECTS[:ldap]) do |ldap|
       Rails.logger.info "Creating LDAP entry"
-      dn = "CN=#{user.user_name},OU=#{user.site.abbr},OU=PC_Users,DC=user,DC=pghconnects,DC=org"
+      Rails.logger.info "DN: #{dn}"
 
       attrs = {
-        :distinguishedName => dn,
-        :displayName => user.user_name,
-        :givenName => user.first,
-        :name => user.full_name,
-        :sn => user.last,
         :sAMAccountName => user.user_name,
-        :userPrincipalName => "#{user.user_name}@user.pghconnects.org",
-        :userAccountControl => ENABLE,
-        :objectClass => %w[top person organizationalPerson user],
-        :userPassword => user.password,
         :cn => user.user_name
       }
 
-      Rails.logger.debug "Attributes: #{attrs.inspect}"
+      Rails.logger.inspect "Initial Attributes: #{attrs.inspect}"
 
-      Rails.logger.info "DN: #{dn}"
+      # Create the basic container first, then add attributes, if successful
+      if ldap.add(:dn => dn, :attributes => attrs)
+        other = {
+          :distinguishedName => dn,
+          :displayName => user.user_name,
+          :givenName => user.first,
+          :name => user.full_name,
+          :sn => user.last,
+          :userPrincipalName => "#{user.user_name}@user.pghconnects.org",
+          :userAccountControl => ENABLE,
+          :objectClass => %w[top person organizationalPerson user],
+          :userPassword => user.password,
+          :pwdLastSet => "129986070348365617",
+        }
 
-      unless ldap.add(:dn => dn, :attributes => attrs)
-        Rails.logger.info "#{ldap.get_operation_result.message}"
-        Rails.logger.debug "Result: #{ldap.get_operation_result.code}"
-        Rails.logger.debug "Message: #{ldap.get_operation_result.message}"
+        other.each do |key, value|
+          # TODO this could potentially create incomplete containers, fix?
+          unless ldap.replace_attribute(dn, key, value)
+            Rails.logger.info "Adding additional attributes"
+            Rails.logger.info "Result: #{ldap.get_operation_result.code}"
+            Rails.logger.info "Message: #{ldap.get_operation_result.message}"
+          end
+        end
+      else
+        Rails.logger.info "Result: #{ldap.get_operation_result.code}"
+        Rails.logger.info "Message: #{ldap.get_operation_result.message}"
+        errors.add(:enable, "Error with LDAP connection.  Please notify administrators.")
         success = false
       end
     end
 
     Rails.logger.info "SUCCESS: #{success}"
 
-    unless success
-      errors.add(:enable, "Error with LDAP connection.  Please notify administrators.")
-    end
-
     return success
   end
 
   # Update attributes to ldap
   before_update do |user|
-    success = true
     dn = "CN=#{user.user_name},OU=#{user.site.abbr},OU=PC_Users,DC=user,DC=pghconnects,DC=org"
+    success = true
     Rails.logger.info "Updating LDAP entry: #{dn}"
 
     Net::LDAP.open(CONNECTS[:ldap]) do |ldap|
-      Rails.logger.info "User.password exists? #{!user.password.nil? && !user.password.blank?}"
-      success = ldap.replace_attribute(dn, :userpassword, user.password) if user.password
+      Rails.logger.info "Replacing password? #{!user.password.nil? && !user.password.blank?}"
+      success = ldap.replace_attribute(dn, :userPassword, user.password) if user.password
 
       # Always change userAccountControl per update. TODO remonve unnecessary ldap access
       e = ldap.replace_attribute(dn, :userAccountControl, user.enable)
@@ -125,14 +136,9 @@ class User < ActiveRecord::Base
       unless e
         Rails.logger.info "Result: #{ldap.get_operation_result.code}"
         Rails.logger.info "Message: #{ldap.get_operation_result.message}"
+        errors.add(:enable, "Error with LDAP connection.  Please notify administrators.")
         success = false
       end
-    end
-
-    unless success
-      Rails.logger.info "Result: #{ldap.get_operation_result.code}"
-      Rails.logger.info "Message: #{ldap.get_operation_result.message}"
-      errors.add(:enable, "Error with LDAP connection.  Please notify administrators.")
     end
 
     return success
