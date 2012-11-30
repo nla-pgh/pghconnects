@@ -9,7 +9,13 @@ namespace :db do
     def adjust_transfer(old, new)
       Rails.logger.info "Adjusting from old (#{old.user_id}) to new user (#{new.user_name})"
 
-      if new.user_name < old.user_id
+      # regex to extract the index
+      regex = /^.*_(\d*)/
+      
+      max = regex.match(old.user_id)[1].to_i
+      count = regex.match(new.user_name)[1].to_i
+      
+      if count < max
         filler = nil
 
         begin
@@ -19,9 +25,10 @@ namespace :db do
           u.save!
           Rails.logger.info "Filler: #{u.user_name}"
           filler = u
-        end while u.user_name < old.user_id
+          count = regex.match(u.user_name)[1]
+        end while count < max
 
-        return filler.user_name == old.user_id
+        return count == max
       else
         return false
       end

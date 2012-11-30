@@ -8,7 +8,14 @@ module SessionsHelper
   end
 
   def current_user
-    @current_user ||= User.find(session[:remember_token]) if session[:remember_token]
+    unless @current_user
+      begin
+        @current_user = User.find(session[:remember_token]) if session[:remember_token]
+      rescue ActiveRecord::RecordNotFound
+        sign_out
+      end
+    end
+    @current_user
   end
 
   def sign_out

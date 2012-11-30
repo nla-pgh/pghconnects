@@ -55,9 +55,13 @@ class UsersController < ApplicationController
     end
 
     if @user.save
-        flash[:success] = "Thank you for signing up with Pittsburgh CONNECTS!"
-        sign_in @user
-        redirect_to user_path(@user)
+        flash[:success] = "Thank you #{@user.user_name} for signing up with Pittsburgh CONNECTS!"
+        if signed_in?
+          redirect_to root_path
+        else
+          sign_in @user
+          redirect_to user_path(@user)
+        end
     else
         person_error @user
         render :new
