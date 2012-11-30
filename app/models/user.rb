@@ -21,10 +21,10 @@ class User < ActiveRecord::Base
 
   attr_accessible :first, :middle, :last, :birth_date, :registered_at, :gender, :ethnicity,
                   :user_name, :clearance_level, :site_id, :password, :password_confirmation,
-                  :password_digest, :enable, :as => :admin
+                  :password_digest, :active, :as => :admin
 
   attr_accessible :first, :middle, :last, :birth_date, :registered_at, :gender, :ethnicity,
-                  :password, :password_confirmation, :enable
+                  :password, :password_confirmation, :active
 
   validates :first, :presence => true
   validates :middle, :length => { :is => 1, :allow_nil => true, :allow_blank => true }
@@ -32,6 +32,7 @@ class User < ActiveRecord::Base
   validates :birth_date, :presence => true
   validates :registered_at, :presence => true
   validates :user_name, :uniqueness => { :allow_nil => true, :allow_blank => true }
+  validates :active, :inclusion => { :in => [true, false] }
 
   validates :password,  :presence => { :if => Proc.new { |s| s.new_record? } }, 
                         :confirmation => { :unless => Proc.new { |s| s.password_confirmation.blank? } }
@@ -51,7 +52,7 @@ class User < ActiveRecord::Base
   # Generate user name as first initial lastname _ number
   # i.e.  John Smith => jsmith_0
   #       Jill Smith => jsmith_1
-  before_save do |user|
+  before_validation do |user|
     unless user.user_name
       base_user_name = "#{first.downcase[0,1]}#{last.downcase}"
       size = User.count(:user_name, :conditions => "user_name LIKE '#{base_user_name}!_%' ESCAPE '!'")
@@ -64,9 +65,9 @@ class User < ActiveRecord::Base
     user.site = Site.find_by_abbr(user.registered_at)
   end
 
-  #ENABLE = "#{0x00010000.to_i}" # Don't expire password
-  ENABLE = "#{(0x00010000 + 0x00000200).to_i}" # normal account & non-expiring password
-  DISABLE = "2" # disable account
+  ENABLE = "512" # normal account
+  #ENABLE = "#{512 + 65536}" # normal account + non-expiring password
+  DISABLE = "514" # disable account
 
 
   # Add user to ldap
@@ -79,38 +80,41 @@ class User < ActiveRecord::Base
 
       attrs = {
         :sAMAccountName => user.user_name,
+        :objectClass => %w[top person organizationalPerson user],
+        :distinguishedName => dn,
+        :displayName => user.user_name,
+        :givenName => user.first,
+        :name => user.full_name,
+        :sn => user.last,
+        :userPrincipalName => "#{user.user_name}@user.pghconnects.org",
         :cn => user.user_name
       }
 
-      Rails.logger.inspect "Initial Attributes: #{attrs.inspect}"
+      Rails.logger.info "Initial Attributes: #{attrs.inspect}"
 
       # Create the basic container first, then add attributes, if successful
       if ldap.add(:dn => dn, :attributes => attrs)
         other = {
-          :distinguishedName => dn,
-          :displayName => user.user_name,
-          :givenName => user.first,
-          :name => user.full_name,
-          :sn => user.last,
-          :userPrincipalName => "#{user.user_name}@user.pghconnects.org",
-          :userAccountControl => ENABLE,
-          :objectClass => %w[top person organizationalPerson user],
-          :userPassword => user.password,
+          :userAccountControl => user.active ? ENABLE : DISABLE,
           :pwdLastSet => "129986070348365617",
+          #:unicodePwd => Iconv.iconv('utf-8', 'utf-16le', user.password.inspect).first # unicodePwd require UTF-16 pwd
+          :userPassword => user.password
         }
 
         other.each do |key, value|
           # TODO this could potentially create incomplete containers, fix?
+          Rails.logger.info "Adding additional attributes: #{key}"
           unless ldap.replace_attribute(dn, key, value)
-            Rails.logger.info "Adding additional attributes"
             Rails.logger.info "Result: #{ldap.get_operation_result.code}"
             Rails.logger.info "Message: #{ldap.get_operation_result.message}"
+            errors.add(:active, "Error with LDAP connection.  Please notify administrators.")
+            success = false
           end
         end
       else
         Rails.logger.info "Result: #{ldap.get_operation_result.code}"
         Rails.logger.info "Message: #{ldap.get_operation_result.message}"
-        errors.add(:enable, "Error with LDAP connection.  Please notify administrators.")
+        errors.add(:active, "Error with LDAP connection.  Please notify administrators.")
         success = false
       end
     end
@@ -128,28 +132,28 @@ class User < ActiveRecord::Base
 
     Net::LDAP.open(CONNECTS[:ldap]) do |ldap|
       Rails.logger.info "Replacing password? #{!user.password.nil? && !user.password.blank?}"
-      success = ldap.replace_attribute(dn, :userPassword, user.password) if user.password
 
-      # Always change userAccountControl per update. TODO remonve unnecessary ldap access
-      e = ldap.replace_attribute(dn, :userAccountControl, user.enable)
+      if !user.password.nil? && !user.password.blank?
+        unless ldap.replace_attribute(dn, :userPassword, user.password)
+          Rails.logger.info "Result: #{ldap.get_operation_result.code}"
+          Rails.logger.info "Message: #{ldap.get_operation_result.message}"
+          errors.add(:active, "Error with LDAP connection.  Please notify administrators.")
+          success = false
+        end
+      end
 
-      unless e
-        Rails.logger.info "Result: #{ldap.get_operation_result.code}"
-        Rails.logger.info "Message: #{ldap.get_operation_result.message}"
-        errors.add(:enable, "Error with LDAP connection.  Please notify administrators.")
-        success = false
+      Rails.logger.info "Replacing active? #{user.active_changed?} | #{user.active}"
+      if user.active_changed?
+        unless ldap.replace_attribute(dn, :userAccountControl, user.active ? ENABLE : DISABLE)
+          Rails.logger.info "Result: #{ldap.get_operation_result.code}"
+          Rails.logger.info "Message: #{ldap.get_operation_result.message}"
+          errors.add(:active, "Error with LDAP connection.  Please notify administrators.")
+          success = false
+        end
       end
     end
 
     return success
-  end
-
-  def enable=(v)
-    @enable = v == 'true' ? ENABLE : DISABLE
-  end
-
-  def enable
-    @enable || ENABLE
   end
 
   def full_name

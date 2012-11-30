@@ -79,6 +79,7 @@
               :label => "Email", 
               :hint => "e.g. john@email.com"
             = email_form.input :full_confirmation,
+              :input_html => { :value => @email.full},
               :label => "Enter Confirmation",
               :hint => "must match email above"
 
@@ -114,7 +115,7 @@
       = f.input :user_name, :disabled => true, :placeholder => "Automatically Assigned"
     .span6
       -if admin?
-        = f.input :enable, :as => :radio_buttons, :checked => @user.enable == User::ENABLE ? 'true' : 'false'
+        = f.input :active, :as => :radio_buttons
   .row-fluid
     .span12
       .alert Please remember your password.  Pittsburgh CONNECTS cannot recover your password.

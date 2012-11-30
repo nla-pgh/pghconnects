@@ -2,15 +2,52 @@ namespace :db do
   desc "######### Transfer users from old database to new"
 
   task :transfer => :environment do
+    # Adjustment for transfer only happens if the old user id has an higher index number than
+    # new user name
+    #
+    # Higher new user name cannot be adjusted for
+    def adjust_transfer(old, new)
+      Rails.logger.info "Adjusting from old (#{old.user_id}) to new user (#{new.user_name})"
+
+      if new.user_name < old.user_id
+        filler = nil
+
+        begin
+          # Loop through until the user name saved matches the new username
+          u = new.dup
+          u.user_name = nil
+          u.save!
+          Rails.logger.info "Filler: #{u.user_name}"
+          filler = u
+        end while u.user_name < old.user_id
+
+        return filler.user_name == old.user_id
+      else
+        return false
+      end
+    end
+
     ActiveRecord::Base.transaction do
+      # Loop through all entries from the old database and save each to the new database
+      # after altering the attributes through mapping (OldUsers.get_all)
       OldUsers.all(:order => "user_id ASC").each do |user|
         Rails.logger.info "----------Transfering: #{user.user_id} | #{user.Location}"
 
-        success = User.create(user.get_all)
+        new_user = User.new(user.get_all)
+        new_user.valid? # To create the user_name
 
-        Rails.logger.info "... #{success && success.site.abbr}"
+        Rails.logger.info "#{user.user_id} => #{new_user.user_name}"
+      
+        if user.user_id == new_user.user_name
+          new_user.save
+        else
+          # Need to adjust for transfering
+          unless adjust_transfer(user, new_user)
+            raise "INCORRECT TRANSFER: #{user.user_id} => #{new_user.user_name}\n... Terminating Transfer "
+          end
+        end
 
-        success
+        new_user
       end
     end
   end
