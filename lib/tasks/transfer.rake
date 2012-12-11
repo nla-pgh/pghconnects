@@ -2,6 +2,9 @@ namespace :db do
   desc "######### Transfer users from old database to new"
 
   task :transfer => :environment do
+    # regex to extract the index
+    REGEX = /^(.+)_(\d+)/
+
     # Adjustment for transfer only happens if the old user id has an higher index number than
     # new user name
     #
@@ -9,13 +12,10 @@ namespace :db do
     def adjust_transfer(old, new)
       Rails.logger.info "Adjusting from old (#{old.user_id}) to new user (#{new.user_name})"
 
-      # regex to extract the index
-      regex = /^.*_(\d*)/
+      max = REGEX.match(old.user_id)[2].to_i
+      count = REGEX.match(new.user_name)[2].to_i
       
-      max = regex.match(old.user_id)[1].to_i
-      count = regex.match(new.user_name)[1].to_i
-      
-      if count < max
+      if count <= max
         filler = nil
 
         begin
@@ -25,19 +25,40 @@ namespace :db do
           u.save!
           Rails.logger.info "Filler: #{u.user_name}"
           filler = u
-          count = regex.match(u.user_name)[1]
+          count = REGEX.match(u.user_name)[2].to_i
         end while count < max
 
-        return count == max
+        return true # TODO there's so cases where this is not true
       else
-        return false
+        new.save
       end
     end
 
     ActiveRecord::Base.transaction do
       # Loop through all entries from the old database and save each to the new database
       # after altering the attributes through mapping (OldUsers.get_all)
-      OldUsers.all(:order => "user_id ASC").each do |user|
+      old_users = OldUsers.all(:order => "user_id ASC")
+      
+      # Correct sort the users
+      # First, sort by the username part
+      # Then, sort by the index
+      old_users.sort! do |a,b|
+        match = REGEX.match a.user_id
+        a_username = match[1]
+        a_index = match[2].to_i
+
+        match = REGEX.match b.user_id
+        b_username = match[1]
+        b_index = match[2].to_i
+
+        if a_username == b_username
+          a_index <=> b_index
+        else
+          a_username <=> b_username
+        end
+      end
+
+      old_users.each do |user|
         Rails.logger.info "----------Transfering: #{user.user_id} | #{user.Location}"
 
         new_user = User.new(user.get_all)

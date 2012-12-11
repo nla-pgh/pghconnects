@@ -96,7 +96,7 @@ class User < ActiveRecord::Base
       if ldap.add(:dn => dn, :attributes => attrs)
         other = {
           :userAccountControl => user.active ? ENABLE : DISABLE,
-          :pwdLastSet => "129986070348365617",
+          #:pwdLastSet => "129986070348365617",
           #:unicodePwd => Iconv.iconv('utf-8', 'utf-16le', user.password.inspect).first # unicodePwd require UTF-16 pwd
           :userPassword => user.password
         }

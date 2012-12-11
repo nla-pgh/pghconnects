@@ -74,7 +74,7 @@
     - Manager
 
 :ldap:
-  :host: '10.0.0.13'
+  :host: 'USER-PDC.user.pghconnects.org'
   :port: 636
   :auth:
     :username: 'cn=administrator, cn=users, dc=user, dc=pghconnects, dc=org'
