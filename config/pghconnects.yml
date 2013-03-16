@@ -78,7 +78,7 @@
   :port: 636
   :auth:
     :username: 'cn=administrator, cn=users, dc=user, dc=pghconnects, dc=org'
-    :password: 'YaphA3uc'
+    :password: 's3Uwu4pE'
     :method: :simple
   :encryption: :simple_tls
 
